@@ -1,0 +1,360 @@
+{%load static%}
+<!DOCTYPE html>  
+<html>  
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+    <script src="{% static 'js/slider.js' %}"></script>
+    <title>Writer Home Page</title>  
+    {% comment %} <style>
+            .container{
+                width:100vw;
+                height:80vh;
+                display:flex;
+                justify-content:center;
+                align-items:center;
+            }
+            .slider {
+                height: 750px;
+                width:100vw;
+                display: flex;
+                perspective: 1000px;
+                position: relative;
+                align-items:center;
+            }
+            .box1{      background:url('https://img.freepik.com/free-psd/reading-concept-flyer-template_23-2148577874.jpg?ga=GA1.2.1189569181.1722467032&semt=ais_hybrid');
+                background-size:cover;
+                background-position:center center;}
+            .box2{
+            background:url('https://img.freepik.com/free-psd/autumn-season-hugs-flyer-print-template_23-2148663941.jpg?ga=GA1.2.1189569181.1722467032&semt=ais_hybrid');
+                background-size:cover;
+                background-position:center center;}
+            .box3{
+            background:url('https://img.freepik.com/free-vector/watercolor-world-book-day-vertical-poster-template_23-2149331260.jpg?ga=GA1.2.1189569181.1722467032&semt=ais_hybrid');
+                background-size:cover;
+                background-position:center center;}
+            .box4{
+            background:url('https://img.freepik.com/free-psd/bookstore-ad-poster-template_23-2148680426.jpg?ga=GA1.2.1189569181.1722467032&semt=ais_hybrid');
+                background-size:cover;
+                background-position:center center;}
+            .box5{
+            background:url('https://img.freepik.com/free-vector/hand-drawn-world-book-day-vertical-poster-template_52683-82879.jpg?ga=GA1.2.1189569181.1722467032&semt=ais_hybrid');
+                background-size:cover;
+                background-position:center center;}
+            .box6{
+            background:url('https://img.freepik.com/free-psd/love-poster-template_23-2149400210.jpg?ga=GA1.2.1189569181.1722467032&semt=ais_hybrid');
+                background-size:cover;
+                background-position:center center;}
+            .box7{
+            background:url('https://img.freepik.com/free-vector/elegant-love-book-cover-template_23-2148798559.jpg?ga=GA1.2.1189569181.1722467032&semt=ais_hybrid');
+                background-size:cover;
+                background-position:center center;}
+            
+            .slider [class*="box"] {
+            /*   float: left; */
+                overflow: hidden;
+                border-radius:20px;
+                transition: all 1s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+                position:absolute;
+            }
+            .slider [class*="box"]:nth-child(7),
+            .slider [class*="box"]:nth-child(1) {
+                width: 100vh;
+                height: 60vh;
+                transform: scale(0.2) translate(-50%,-50%);
+                top: 10%;
+                z-index:1;
+            }
+            .slider [class*="box"]:nth-child(2),
+            .slider [class*="box"]:nth-child(6) {
+                width: 100vh;
+                height: 60vh;
+                transform: scale(0.4) translate(-50%,-50%);
+                top: 20%;
+                z-index:2;
+            }
+            .slider [class*="box"]:nth-child(3),
+            .slider [class*="box"]:nth-child(5) {
+                width: 100vh;
+                height: 60vh;
+                transform: scale(0.6) translate(-50%,-50%);
+                top: 30%;
+                z-index:3;
+            }
+            .slider [class*="box"]:nth-child(4) {
+                width: 60vw;
+                height: 60vh;
+                border-color: #c92026;
+                color: #fff;
+                transform: scale(1) translate(-50%,-50%);
+                top: 50%;
+                z-index:4;
+            }
+            .slider [class*="box"]:nth-child(1){
+                left:-13%;}
+            .slider [class*="box"]:nth-child(2){
+                left:-5%;}
+            .slider [class*="box"]:nth-child(3){
+                left:10%;}
+            .slider [class*="box"]:nth-child(4){
+                left:50%;}
+            .slider [class*="box"]:nth-child(5){
+                left:71%;}
+            .slider [class*="box"]:nth-child(6){
+                left:85%;}
+            .slider [class*="box"]:nth-child(7){
+                left:100%;}
+            .slider .firstSlide {
+                -webkit-animation:  firstChild 1s;
+                animation:  firstChild 1s;
+            }
+            /*Animation for buyers landing page slider*/
+            @-webkit-keyframes firstChild {
+                0% {left:100%; transform: scale(0.2) translate(-50%,-50%);}
+                100% {left: -13%; transform: scale(0.2) translate(-50%,-50%);}
+            }
+            @keyframes firstChild {
+                0% {left:100%; transform: scale(0.2) translate(-50%,-50%);}
+                100% {left: -13%; transform: scale(0.2) translate(-50%,-50%);}
+            }
+    </style>    {% endcomment %}
+</head>  
+<body>  
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
+        <a class="navbar-brand text-white" href="{% url 'home' %}">Reading & Writing Books</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav mx-auto ">
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'reader_home_page'%}">Reader Community</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'writer_home_page'%}">Writer Community</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'about_us' %}">About Us</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'sign_in' %}">Sign in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'sign_up' %}">Sign up</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+        {% comment %} <main class="carousel">
+            <div class="container">
+                <div class="slider">
+                <div class="box1">
+                </div>
+                <div class="box2">
+                </div>
+                <div class="box3">
+                </div>
+                <div class="box4">
+                </div>
+                <div class="box5">
+                </div>
+                <div class="box6">
+                </div>
+                <div class="box7">
+                </div>
+                </div>
+            </div>
+            <div id="test"></div>
+        </main>
+<script>
+    function rotate() {
+        var lastChild = $('.slider div:last-child').clone();
+        /*$('#test').html(lastChild)*/
+        $('.slider div').removeClass('firstSlide')
+        $('.slider div:last-child').remove();
+        $('.slider').prepend(lastChild)
+        $(lastChild).addClass('firstSlide')
+      }
+      
+      window.setInterval(function(){
+        rotate()
+      }, 4000);
+</script> {% endcomment %}
+        <h2>My Books Slider</h2>
+        <div class="row">
+            <div class="column">
+            <div class="card">
+                <img src="https://img.freepik.com/premium-photo/pixar-style-3d-cartoon-character_63106-3548.jpg" alt="Jane" style="width:30%">
+                <div class="container">
+                <h2>Atlas</h2>
+                <p class="title">CEO & Founder</p>
+                <p>Some text that describes me lorem ipsum ipsum lorem.</p>
+                <p>example@example.com</p>
+                </div>
+            </div>
+            </div>
+
+            <div class="column">
+            <div class="card">
+                <img src="https://img.freepik.com/premium-photo/3d-beautiful-boy-cartoon-style_894067-16040.jpg" alt="Mike" style="width:30%">
+                <div class="container">
+                <h2>Mike</h2>
+                <p class="title">Art Director</p>
+                <p>Some text that describes me lorem ipsum ipsum lorem.</p>
+                <p>example@example.com</p>
+                </div>
+            </div>
+            </div>
+            
+            <div class="column">
+            <div class="card">
+                <img src="https://img.freepik.com/premium-photo/animated-character-with-red-hair-orange-hair_893012-68515.jpg" alt="John" style="width:30%">
+                <div class="container">
+                <h2>Emily</h2>
+                <p class="title">Designer</p>
+                <p>Some text that describes me lorem ipsum ipsum lorem.</p>
+                <p>example@example.com</p>
+                </div>
+            </div>
+            </div>
+            <div> 
+                <button type="submit">Create Event</button> 
+                <button type="submit">Create Book Club</button>
+            </div>
+        </div>   
+            <hr>
+            <aside>
+                <h3>Book Clubs</h3>
+                <div>
+                    <ul>
+                        <li><a href="#">Book Club 1</a></li>
+                        <li><a href="#">Book Club 2</a></li>
+                        <li><a href="#">Book Club 3</a></li>
+                    </ul>
+                </div>
+                <h3>Book Events</h3>
+                <div>
+                    <ul>
+                        <li><a href="#">Event 1</a></li>
+                        <li><a href="#">Event 2</a></li>
+                        <li><a href="#">Event 3</a></li>
+                    </ul>
+                </div>  
+                <section>   
+                    <div class="row">
+
+                        <div class="column">
+                            <h2> Post </h2>
+                            <div class="card">
+                                <textarea ></textarea>
+                                <button>Post</button>
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <h2> Public Post </h2>
+                            <div class="card">
+                            
+                            </div>
+                        </div>
+
+                        <div class="column">
+                            <h2> Club Post </h2>
+                            <div class="card">
+                            </div>
+                        </div>
+                    </div>   
+                </section> 
+                <aside>
+                    <h3>Top Writers</h3>
+                    <div>
+                        <ul>
+                            <li><a href="#">Writer 1</a></li>
+                            <li><a href="#">Writer 2</a></li>
+                            <li><a href="#">Writer 3</a></li>
+                        </ul>
+                    </div>
+                    <h3>Top Books</h3>
+                    <div>
+                        <ul>
+                            <li><a href="#">Book 1</a></li>
+                            <li><a href="#">Book 2</a></li>
+                            <li><a href="#">Book 3</a></li>
+                        </ul>
+                    </div>  
+                </aside>
+   
+    <hr>
+    <footer class="bg-dark text-white text-center text-lg-start">
+        <h3 class=" p-3 bg-secondary">Reading & Writing Books</h3>
+        <div class="container p-4">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Contact</h5>
+                <ul class="list-unstyled mb-0">
+                <li>
+                    <a href="#!" class="text-white">Email: contact@readingwritingbooks.com</a>
+                </li>
+                <li>
+                    <a href="#!" class="text-white">Phone: +972 321 456 897</a>
+                </li>
+                <li>
+                    <a href="#!" class="text-white">Address: Palestine, Ramallah</a>
+                </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Company</h5>
+            <ul class="list-unstyled mb-0">
+                <li>
+                <a href="#!" class="text-white">About Us</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Privacy Policy</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Terms of Service</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Cookie Policy</a>
+                </li>
+            </ul>
+            </div>
+    
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Social Media</h5>
+            <ul class="list-unstyled mb-0">
+                <li>
+                <a href="https://facebook.com" class="text-white"><i class="fab fa-facebook-f"></i> Facebook</a>
+                </li>
+                <li>
+                <a href="https://twitter.com" class="text-white"><i class="fab fa-twitter"></i> Twitter</a>
+                </li>
+                <li>
+                <a href="https://instagram.com" class="text-white"><i class="fab fa-instagram"></i> Instagram</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </div>
+    
+        <div class="text-center p-3 bg-secondary">
+        <small> Copyright © Reading & Writing Books. All rights reserved.</small>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>  
+</html> 

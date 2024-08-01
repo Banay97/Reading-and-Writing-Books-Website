@@ -1,0 +1,96 @@
+{%load static%}
+<!DOCTYPE html>  
+<html>  
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+    <title>Event Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .event-container {
+            max-width: 600px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .event-header {
+            margin-bottom: 20px;
+        }
+        .event-header h2 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+        }
+        .event-details {
+            margin-bottom: 20px;
+        }
+        .event-details p {
+            margin: 0;
+            font-size: 16px;
+            color: #555;
+        }
+        .event-description {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="" alt="">
+        <h1>Reading & Writing Books</h1>
+        <a href="">Sign in</a>
+        <a href="">Sign up</a>
+        <nav>
+            <ul>
+                <li><a href="HomePage.html">Home</a></li>
+                <li><a href="ReaderCommunity.html">Reader Community</li>
+                <li><a href="WriterCommunity.html">Writer Community</a></li>
+                <li><a href="AboutUsPage.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="event-container">
+        <div class="event-header">
+            <h2>Event Details</h2>
+        </div>
+        <div class="event-details">
+            <p><strong>Book Title:</strong> Book1</p>
+            <p><strong>Event Date:</strong> July 31, 2024</p>
+            <p><strong>Event Description:</strong></p>
+            <div class="event-description">
+                <p>Book discussion and signing event...</p>
+            </div>
+        </div>
+    </div>
+    <footer>
+        <h3>Reading & Writing Books</h3>
+        <h4>Contact Us</h4>
+        <p><img src="https://img.icons8.com/?size=48&id=96403&format=png" alt="phone"> Phone Number: +972 321 456 897</p>
+        <p><img src="https://img.icons8.com/?size=48&id=35084&format=png" alt="email"> Email:  contact@readingwritingbooks.com</p>
+        <h4>Follow Us</h4>
+        <a href="#"><img src="https://img.icons8.com/?size=48&id=118497&format=png" alt="Facebook"></a>
+        <a href="#"><img src="https://img.icons8.com/?size=48&id=13963&format=png" alt="Twitter"></a>
+        <a href="#"><img src="https://img.icons8.com/?size=48&id=32323&format=png" alt="Instagram"></a>
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Cookie Policy</a>
+        <br>
+        <small> Copyright © Reading & Writing Books. All rights reserved.</small>
+    </footer>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+</body>
+</html>

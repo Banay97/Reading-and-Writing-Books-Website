@@ -1,132 +1,447 @@
-{%load static%}
-<!DOCTYPE html>  
-<html>  
-<head> 
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
-    <title>Reader Home Page</title>  
-</head>  
-<body>  
-<header>
-    <img src="" alt="">
-    <h1>Reading & Writing Books</h1>
-    <a href="">Sign out</a>
-    <nav>
-        <ul>
-            <li><a href="HomePage.html">Home</a></li>
-            <li><a href="ReaderCommunity.html">Reader Community</li>
-            <li><a href="WriterCommunity.html">Writer Community</a></li>
-            <li><a href="AboutUsPage.html">Profile</a></li>
-            <li><a href="AboutUsPage.html">About Us</a></li>
-        </ul>
-    </nav>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Linking SwiperJS CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <title>Writer Home Page</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montaga&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
-<img src="" alt="">
-<a href="EditProfile.html">Edit Profile</a>
-<h3>User Name</h3>
-<input type="search" name="search" placeholder="Search">
-<div>
-    <h3>Bio</h3>
-    <p>User Bio goes here.</p>
-</div>
-<hr>
-</header>
-    <main>
-        <div class="row">
-            <div class="column">
-            <div class="card">
-                <div class="container">
-                <h2>Books Library</h2>
-                <p>Number of books goes here.</p>
-                </div>
-            </div>
-            </div>
+        * {
+            font-family: Montaga, Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-            <div class="column">
-            <div class="card">
-                <div class="container">
-                <h2>Total XP</h2>
-                <p>Number of XP goes here.</p>
-                </div>
-            </div>
-            </div>
+        .slide-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(to right, #d3d3d3, #808080);
+        }
+
+        .swiper {
+            width: 100%;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .swiper-slide {
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .swiper-slide img {
+            width: 300px;
+            height: 400px;
+            border: 3px solid #fff;
+            padding: 4px;
+        }
+
+        h2 {
+            font-size: 3.5rem;
+            margin: 30px;
+            text-align: center;
+        }
+
+        .card-item {
+            text-align: center;
+            color: #fff;
+            margin-top: 1.5rem;
+        }
+
+        .card-item h2 {
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+
+        .card-item .book-author, .card-item .book-genre {
+            font-size: 1.15rem;
+            color: #e3e3e3;
+            font-weight: bold;
+            margin: 14px;
+        }
+
+        .card-item .book-button {
+            font-size: 1.15rem;
+            padding: 10px 35px;
+            color: #fff;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            background-color: #333333;
+            border: 1px solid black;
+            transition: 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-item .book-button:hover {
+            background-color: #666666;
             
-            <div class="column">
-            <div class="card">
-                <div class="container">
-                <h2>Daily Streak</h2>
-                <p>graph goes here</p>
+
+        }
+        .center-h2{
+            text-align: center;
+            position: absolute;
+            top: 70px;
+            font-weight: bold;
+            font-size: 5.5rem;
+            color: #fff;
+            text-shadow: 2px 2px #333333;
+        }
+        .h2{
+            font-weight: bold;
+            font-size: 5.5rem;
+            color: #fff;
+            text-shadow: 2px 2px #333333; 
+        }
+        .container-fluid{
+            background: linear-gradient(to right, #d3d3d3, #808080);
+
+        }
+        .sidebar-left1, .sidebar-left2 {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-left1 h3, .sidebar-left2 h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-left1 ul, .sidebar-left2 ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .sidebar-left1 ul li, .sidebar-left2 ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar-left1 ul li a, .sidebar-left2 ul li a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .sidebar-left1 ul li a:hover, .sidebar-left2 ul li a:hover {
+            color: #0056b3;
+        }
+
+        .sidebar-left1 ul li:before, .sidebar-left2 ul li:before {
+            content: '•';
+            color: #007bff;
+            margin-right: 8px;
+        }
+        
+        .sidebar-right1, .sidebar-right2 {
+            background: #f8f9fa;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .sidebar-right1 h3, .sidebar-right2 h3 {
+            font-size: 1.5rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-right1 ul, .sidebar-right2 ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .sidebar-right1 ul li, .sidebar-right2 ul li {
+            margin-bottom: 10px;
+        }
+        
+        .sidebar-right1 ul li a, .sidebar-right2 ul li a {
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .sidebar-right1 ul li a:hover, .sidebar-right2 ul li a:hover {
+            color: #0056b3;
+        }
+        
+        .sidebar-right1 ul li:before, .sidebar-right2 ul li:before {
+            content: '•';
+            color: #007bff;
+            margin-right: 8px;
+        }
+        .sidebar-right2 {
+            margin-left: 70%; /* Adjust this value to move it further to the right */
+        }
+        .content{
+            padding:20px;
+        }
+        ul.book{
+            
+            list-style-type: "🏠";
+        }
+        ul.event{
+            list-style-type: "🎫";
+        }
+        ul.top-writer{
+            list-style-type: "👨🏻‍🏫";
+        }
+        ul.top-book{
+            list-style-type: "📖";
+        }
+        
+    </style>
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
+        <a class="navbar-brand text-white" href="{% url 'home' %}">Reading & Writing Books</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav mx-auto ">
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'reader_home_page' %}">Reader Community</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'writer_home_page' %}">Writer Community</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'reader_profile' %}">Profile</a>
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'about_us' %}">About Us</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'sign_in' %}">Sign out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="slide-container">
+    <h2 class="center-h2">My Books Slider</h2>
+    <div class="swiper slider-wrapper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide bg-dark">
+                <div class="card-item ">
+                    <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/hostedimages/1466643696i/19502975.jpg" alt="Book Image" class="book-image">
+                    <h2 class="user-name">It Ends With Us</h2>
+                    <p class="book-author">Author: Colleen Hoover</p>
+                    <p class="book-genre">Genre: Romance</p>
+                    <button class="book-button text-dark bg-white">Go to this book</button>
                 </div>
             </div>
+            <div class="swiper-slide bg-dark">
+                <div class="card-item">
+                    <img src="https://m.media-amazon.com/images/I/51qfhya2iRL._SL500_.jpg" alt="Book Image" class="book-image">
+                    <h2 class="user-name">It Starts With Us</h2>
+                    <p class="book-author">Author: Colleen Hoover</p>
+                    <p class="book-genre">Genre: Romance</p>
+                    <button class="book-button text-dark bg-white">Go to this book</button>
+                </div>
+            </div>
+            <div class="swiper-slide bg-dark">
+                <div class="card-item">
+                    <img src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781501110344/november-9-9781501110344_hr.jpg" alt="Book Image" class="book-image">
+                    <h2 class="user-name">November 9</h2>
+                    <p class="book-author">Author: Colleen Hoover</p>
+                    <p class="book-genre">Genre: Romance</p>
+                    <button class="book-button text-dark bg-white">Go to this book</button>
+                </div>
+            </div>
+            <div class="swiper-slide bg-dark">
+                <div class="card-item">
+                    <img src="https://images.booksense.com/images/188/753/9781476753188.jpg" alt="Book Image" class="book-image">
+                    <h2 class="user-name">Ugly Love</h2>
+                    <p class="book-author">Author: Colleen Hoover</p>
+                    <p class="book-genre">Genre: Romance</p>
+                    <button class="book-button text-dark bg-white">Go to this book</button>
+                </div>
             </div>
         </div>
-    </main>   
-            <hr>
-            <section>
-            <div>
-                <h2>Your Reading History</h2>
-            <table>
-                <tr>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>Publication Year</th>
-                    <th>Rating</th>
-                </tr>
-                <tr>
-                    <td>To Kill a Mockingbird</td>
-                    <td>Harper Lee</td>
-                    <td>1960</td>
-                    <td>4.5</td>
-                </tr>
-                <tr>
-                    <td>1984</td>
-                    <td>George Orwell</td>
-                    <td>1949</td>
-                    <td>4.7</td>
-                </tr>
-                <tr>
-                    <td>The Great Gatsby</td>
-                    <td>F. Scott Fitzgerald</td>
-                    <td>1925</td>
-                    <td>4.3</td>
-                </tr>
-            </table>
+        <!-- If we need pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- If we need navigation buttons -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+</div>
+<hr>
 
-            <div>
-                <h3> Add new Post</h3>
-                <input type="text" placeholder="Post..">
-                <button>Post</button>
-                <h3>Posts</h3>
-                <p>Posts content goes here.</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 sidebar-left1">
+                <div class="col-md-3 sidebar-left2">
+                    <h3>Book Clubs</h3>
+                    <ul class="book">
+                        <li><a href="#">Book Club 1</a></li>
+                        <li><a href="#">Book Club 2</a></li>
+                        <li><a href="#">Book Club 3</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-md-3 sidebar-left2">
+                    <h3>Book Events</h3>
+                    <ul class="event">
+                        <li><a href="#">Event 1</a></li>
+                        <li><a href="#">Event 2</a></li>
+                        <li><a href="#">Event 3</a></li>
+                    </ul>
+                </div> 
+        </div>
+        <div class="col-md-6 content">
+            <h2 class="h2"> Post Section</h2>
+            <div class="card">
+                <textarea ></textarea>
+                <button>Post </button>
             </div>
-        </section>
+    </div>
+        <div class="col-md-3 sidebar-right1">
+            
+            <div class="col-md-3 sidebar-right2">
+                <h3>Top Writers</h3>
+                <ul class="top-writer">
+                    <li><a href="#">Writer 1</a></li>
+                    <li><a href="#">Writer 2</a></li>
+                    <li><a href="#">Writer 3</a></li>
+                </ul>
             </div>
-    </main> 
-    <hr>
-    <footer>
-        <h3>Reading & Writing Books</h3>
-        <h4>Contact Us</h4>
-        <p><img src="https://img.icons8.com/?size=48&id=96403&format=png" alt="phone"> Phone Number: +972 321 456 897</p>
-        <p><img src="https://img.icons8.com/?size=48&id=35084&format=png" alt="email"> Email:  contact@readingwritingbooks.com</p>
-        <h4>Follow Us</h4>
-        <a href="#"><img src="https://img.icons8.com/?size=48&id=118497&format=png" alt="Facebook"></a>
-        <a href="#"><img src="https://img.icons8.com/?size=48&id=13963&format=png" alt="Twitter"></a>
-        <a href="#"><img src="https://img.icons8.com/?size=48&id=32323&format=png" alt="Instagram"></a>
-        <h4>Company</h4>
-        <a href="#">About Us</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Cookie Policy</a>
-        <br>
+            
+            <div class="col-md-3 sidebar-right2">
+                <h3>Top Books</h3>
+                <ul class="top-book">
+                    <li><a href="#">Book 1</a></li>
+                    <li><a href="#">Book 2</a></li>
+                    <li><a href="#">Book 3</a></li>
+                </ul>
+            </div>  
+        </div>
+    </div>
+</div>
+{% comment %} <hr> {% endcomment %}
+    <footer class="bg-dark text-white text-center text-lg-start">
+        <h3 class=" p-3 bg-secondary">Reading & Writing Books</h3>
+        <div class="container p-4">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Contact</h5>
+                <ul class="list-unstyled mb-0">
+                <li>
+                    <a href="#!" class="text-white">Email: contact@readingwritingbooks.com</a>
+                </li>
+                <li>
+                    <a href="#!" class="text-white">Phone: +972 321 456 897</a>
+                </li>
+                <li>
+                    <a href="#!" class="text-white">Address: Palestine, Ramallah</a>
+                </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Company</h5>
+            <ul class="list-unstyled mb-0">
+                <li>
+                <a href="#!" class="text-white">About Us</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Privacy Policy</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Terms of Service</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Cookie Policy</a>
+                </li>
+            </ul>
+            </div>
+    
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Social Media</h5>
+            <ul class="list-unstyled mb-0">
+                <li>
+                <a href="https://facebook.com" class="text-white"><i class="fab fa-facebook-f"></i> Facebook</a>
+                </li>
+                <li>
+                <a href="https://twitter.com" class="text-white"><i class="fab fa-twitter"></i> Twitter</a>
+                </li>
+                <li>
+                <a href="https://instagram.com" class="text-white"><i class="fab fa-instagram"></i> Instagram</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </div>
+    
+        <div class="text-center p-3 bg-secondary">
         <small> Copyright © Reading & Writing Books. All rights reserved.</small>
+        </div>
     </footer>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<!-- Linking SwiperJS script -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    const swiper = new Swiper('.swiper', {
+        loop: true,
+        grabCursor: true,
+        spaceBetween: 20,
     
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        // If we need pagination
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+    
+        // Navigation arrows
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        
+        // Responsive breakpoints
+        breakpoints: {
+            0: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+            },
+            600: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            1024: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+            },
+        },
+    });
+</script>
 
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-</body>  
-</html> 
+</body>
+</html>

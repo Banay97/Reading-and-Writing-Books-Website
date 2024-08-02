@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            
         }
         .form-container {
             max-width: 600px;
@@ -18,6 +18,8 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-top: 100px;
+            margin-bottom: 400px;
         }
         .form-group {
             margin-bottom: 15px;
@@ -49,17 +51,35 @@
 </head>
 <body>
     <header>
-        <img src="" alt="">
-        <h1>Reading & Writing Books</h1>
-        <a href="">Sign in</a>
-        <a href="">Sign up</a>
-        <nav>
-            <ul>
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="ReaderCommunity.html">Reader Community</li>
-                <li><a href="WriterCommunity.html">Writer Community</a></li>
-                <li><a href="AboutUsPage.html">About Us</a></li>
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a id ="link" class="navbar-brand text-white" href="{% url 'home' %}">Reading & Writing Books</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="{% url 'reader_home_page' %}">Reader Community</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="{% url 'writer_home_page' %}">Writer Community</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="{% url 'reader_profile' %}">Profile</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="{% url 'about_us' %}">About Us</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{% url 'sign_in' %}">Sign out</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
     </header>
     <div class="form-container">
@@ -82,28 +102,69 @@
     </div>
     <hr>
 
-    <footer>
-        <h3>Reading & Writing Books</h3>
-        <h4>Contact Us</h4>
-        <p><img src="https://img.icons8.com/?size=48&id=96403&format=png" alt="phone"> Phone Number: +972 321 456 897</p>
-        <p><img src="https://img.icons8.com/?size=48&id=35084&format=png" alt="email"> Email:  contact@readingwritingbooks.com</p>
-        <h4>Follow Us</h4>
-        <a href="#"><img src="https://img.icons8.com/?size=48&id=118497&format=png" alt="Facebook"></a>
-        <a href="#"><img src="https://img.icons8.com/?size=48&id=13963&format=png" alt="Twitter"></a>
-        <a href="#"><img src="https://img.icons8.com/?size=48&id=32323&format=png" alt="Instagram"></a>
-        <h4>Company</h4>
-        <a href="#">About Us</a>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Service</a>
-        <a href="#">Cookie Policy</a>
-        <br>
+    <footer class="bg-dark text-white text-center text-lg-start">
+        <h3 class=" p-3 bg-secondary">Reading & Writing Books</h3>
+        <div class="container p-4">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Contact</h5>
+                <ul class="list-unstyled mb-0">
+                <li>
+                    <a href="#!" class="text-white">Email: contact@readingwritingbooks.com</a>
+                </li>
+                <li>
+                    <a href="#!" class="text-white">Phone: +972 321 456 897</a>
+                </li>
+                <li>
+                    <a href="#!" class="text-white">Address: Palestine, Ramallah</a>
+                </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Company</h5>
+            <ul class="list-unstyled mb-0">
+                <li>
+                <a href="#!" class="text-white">About Us</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Privacy Policy</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Terms of Service</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Cookie Policy</a>
+                </li>
+            </ul>
+            </div>
+    
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Social Media</h5>
+            <ul class="list-unstyled mb-0">
+                <li>
+                <a href="https://facebook.com" class="text-white"><i class="fab fa-facebook-f"></i> Facebook</a>
+                </li>
+                <li>
+                <a href="https://twitter.com" class="text-white"><i class="fab fa-twitter"></i> Twitter</a>
+                </li>
+                <li>
+                <a href="https://instagram.com" class="text-white"><i class="fab fa-instagram"></i> Instagram</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </div>
+    
+        <div class="text-center p-3 bg-secondary">
         <small> Copyright © Reading & Writing Books. All rights reserved.</small>
+        </div>
     </footer>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
 </body>
 </html>

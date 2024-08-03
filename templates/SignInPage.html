@@ -93,12 +93,11 @@
     </style>
 </head>  
 <body>  
-
-
     <div>
         <main>
             <h1>Sign In</h1>
-            <form>
+            <form method="post" action="{% url 'enter_your_account' %}">
+                {% csrf_token %}
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" required>
                 <label for="password">Password:</label>
@@ -117,6 +116,15 @@
             </div>
         </main>
     </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            {% if 'sign_in' in message.tags %}
+                <li style="color:red; font-size: 15px;" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    {% endif %}
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

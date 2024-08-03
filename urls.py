@@ -20,4 +20,8 @@ urlpatterns = [
     path('delete-event', views.delete_event, name='delete_event'),
     path('view-book', views.view_book_detail, name='view_book_detail'),
     path('view-event', views.view_event_detail, name='view_event_detail'),
+    path('create-account', views.create_account, name='create_account'),
+    path('enter-your-account', views.enter_your_account, name='enter_your_account'),
+    path('sign-out', views.sign_out, name='sign_out'),
+    
 ]

@@ -234,14 +234,16 @@
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item text-white">
+                    Welcome {{user.username}}
+                </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'sign_in' %}">Sign out</a>
+                    <a class="nav-link text-white" href="{% url 'sign_out' %}">Sign out</a>
                 </li>
             </ul>
         </div>
     </nav>
 </header>
-
 <div class="slide-container">
     <h2 class="center-h2">My Books Slider</h2>
     <div class="swiper slider-wrapper">

@@ -95,9 +95,10 @@
     <div>
         <main>
             <h1>Sign Up</h1>
-            <form>
-                <label for="user-type">User Type:</label>
-                <select id="user-type" name="user_type" required>
+            <form method="post" action ="{% url 'create_account' %}">
+                {%csrf_token%}
+                <label for="role">User Type:</label>
+                <select id="role" name="role" required>
                     <option value="">Select User Type..</option>
                     <option value="writer">Writer</option>
                     <option value="reader">Reader</option>
@@ -106,6 +107,8 @@
                 <input type="text" id="f-name" name="first_name" required>
                 <label for="last-name">Last Name:</label>
                 <input type="text" id="l-name" name="last_name" required>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
                 <label for="date-of-birth">Date of Birth:</label>
                 <input type="date" id="date-of-birth" name="date_of_birth" required>
                 <label for="email">Email:</label>
@@ -128,6 +131,15 @@
             </div>
         </main>
     </div>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            {% if 'sign_up' in message.tags %}
+                <li style="color:red; font-size: 15px;" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    {% endif %}
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

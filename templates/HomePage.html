@@ -4,168 +4,12 @@
 <head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/HomePage.css' %}">
 
     <title>Home Page</title>  
-
-    <style>
-        .large-heading {
-            font-size: 5.5em; /* Adjust the size as needed */
-        }
-        .bold-text {
-            font-weight: bold; /* or 700 */
-            font-size: 1.4em; /* Adjust the size as needed */
-        }
-        .custom-button {
-            font-weight: bold; /* Makes the text bold */
-            font-size: 18px;   /* Sets the font size */
-            cursor: pointer; /*
-        }
-        .card {
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin: 10px;
-        }
-        *{
-            margin:0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body{
-            overflow: hidden;
-        }
-        .aboutC-container{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 1000px;
-            height: 600px;
-            background: #f5f5f5;
-            box-shadow: 0 30px 50px #dbdbdb;
-        
-        }
-        .aboutC-container .slide .item{
-            width:200px;
-            height:300px;
-            position:absolute;
-            top:50%;
-            transform: translate(0, -50%);
-            border-radius: 20px;
-            background-position: 50% 50%;
-            background-size: cover;
-            display: inline-block;
-            transition: 0.5s;
-        }
-        
-        .slide .item:nth-child(1),
-        .slide .item:nth-child(2){
-            top:0;
-            left:0;
-            transform: translate(0,0);
-            border-radius:  0;
-            width:100%;
-            height: 100%;
-        }
-        
-        .slide .item:nth-child(3){
-            left: 50%;
-        }
-        .slide .item:nth-child(4){
-            left: calc(50% + 220px);
-        }
-        .slide .item:nth-child(5){
-            left: calc(50% + 440px);
-        }
-        .slide .item:nth-child(n + 6){
-            left: calc(50% +660px);
-            opacity: 0;
-        }
-        .item .content{
-            position: absolute;
-            top:50%;
-            left:100px;
-            width: 300px;
-            text-align: left;
-            color: #eee;
-            transform: translate(0, -50%);
-            font-family: system-ui;
-            display: none;
-        }
-        .slide .item:nth-child(2) .content{
-            display: block;
-        
-        }
-        .content .name{
-            font-size: 40px;
-            text-transform: uppercase;
-            font-weight: bold;
-            opacity: 0;
-            animation: animate 1s ease-in-out 1 forwards;
-        
-        }
-        
-        .content .description{
-            margin-top: 10px;
-            margin-bottom: 20px;
-            opacity: 0;
-            animation: animate 1s ease-in-out 0.3s 1 forwards;
-            font-weight: bold;
-        
-        }
-        
-        .content button{
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            opacity: 0;
-            animation: animate 1s ease-in-out 0.6s 1 forwards;
-        
-        }
-        @keyframes animate {
-            from{
-                opacity: 0;
-                transform: translate(0);
-                filter: blur(33px);
-            }
-            to{
-                opacity: 1;
-                transform: translate(0);
-                filter: blur(0px);
-            }
-            
-        }
-        
-        .button{
-            width: 100%;
-            text-align: center;
-            position: absolute;
-            bottom:20px;
-        
-        }
-        .button button{
-            width: 40px;
-            height: 35px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            margin: 0 5px;
-            border: 1px solid #000;
-            transition: 0.3s;
-        }
-        .button button:hover{
-            background: #ababab;
-            color: #fff;
-        
-        }
-        
-        
-
-
-
-
-    </style>
+    
 </head>  
 <body>  
 <header class="bg-light">
@@ -202,12 +46,14 @@
 </header>
 <main class="bg-light" >
     <div class="container text-center my-5 ">
-        <h2 class="large-heading text-dark">Start Your Reading or Writing Books Journey Here.</h2>
+        {% comment %} <h2 class="large-heading spectial-text text-dark">Start Your Reading or Writing Books Journey Here.</h2> {% endcomment %}
+        <img src="{% static 'image/text-removebg-preview.png'%}" alt="text-image" width="100%"><br>
         <button type="button" class="btn btn-dark mt-3 text-white custom-button "><a href="{% url 'sign_up' %}">Start Your Journey</a></button>
+        <br>
         <hr class="mt-5">
     </div>
-    <h2 class="large-heading container text-center my-5">About Communities..</h2>
-    <div class="aboutC-container">
+    {% comment %} <h2 class="large-heading container text-center my-5">About Communities..</h2> {% endcomment %}
+    {% comment %} <div class="aboutC-container">
             <div class="slide">
                 <div class="item" style="background-image: url(https://img.freepik.com/premium-photo/exciting-school-math-competition-group-school-kids-are-holding-math-books-competitio_1032630-11684.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid);">
                     <div class="content">
@@ -251,9 +97,52 @@
             </div>
             </div>
 
+        </div> {% endcomment %}
+        <div class="container">
+            <h2 class="large-heading text-center my-5">About Communities..</h2>
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6 content-container mb-4 mb-md-0">
+                    <h2>Reader Community 💖.</h2>
+                    <p>Welcome to Writers' Haven, a supportive and fun community for writers of all kinds! Whether you’re just starting out, a seasoned author, a poet, or a freelance writer, you’ll find a place here. We’re all about helping each other grow, improve, and succeed in our writing journeys. 💖💖💖💖</p>
+                    {% comment %} <a href="">See More </a> {% endcomment %}
+                </div>
+                <div class="col-md-6 image-container text-center mb-4 mb-md-0">
+                    <img src="https://img.freepik.com/premium-photo/exciting-school-math-competition-group-school-kids-are-holding-math-books-competitio_1032630-11684.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="Book Readers" class="img-fluid">
+                </div>
+            </div>
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6 content-container mb-4 mb-md-0">
+                    <img src="https://img.freepik.com/premium-photo/cozy-library-study-session-with-friends_1280275-155845.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="Book Writers" class="img-fluid">
+                </div>
+                <div class="col-md-6 image-container mb-4 mb-md-0">
+                    <h2>Writer Community 💖.</h2>
+                    <p>Nice to meet you, book lovers! Whether you're an avid reader, a collector of rare editions, or someone who simply enjoys the occasional good story, this is the perfect place for you. Here, we celebrate the magic of books and the joy of reading, sharing our favorite reads, discussing the latest releases, and exploring the endless worlds that literature offers. Let's dive into the pages together and discover new stories, characters, and adventures. Welcome to our community. 💖💖💖💖</p>
+                    {% comment %} <a href="">See More </a> {% endcomment %}
+                </div>
+            </div>
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6 content-container mb-4 mb-md-0">
+                    <h2>Book Clubs Community 💖.</h2>
+                    <p>Welcome to The Book Club Communities, where we gather with a cup of tea and a good book to share our love for reading! Our club is all about enjoying great stories, lively discussions, and making new friends. Whether you’re a long-time bookworm or just rediscovering the joy of reading, you’ll find a warm and inviting space here. 💖💖💖💖</p>
+                    {% comment %} <a href="">See More </a> {% endcomment %}
+                </div>
+                <div class="col-md-6 image-container text-center mb-4 mb-md-0">
+                    <img src="https://img.freepik.com/premium-photo/quotfriends-unwinding-with-books-blanketsquot_1280275-131110.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="Book Clubs" class="img-fluid">
+                </div>
+            </div>
+            <div class="row align-items-center mb-5">
+                <div class="col-md-6 content-container mb-4 mb-md-0">
+                    <img src="https://img.freepik.com/premium-photo/buatkan-judul-dengan-7-kata-dan-30-keyword-untuk-freepik-metadata-dan-pisah-setiap-keyword-dengan-tanda-koma-setiap-keyword-hanya-1-kata_959624-75116.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="Book Events" class="img-fluid">
+                </div>
+                <div class="col-md-6 image-container mb-4 mb-md-0">
+                    <h2>Book Events Community 💖.</h2>
+                    <p>Welcome to Events communities, your go-to community for all things literary and fun! We host a variety of exciting events that bring book lovers and writers together in a vibrant and welcoming atmosphere. Whether it’s a book launch, a writing workshop, or a literary festival, there’s always something happening at Lit Lounge 💖💖💖💖</p>
+                    {% comment %} <a href="">See More </a> {% endcomment %}
+                </div>
+            </div>
         </div>
         
-   <div class="container mt-4">
+   {% comment %} <div class="container mt-4">
         <h2 class="large-heading container text-center my-5">About Communities..</h2>
             <div class="row">
             <div class="col-md-4">
@@ -278,7 +167,7 @@
                 </div>
             </div>
             </div>
-        </div> 
+        </div>  {% endcomment %}
     
         <hr>
     
@@ -387,7 +276,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
- <script></script
+    <script></script>
 
 {% comment %} <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

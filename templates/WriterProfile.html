@@ -4,9 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <title>Reader Home Page</title>
     <style>
+        *{
+            font-family: 'Luckiest Guy', cursive;
+        }
         img {
             width: 100px;
             height: 100px;
@@ -97,7 +102,7 @@
             <img src="https://img.freepik.com/free-photo/3d-render-little-boy-with-jacket-jeansie_1142-57736.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="">
             <div>
                 <a href="{%url 'edit_writer_profile'%}" class="btn btn-link">Edit Profile</a>
-                <h3>User Name</h3>
+                <h3>{{user.first_name}} {{user.last_name}}</h3>
             </div>
         </div>
         <div class="search-bar mt-3">

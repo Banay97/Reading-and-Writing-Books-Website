@@ -1,0 +1,38 @@
+* {
+    font-family: 'Luckiest Guy', cursive;
+}
+
+.event-container {
+    max-width: 600px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 100px;
+    margin-bottom: 500px;
+}
+
+.event-header {
+    margin-bottom: 20px;
+}
+
+.event-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.event-details {
+    margin-bottom: 20px;
+}
+
+.event-details p {
+    margin: 0;
+    font-size: 16px;
+    color: #555;
+}
+
+.event-description {
+    margin-top: 20px;
+}

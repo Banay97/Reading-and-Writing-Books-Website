@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'ReadingWritingBooksApp.apps.ReadingwritingbooksappConfig',
-    'django.contrib.admin',
+    'django.contrib.admin', # using this for authentication
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',

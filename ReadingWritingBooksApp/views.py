@@ -136,6 +136,8 @@ def edit_writer_profile(request, user_id):
         
     return render(request, 'EditWriterProfilePage.html', {'user': user})
 
+
+#----Book Functions----
 def books(request):
     book = Book.objects.all() #query to return a QuerySet of all show objects
     print(book)
@@ -174,11 +176,38 @@ def create_book(request):
         return redirect('books')  # Adjust this to the actual view name
 
     return render(request, 'CreateBook.html')
-def edit_book(request):
-    return render(request, 'EditBook.html')
+def edit_book(request, book_id):
+    book = Book.objects.get(id=book_id)
+    if request.method == 'POST':
+        errors = Book.objects.book_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value, extra_tags='edit_book')
+            return redirect('edit_book', book_id=book_id)
+        else:
+            title = request.POST['title']
+            genre = request.POST['genre']
+            description = request.POST['description']
+            book_file = request.FILES.get('book_file')
+            book.title =title
+            book.genre = genre
+            book.description = description
+            if book_file:
+                book.book_file = book_file
+                book.save()
+                messages.success(request, 'Book updated successfully')
+                return redirect('books')  # Adjust this to the actual view name
+    return render(request, 'EditBook.html', {'book': book})
 
-def delete_book(request):
-    pass
+def view_book_detail(request, book_id):
+    book = Book.objects.get(id=book_id)
+    return render(request, 'ViewBookPage.html', {'book': book})
+
+def delete_book(request, book_id):
+    book =Book.objects.get(id=book_id)
+    book.delete()
+    messages.success(request, 'Book deleted successfully')
+    return redirect('books')
 def create_event(request):
     return render(request, 'CreateEvent.html')
 

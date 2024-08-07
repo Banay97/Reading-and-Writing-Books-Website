@@ -8,69 +8,131 @@ from .models import User, Book, Notification, Post, Event, BookClub, Comment
 
 
 # Create your views here.
-class HomeView(LoginRequiredMixin, TemplateView):
-    template_name = "home.html"
-def home(request):
+def home(request):#rendering to the Home Page of the website
     return render(request, 'HomePage.html')
 
-def sign_in(request):
-    return render(request, 'SignInPage.html', {})
+def sign_in(request):#rendering to the Sign In Page of the website and saving the current user info in the session
+    current_user = User.objects.get(username=request.session['username'])
+    return render(request, 'SignInPage.html', {'user': current_user})
 
-def sign_up(request):
-    return render(request, 'SignUpPage.html', {})
+def sign_up(request):#rendering to the Sign Up Page of the website and saving the current user info in the session
+    current_user = User.objects.get(username=request.session['username'])
+    return render(request, 'SignUpPage.html', {'user': current_user})
 
-def about_us(request):
+def about_us(request):#rendering to the about us page
+    
+    #here I have to add a functionality for the comment section in this page to store it in my database.
+    
     return render(request, 'AboutUsPage.html')
 
-def writer_home_page(request):
-    return render(request, 'WriterHomePage.html')
-
-def reader_home_page(request):
-    if 'username' not in request.session:
-        return render(request, 'ReaderHomePage.html')
+def get_home_page_context(username):
+    current_user = User.objects.get(username=username)  # Get the user data according to the username
+    post = Post.objects.all().order_by('created_at')  # Get all the posts in ascending order
+    comment = Comment.objects.all().order_by('created_at')  # Get all the comments in ascending order
+    event = Event.objects.all().order_by('created_at')  # Get all the events
+    book_club = BookClub.objects.all().order_by('created_at')  # Get all the book clubs
     
-    current_user = User.objects.get(username=request.session['username']) #get the user data according to the username
-    post = Post.objects.all().order_by('created_at') #get all the post in ascending order
-    comment = Comment.objects.all().order_by('created_at') # get all the comments in ascending order (from the first comment) 
-    event = Event.objects.all().order_by('created_at') # get all the events 
-    book_club = BookClub.objects.all().order_by('created_at') #get all the book clubs
-    
-    context={
+    context = {
         'user': current_user,
         'post': post,
         'comment': comment,
         'event': event,
         'book_club': book_club,
     }
-    return render(request, 'ReaderHomePage.html',context)
     
+    return context
+
+def writer_home_page(request):#this will render to the writer home page when the user is logged in and check the permissions of the user
+    #also making sure that all th user info, posts, and comments,events, and book clubs are added to his/her home page
+    if 'username' not in request.session:
+        return render(request, 'SignInPage.html')
+
+    context = get_home_page_context(request.session['username'])
+    return render(request, 'WriterHomePage.html', context)
+
+def reader_home_page(request):#this will render to the reader home page when the user is logged in and check the permissions of the user
+    #also making sure that all th user info, posts, and comments,events, and book clubs are added to his/her home page
+    Post.objects.all()
+    if 'username' not in request.session:
+        return render(request, 'signInPage.html')
+    
+    context = get_home_page_context(request.session['username'])
+    return render(request, 'ReaderHomePage.html', context)
+
+
+
 def writer_profile(request):
     if 'username' not in request.session:
-        return render(request, 'WriterHomePage.html')
+        return render(request, 'WriterProfile.html')
     
-    current_user = User.objects.get(username=request.session['username']) #get the user data according to the username
-    post = Post.objects.all().order_by('created_at') #get all the post in ascending order
-    comment = Comment.objects.all().order_by('created_at') # get all the comments in ascending order (from the first comment) 
-    event = Event.objects.all().order_by('created_at') # get all the events 
-    book_club = BookClub.objects.all().order_by('created_at') #get all the book clubs
-    
-    context={
-        'user': current_user,
-        'post': post,
-        'comment': comment,
-        'event': event,
-        'book_club': book_club,
-    }
-    return render(request, 'WriterHomePage.html',context)
+    context = get_home_page_context(request.session['username'])
+    return render(request, 'WriterProfile.html', context)
 
 def reader_profile(request):
-    return render(request, 'ReaderProfile.html')
+    if 'username' not in request.session:
+        return render(request, 'ReaderProfile.html')
+    
+    context = get_home_page_context(request.session['username'])
+    return render(request, 'ReaderProfile.html', context)
 
-def edit_reader_profile(request):
-    return render(request, 'EditReaderProfilePage.html')
+def edit_reader_profile(request, user_id):
+    user = User.objects.get(id=user_id)
+    
+    if request.method == 'POST':
+        errors = User.objects.user_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value, extra_tags='edit_writer_profile')
+            return redirect('edit_reader_profile', user_id=user_id)
+        
+        else:
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            username = request.POST['username']
+            email = request.POST['email']
+            bio = request.POST['bio']
+            
+            # Update user information
+            user.first_name = first_name
+            user.last_name = last_name
+            user.username = username
+            user.email = email
+            user.bio = bio
+            
+            user.save()
+            messages.success(request, 'Profile updated successfully')
+            return redirect('reader_profile')  # Adjust this to the actual view name
+    return render(request, 'EditReaderProfilePage.html', {'user': user})
 
-def edit_writer_profile(request):
-    return render(request, 'EditWriterProfilePage.html')
+def edit_writer_profile(request, user_id):
+    user = User.objects.get(id=user_id)
+    
+    if request.method == 'POST':
+        errors = User.objects.user_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value, extra_tags='edit_writer_profile')
+            return redirect('edit_writer_profile', user_id=user_id)
+        
+        else:
+            first_name = request.POST['first_name']
+            last_name = request.POST['last_name']
+            username = request.POST['username']
+            email = request.POST['email']
+            bio = request.POST['bio']
+            
+            # Update user information
+            user.first_name = first_name
+            user.last_name = last_name
+            user.username = username
+            user.email = email
+            user.bio = bio
+            
+            user.save()
+            messages.success(request, 'Profile updated successfully')
+            return redirect('writer_profile')  # Adjust this to the actual view name
+        
+    return render(request, 'EditWriterProfilePage.html', {'user': user})
 
 def create_book(request):
     return render(request, 'CreateBook.html')
@@ -171,11 +233,11 @@ def create_book(request):
 
 @login_required
 def reader_posts(request): # posting a post function 
-    # Message.objects.all()
+    Post.objects.all()
     if request.method == 'POST':
         post_content = request.POST.get('post_content')
-        current_user = User.objects.get(email=request.session['username'])
-        new_post = Post.objects.create(user=current_user, post=post_content) #create new message and save it in database
+        current_user = User.objects.get(username=request.session['username'])
+        new_post = Post.objects.create(user=current_user, content=post_content) #create new message and save it in database
         
         # Get the latest 3 messages for the current user
         posts = Post.objects.filter(user=current_user).order_by('-created_at')[:3]

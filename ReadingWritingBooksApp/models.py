@@ -4,7 +4,7 @@ import re
 
 # Create your models here.
 class UserManager(models.Manager):
-    def user_validator(self, postData):
+    def user_validator(self, postData, is_creation=False):
         errors = {}
         if len(postData['first_name']) < 2:
             errors['first_name'] = 'First name should be at least 2 characters long'
@@ -22,11 +22,12 @@ class UserManager(models.Manager):
         if len(postData['email']) < 10:
             errors['email'] = 'Email should be at least 10 characters long'    
 
-        if len(postData['password']) < 8:
-            errors['password'] = 'Password should be at least 8 characters long'
+        if is_creation:
+            if len(postData['password']) < 8:
+                errors['password'] = 'Password should be at least 8 characters long'
 
-        if postData['password'] != postData['confirm_password']:
-            errors['confirm_password'] = 'Passwords do not match'
+            if postData['password'] != postData['confirm_password']:
+                errors['confirm_password'] = 'Passwords do not match'
         
         return errors
 
@@ -112,24 +113,23 @@ class Event(models.Model):
     def __str__(self):
         return self.event_name
 
-
-
-class Comment(models.Model):
-    content = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
-    
-    def __str__(self):
-        return self.content
     
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    content = models.TextField()
+    content = models.TextField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     
     def __str__(self):
         return self.content    
         
-
+class Comment(models.Model):
+    content = models.TextField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
+    post= models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', default=True)
+    
+    def __str__(self):
+        return f'commented by {self.user} on {self.post}'

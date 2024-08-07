@@ -31,13 +31,14 @@ def get_home_page_context(username):
     comment = Comment.objects.all().order_by('created_at')  # Get all the comments in ascending order
     event = Event.objects.all().order_by('created_at')  # Get all the events
     book_club = BookClub.objects.all().order_by('created_at')  # Get all the book clubs
-    
+    books = Book.objects.all()
     context = {
         'user': current_user,
         'post': post,
         'comment': comment,
         'event': event,
         'book_club': book_club,
+        'book':books,
     }
     
     return context
@@ -62,6 +63,7 @@ def reader_home_page(request):#this will render to the reader home page when the
 
 
 def writer_profile(request):
+    books= Book.objects.all()
     if 'username' not in request.session:
         return render(request, 'WriterProfile.html')
     
@@ -134,9 +136,44 @@ def edit_writer_profile(request, user_id):
         
     return render(request, 'EditWriterProfilePage.html', {'user': user})
 
-def create_book(request):
-    return render(request, 'CreateBook.html')
+def books(request):
+    book = Book.objects.all() #query to return a QuerySet of all show objects
+    print(book)
+    return render(request,'WriterProfile.html', {'books': book})
 
+def create_book(request):
+    if request.method == 'POST':
+        errors = Book.objects.book_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value, extra_tags='create_book')
+            return redirect('create_book')
+        
+        title = request.POST['title']
+        genre = request.POST['genre']
+        description = request.POST['description']
+        book_file = request.FILES.get('book_file')
+
+        old_book = Book.objects.filter(title=title).first()
+        if old_book:
+            messages.error(request, 'Book with the same title already exists')
+            return redirect('create_book')
+
+        # Ensure 'username' is in session and get the user
+        if 'username' not in request.session:
+            messages.error(request, 'You must be logged in to create a book')
+            return redirect('sign_in')  # Adjust this to your login URL
+
+        user = User.objects.get(username=request.session['username'])
+        print(f"User: {user}")
+        # Create the book and assign the author
+        book = Book.objects.create(title=title, genre=genre, description=description, book_file=book_file, author=user)
+        print(f"Title: {title}, Genre: {genre}, Description: {description}, User: {user}")
+
+        messages.success(request, 'Book created successfully')
+        return redirect('books')  # Adjust this to the actual view name
+
+    return render(request, 'CreateBook.html')
 def edit_book(request):
     return render(request, 'EditBook.html')
 
@@ -217,19 +254,6 @@ def sign_out(request):
         messages.success(request, 'Logout successful!', extra_tags='sign_out')
         return redirect('home')
     return redirect('home')
-
-
-def create_book(request):
-    
-    if request.method == 'POST':
-        title = request.POST['title']
-        genre = request.POST['genre']
-        description = request.POST['description']
-        Book.objects.create(title=title, genre= genre, description=description)
-        return redirect('writer_profile')
-    books = Book.objects.all()
-    return render(request, 'CreateBook.html', {'books': books})
-
 
 @login_required
 def reader_posts(request): # posting a post function 

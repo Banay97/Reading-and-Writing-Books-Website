@@ -31,15 +31,15 @@
 </script> {% endcomment %}
 <style> 
     textarea {
-      width: 100%;
-      height: 150px;
-      padding: 12px 20px;
-      box-sizing: border-box;
-      border: 2px solid #ccc;
-      border-radius: 4px;
-      background-color: #f8f8f8;
-      font-size: 16px;
-      resize: none;
+    width: 100%;
+    height: 150px;
+    padding: 12px 20px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    ont-size: 16px;
+    resize: none;
     }
     </style>
 </head>  
@@ -79,8 +79,8 @@
 <section>
     <div class="form-container">
         <h2>Create Book Page</h2>
-        <form action= "{% url 'create_book' %}"  method="post">
-            {% csrf_token %} 
+        <form action="{% url 'create_book' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="form-group">
                 <label for="title">Book Title:</label>
                 <input type="text" id="book-title" name="title" required>
@@ -89,50 +89,45 @@
                 <label for="genre">Book Genre:</label>
                 <input type="text" id="book-genre" name="genre" required>
                 <br>
-                {% comment %} <label for="author">Author Name:</label>
-                <input type="text" id="book-genre" name="author" required>
-                <br> {% endcomment %}
                 <label for="description">Book Description:</label>
                 <textarea type="text" id="book-description" name="description" required></textarea>
             </div>
             <div class="form-group-file">
-            <div class="upload-container">
-                <div class="header-section">
-                    <h2>Upload Files</h2>
-                    <p>Upload files you want to share with your team members.</p>
-                    <p>PDF, Images & Videos are allowed.</p>
-                </div>
-                <div class="drop-section">
-                    <div class="col">
-                        <div class="cloud-icon">
-                            <img src="https://cdn-icons-png.freepik.com/512/4725/4725573.png" alt="cloud" width="25%">
+                <div class="upload-container">
+                    <div class="header-section">
+                        <h2>Upload Files</h2>
+                        <p>Upload files you want to share with your team members.</p>
+                        <p>PDF, Images & Videos are allowed.</p>
+                    </div>
+                    <div class="drop-section">
+                        <div class="col">
+                            <div class="cloud-icon">
+                                <img src="https://cdn-icons-png.freepik.com/512/4725/4725573.png" alt="cloud" width="25%">
+                            </div>
+                            <span>Drag & Drop your files here</span>
+                            <span>OR</span>
+                            <button class="file-selector" type="button">Browse Files</button>
+                            <input type="file" class="file-selector-input" name="book_file" multiple>
                         </div>
-                        <span>Drag & Drop your files here</span>
-                        <span>OR</span>
-                        <button class="file-selector">Browse Files</button>
-                        <input type="file" class="file-selector-input" multiple>
+                        <div class="col">
+                            <div class="drop-here">Drop Here</div>
+                        </div>
                     </div>
-                    <div class="col">
-                        <div class="drop-here">Drop Here</div>
+                    <div class="list-section">
+                        <div class="list-title">Uploaded Files</div>
+                        <div class="list"></div>
                     </div>
-                </div>
-                <div class="list-section">
-                    <div class="list-title">Uploaded Files</div>
-                    <div class="list"></div>
                 </div>
             </div>
-            {% comment %} <div class="list-section">
-                <div class="list-title">Uploaded Files</div>
-                <div class="list">
-                    <li class="in-prog">
-                        <div class="col">
-
-                        </div>
-                    </li>
-                </div>
-            </div> {% endcomment %}
             <button type="submit" class="save-button">Save</button>
         </form>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li style="color:red;" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
     </div>
     </section>
     <hr>

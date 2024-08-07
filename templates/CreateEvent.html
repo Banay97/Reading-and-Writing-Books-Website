@@ -71,19 +71,14 @@
         </div>
       </nav>
     </header>
+    
     <section>
       <div class="form-container">
         <h2>Create Event</h2>
         <form action="/create-event" method="post">
           <div class="form-group">
             <label for="book-title">Book Title:</label>
-            <input
-              type="text"
-              id="book-title"
-              name="book-title"
-              value="Book1"
-              required
-            />
+            <input type="text" id="book-title" name="book-title" value="Book1" required/>
           </div>
           <div class="form-group">
             <label for="event-date">Event Date:</label>
@@ -91,20 +86,14 @@
           </div>
           <div class="form-group">
             <label for="event-description">Event Description:</label>
-            <textarea
-              id="event-description"
-              name="event-description"
-              rows="4"
-              required
-            >
-Book by ...</textarea
-            >
+            <textarea id="event-description" name="event-description" rows="4" required> Book by ...</textarea>
           </div>
           <button type="submit" class="create-button">Create</button>
         </form>
       </div>
     </section>
     <hr />
+
     <footer class="bg-dark text-white text-center text-lg-start">
       <h3 class="p-3 bg-secondary">Reading & Writing Books</h3>
       <div class="container p-4">

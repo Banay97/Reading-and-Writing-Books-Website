@@ -179,7 +179,15 @@
                 </tr>
             </thead>
             <tbody>
+                {%for book in books%}
                 <tr>
+                    <td><a href="{%url 'view_book_detail'%}">{{book.title}}</a></td>
+                    <td>{{book.genre}}</td>
+                    <td>{{book.description}}</td>
+                    <td><a href="{%url 'edit_book'%}">Edit</a> | <a href="{%url 'delete_book'%}">Delete</a></td>
+                </tr>
+                {%endfor%}
+                {% comment %} <tr>
                     <td><a href="{%url 'view_book_detail'%}">To Kill a Mockingbird</a></td>
                     <td>Drama</td>
                     <td>A novel by Harper Lee</td>
@@ -196,7 +204,7 @@
                     <td>Classic</td>
                     <td>A novel by F. Scott Fitzgerald</td>
                     <td><a href="{%url 'edit_book'%}">Edit</a> | <a href="{%url 'delete_book'%}">Delete</a></td>
-                </tr>
+                </tr> {% endcomment %}
             </tbody>
         </table>
 

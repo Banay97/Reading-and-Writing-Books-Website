@@ -50,18 +50,17 @@
             text-decoration: none;
 
         }
-      .graph-image{
+    .graph-image{
         width: 100%;
         height: 200px;
         border-radius:0;
-      }
-      ul.book{
+    }
+    ul.book{
         list-style-type:"📖";
-      }
-      ul.category{
+    }
+    ul.category{
         list-style-type:none;
-      }
-     
+    }
     </style>
 </head>
 <body>
@@ -101,7 +100,7 @@
         <div class="profile-header">
             <img src="https://img.freepik.com/free-photo/3d-render-little-boy-with-jacket-jeansie_1142-57736.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="">
             <div>
-                <a href="{%url 'edit_writer_profile'%}" class="btn btn-link">Edit Profile</a>
+                <a href="{%url 'edit_writer_profile' user.id %}" class="btn btn-link">Edit Profile</a>
                 <h3>{{user.first_name}} {{user.last_name}}</h3>
             </div>
         </div>
@@ -110,7 +109,7 @@
         </div>
         <div>
             <h3 class="mt-4">Bio</h3>
-            <p>User Bio goes here.</p>
+            <p>{{user.bio}}</p>
         </div>
         <hr>
     </div>

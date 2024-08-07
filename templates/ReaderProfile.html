@@ -50,7 +50,7 @@
     <div class="profile-header">
         <img src="https://img.freepik.com/free-photo/3d-render-little-boy-with-jacket-jeansie_1142-57736.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="user-img">
         <div>
-            <a href="{%url 'edit_reader_profile'%}" class="btn btn-link">Edit Profile</a>
+            <a href="{%url 'edit_reader_profile' user.id%}" class="btn btn-link">Edit Profile</a>
             <h3>{{user.first_name}} {{user.last_name}}</h3>
         </div>
     </div>

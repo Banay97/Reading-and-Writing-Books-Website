@@ -48,16 +48,23 @@
     </div>
     <div class="container">
         <h2>Edit Profile</h2>
-        <form>
-            <input type="text" placeholder="First Name ..">
-            <input type="text" placeholder="Last Name ..">
-            <input type="text" placeholder="Username ..">
-            <input type="password" placeholder="Old Password ..">
-            <input type="password" placeholder="New Password ..">
-            <textarea placeholder="Bio .."></textarea>
+        <form method="POST" action="{% url 'edit_reader_profile' user.id %}">
+            {% csrf_token %}
+            <input type="text" placeholder="First Name .." name="first_name" value="{{ user.first_name }}">
+            <input type="text" placeholder="Last Name .." name="last_name" value="{{ user.last_name }}">
+            <input type="text" placeholder="Username .." name="username" value="{{ user.username }}">
+            <input type="email" placeholder="Email .." name="email" value="{{ user.email }}">
+            <textarea placeholder="Bio .." name="bio">{{ user.bio }}</textarea>
             <button type="submit">Update Profile</button>
-            <button type="submit"><a href="{% url 'reader_profile'%}">View Profile</a></button>
+            <button type="button"><a href="{% url 'writer_profile' %}">View Profile</a></button>
         </form>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li style="color:red;" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
     </div>
 
     </section>

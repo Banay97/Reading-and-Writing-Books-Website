@@ -125,7 +125,7 @@
                 <form method="POST" action="{%url 'reader_posts'%}">
                     {% csrf_token %}
                     <h3>Write a new post</h3>
-                    <textarea name="post_content" rows="4" cols="50"></textarea>
+                    <textarea name="post_content" rows="4" cols="80"></textarea>
                     <button type="submit">Post</button>
                 </form>
                 {% for post in posts%}
@@ -171,7 +171,7 @@
             </div>
             
             <div class="col-md-3 sidebar-right2">
-                <h3>Top Books</h3>
+                <h3>Recommended Books</h3>
                 <ul class="top-book">
                     <li><a href="#">Book 1</a></li>
                     <li><a href="#">Book 2</a></li>

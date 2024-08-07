@@ -93,6 +93,8 @@
                 <h2>Contact Us</h2>
                 <form>
                     <div class="form-group">
+                        <form action="{%url 'about_us' %}" method="POST">
+                            {%csrf_token%}
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" class="form-control" required>
                     </div>
@@ -101,7 +103,7 @@
                         <textarea id="comment" name="comment" class="form-control-textarea " required></textarea>
                     </div>
                     <button type="submit" class="btn btn-white text-dark btn-custom">Send</button>
-                </form>
+                        </form>
             </div>
         </div>
         <div class="col-md-6">

@@ -3,6 +3,7 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.http import HttpResponse
 import bcrypt
 from .models import User, Book, Notification, Post, Event, BookClub, Comment
 
@@ -12,12 +13,12 @@ def home(request):#rendering to the Home Page of the website
     return render(request, 'HomePage.html')
 
 def sign_in(request):#rendering to the Sign In Page of the website and saving the current user info in the session
-    current_user = User.objects.get(username=request.session['username'])
-    return render(request, 'SignInPage.html', {'user': current_user})
+    # current_user = User.objects.get(username=request.session['username'])
+    return render(request, 'SignInPage.html')
 
 def sign_up(request):#rendering to the Sign Up Page of the website and saving the current user info in the session
-    current_user = User.objects.get(username=request.session['username'])
-    return render(request, 'SignUpPage.html', {'user': current_user})
+    # current_user = User.objects.get(username=request.session['username'])
+    return render(request, 'SignUpPage.html')
 
 def about_us(request):#rendering to the about us page
     
@@ -145,37 +146,41 @@ def books(request):
 
 def create_book(request):
     if request.method == 'POST':
+        # Validate the input data
         errors = Book.objects.book_validator(request.POST)
-        if len(errors) > 0:
+        if errors:
             for key, value in errors.items():
                 messages.error(request, value, extra_tags='create_book')
             return redirect('create_book')
-        
-        title = request.POST['title']
-        genre = request.POST['genre']
-        description = request.POST['description']
-        book_file = request.FILES.get('book_file')
+        else:
+            title = request.POST.get('title')
+            genre = request.POST.get('genre')
+            description = request.POST.get('description')
+            book_file = request.FILES.get('book_file')
 
-        old_book = Book.objects.filter(title=title).first()
-        if old_book:
-            messages.error(request, 'Book with the same title already exists')
-            return redirect('create_book')
+            # Check for existing book with the same title
+            if Book.objects.filter(title=title).exists():
+                messages.error(request, 'Book with the same title already exists')
+                return redirect('create_book')
 
-        # Ensure 'username' is in session and get the user
-        if 'username' not in request.session:
-            messages.error(request, 'You must be logged in to create a book')
-            return redirect('sign_in')  # Adjust this to your login URL
+            # Ensure 'username' is in session and get the user
+            if 'username' not in request.session:
+                messages.error(request, 'You must be logged in to create a book')
+                return redirect('sign_in')  # Adjust this to your login URL
 
-        user = User.objects.get(username=request.session['username'])
-        print(f"User: {user}")
-        # Create the book and assign the author
-        book = Book.objects.create(title=title, genre=genre, description=description, book_file=book_file, author=user)
-        print(f"Title: {title}, Genre: {genre}, Description: {description}, User: {user}")
+            # Fetch the user associated with the username in the session
+            user = User.objects.get(username=request.session['username'])
 
-        messages.success(request, 'Book created successfully')
-        return redirect('books')  # Adjust this to the actual view name
+            # Create the book and assign the author
+            book = Book.objects.create(title=title, genre=genre, description=description, book_file=book_file, author=user)
 
-    return render(request, 'CreateBook.html')
+            messages.success(request, 'Book created successfully')
+            return redirect('writer_profile')
+
+    # For GET request, initialize `book` to an empty dictionary or a default value
+    return render(request, 'CreateBook.html', {'book': {}})
+
+
 def edit_book(request, book_id):
     book = Book.objects.get(id=book_id)
     if request.method == 'POST':
@@ -199,17 +204,91 @@ def edit_book(request, book_id):
                 return redirect('books')  # Adjust this to the actual view name
     return render(request, 'EditBook.html', {'book': book})
 
-def view_book_detail(request, book_id):
+def view_book(request, book_id):
+    print(f"book_id: {book_id}")
     book = Book.objects.get(id=book_id)
     return render(request, 'ViewBookPage.html', {'book': book})
+
 
 def delete_book(request, book_id):
     book =Book.objects.get(id=book_id)
     book.delete()
     messages.success(request, 'Book deleted successfully')
     return redirect('books')
+
+# ---- Events Functions----
 def create_event(request):
-    return render(request, 'CreateEvent.html')
+    if request.method == 'POST':
+        errors = Event.objects.event_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value, extra_tags='create_event')
+            return redirect('create_event')
+
+        event_name = request.POST['event_name']
+        event_date = request.POST['event_date']
+        event_content = request.POST['event_content']
+        book_club_id = request.POST.get('book_club')
+
+        # Ensure 'username' is in session and get the user
+        if 'username' not in request.session:
+            messages.error(request, 'You must be logged in to create an event')
+            return redirect('sign_in')  # Adjust this to your login URL
+
+        user = User.objects.get(username=request.session['username'])
+        book_club = BookClub.objects.get(id=book_club_id)
+
+        # Create the event and assign the user
+        event = Event.objects.create(event_name=event_name, event_date=event_date, event_content=event_content, created_by=user, book_club=book_club)
+
+        messages.success(request, 'Event created successfully')
+        return render(request, 'CreateEvent.html')  
+    
+    # Handle GET request
+    book_clubs = BookClub.objects.all()  # Fetch all book clubs for the dropdown
+    return render(request, 'CreateEvent.html', {'event': {}, 'book_clubs': book_clubs})
+    
+
+def create_book_club(request):
+    if request.method == 'POST':
+        errors = BookClub.objects.book_club_validator(request.POST)
+        if errors:
+            for key, value in errors.items():
+                messages.error(request, value, extra_tags='create_book_club')
+            return redirect('create_book_club')
+        else:
+            club_name = request.POST['club_name']
+            club_content = request.POST['club_content']
+            club_type = request.POST['club_type']
+
+            user = User.objects.get(username=request.session['username'])
+            book_club = BookClub.objects.create(club_name=club_name, club_content=club_content, club_type=club_type, owner=user)
+
+            messages.success(request, 'Book club created successfully')
+            return redirect('writer_profile')  # Adjust to the actual view name where you want to redirect
+    else:
+        return render(request, 'CreateBookClub.html')
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def events(request):
+    event = Event.objects.all() #query to return a QuerySet of all show objects
+    return render(request,'WriterProfile.html', {'event': event})
 
 def edit_event(request):
     return render(request, 'EditEvent.html')
@@ -217,9 +296,9 @@ def edit_event(request):
 def delete_event(request):
     pass
 
-def view_book_detail(request):
+def view_book(request):
     return render(request, 'ViewBookPage.html')
-def view_event_detail(request):
+def view_event(request):
     return render(request, 'ViewEventDetails.html')
 
 def create_account(request):
@@ -285,20 +364,20 @@ def sign_out(request):
     return redirect('home')
 
 @login_required
-def reader_posts(request): # posting a post function 
-    Post.objects.all()
+def create_posts(request): # posting a post function 
     if request.method == 'POST':
         post_content = request.POST.get('post_content')
         current_user = User.objects.get(username=request.session['username'])
         new_post = Post.objects.create(user=current_user, content=post_content) #create new message and save it in database
         
         # Get the latest 3 messages for the current user
-        posts = Post.objects.filter(user=current_user).order_by('-created_at')[:3]
+        posts = Post.objects.filter(user=current_user).order_by('-created_at')
 
-        return redirect('reader_home_page')
+        return render(request, 'ReaderHomePage.html', {'posts': posts, 'current_user': current_user})
+    Post.objects.all()
     return redirect('reader_home_page')
 
-def delete_reader_post(request, post_id): # delete message function
+def delete_post(request, post_id): # delete message function
     if request.method == 'POST':
         try:
             post = Post.objects.get(id=post_id)
@@ -316,33 +395,35 @@ def delete_reader_post(request, post_id): # delete message function
     return redirect('reader_home_page')
 
 @login_required
-def post_reader_comment(request, id):# post comment function
+def post_comment(request, id):# post comment function
     if request.method == 'POST':
         comment_content = request.POST.get('comment')
-        current_user = User.objects.get(email=request.session['username'])
+        current_user = User.objects.get(username=request.session['username'])
         
         # Ensure that the message exists and is valid
         try:
             post = Post.objects.get(id=id)
         except Post.DoesNotExist:
-            messages.error(request, 'The post does not exist.')
-            return redirect('reader_home_page')
+            messages.error(request, 'The message does not exist.')
+            return redirect('writer_home_page')
 
         # Create the new comment
         new_comment = Comment.objects.create(user=current_user, post=post, comment=comment_content)
 
         # Redirect back to the wall page
-        return redirect('reader_home_page')
+        return redirect('writer_home_page')
     
-    return redirect('reader_home_page')
+    return redirect('writer_home_page')
 
-def delete_reader_comment(request, comment_id): #delete comment function 
+
+
+def delete_comment(request, comment_id): #delete comment function 
     if request.method == 'POST':
         try:
             comment = Comment.objects.get(id=comment_id)
         except Comment.DoesNotExist:
             messages.error(request, 'Comment does not exist.')
-            return redirect('reader_home_page')
+            return redirect('writer_home_page')
 
         if comment.user.username == request.session['username']:
             comment.delete()
@@ -350,8 +431,9 @@ def delete_reader_comment(request, comment_id): #delete comment function
         else:
             messages.error(request, 'You are not authorized to delete this comment.', extra_tags='delete')
         
-        return redirect('reader_home_page')
-    return redirect('reader_home_page')
+        return redirect('writer_home_page')
+    return redirect('writer_home_page')
+
 
 
 

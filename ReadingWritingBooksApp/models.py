@@ -38,7 +38,35 @@ class BookManager(models.Manager):
             errors['title'] = 'Title should be at least 5 characters long'
         if len(postData['description']) < 10:
             errors['description'] = 'Description should be at least 10 characters long'
-        return errors      
+        return errors   
+class BookClubManager(models.Manager):
+    def book_club_validator(self, postData):
+        errors = {}
+        if len(postData['club_name']) < 5:
+            errors['club_name'] = ' Book club name should be at least 5 characters long'
+        if len(postData['club_content']) < 10:
+            errors['club_content'] = 'club content should be at least 10 characters long'
+        if len(postData['club_type']) < 3:
+            errors['club_type'] = 'Club type should be at least 3 characters long'    
+        return errors
+        
+class BookClubManager(models.Manager):
+    def book_club_validator(self, postData):
+        errors = {}
+        if len(postData['club_name']) < 5:
+            errors['club_name'] = 'Book club name should be at least 5 characters long'
+        if len(postData['club_content']) < 10:
+            errors['club_content'] = 'Book club content should be at least 10 characters long'
+        return errors  
+    
+class EventManager(models.Manager):
+    def event_validator(self, postData):
+        errors = {}
+        if len(postData['event_name']) < 5:
+            errors['event_name'] = 'Event name should be at least 5 characters long'
+        if len(postData['event_content']) < 10:
+            errors['event_content'] = 'Event content should be at least 10 characters long'
+        return errors        
             
 class User(models.Model):
     ROLE_CHOICES = [
@@ -97,6 +125,7 @@ class BookClub(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='owned_clubs')
+    objects = BookClubManager()
     
     def __str__(self):
         return self.club_name
@@ -109,11 +138,11 @@ class Event(models.Model):
     event_date = models.DateField()
     book_club = models.ForeignKey(BookClub, on_delete=models.CASCADE, related_name='events')
     created_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_events')
+    objects = EventManager()
     
     def __str__(self):
         return self.event_name
 
-    
 class Post(models.Model):
     content = models.TextField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -122,14 +151,15 @@ class Post(models.Model):
     
     def __str__(self):
         return self.content    
-        
+
 class Comment(models.Model):
     content = models.TextField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name='comments')
-    post= models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments', default=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     
     def __str__(self):
         return f'commented by {self.user} on {self.post}'
+    
+    

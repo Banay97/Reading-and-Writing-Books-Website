@@ -27,8 +27,8 @@ def about_us(request):#rendering to the about us page
     return render(request, 'AboutUsPage.html')
 
 def get_home_page_context(username):
-    current_user = User.objects.get(username=username)  # Get the user data according to the username
-    post = Post.objects.all().order_by('created_at')  # Get all the posts in ascending order
+    current_user = User.objects.get(username=username)  # Get the user data descending to the username
+    post = Post.objects.all().order_by('-created_at')  # Get all the posts in ascending order
     comment = Comment.objects.all().order_by('created_at')  # Get all the comments in ascending order
     event = Event.objects.all().order_by('created_at')  # Get all the events
     book_club = BookClub.objects.all().order_by('created_at')  # Get all the book clubs
@@ -140,7 +140,7 @@ def edit_writer_profile(request, user_id):
 
 #----Book Functions----
 def books(request):
-    book = Book.objects.all() #query to return a QuerySet of all show objects
+    book = Book.objects.all() #query to return a QuerySet of all book objects
     print(book)
     return render(request,'WriterProfile.html', {'books': book})
 
@@ -201,7 +201,7 @@ def edit_book(request, book_id):
                 book.book_file = book_file
                 book.save()
                 messages.success(request, 'Book updated successfully')
-                return redirect('books')  # Adjust this to the actual view name
+                return redirect('books') 
     return render(request, 'EditBook.html', {'book': book})
 
 def view_book(request, book_id):
@@ -215,6 +215,10 @@ def delete_book(request, book_id):
     book.delete()
     messages.success(request, 'Book deleted successfully')
     return redirect('books')
+
+def events(request):
+    event = Event.objects.all() #query to return a QuerySet of all event objects
+    return render(request,'WriterProfile.html', {'event': event})
 
 # ---- Events Functions----
 def create_event(request):
@@ -248,7 +252,40 @@ def create_event(request):
     book_clubs = BookClub.objects.all()  # Fetch all book clubs for the dropdown
     return render(request, 'CreateEvent.html', {'event': {}, 'book_clubs': book_clubs})
     
+def edit_event(request, event_id):
+    event = Event.objects.get(id=event_id)
+    if request.method == 'POST':
+        errors = Event.objects.event_validator(request.POST)
+        if len(errors) > 0:
+            for key, value in errors.items():
+                messages.error(request, value, extra_tags='edit_event')
+            return redirect('edit_event', book_id=event_id)
+        else:
+            event_name = request.POST['event_name']
+            event_date = request.POST['event_date']
+            event_content = request.POST['event_content']
+            book_file = request.FILES.get('book_file')
+            event.event_name =event_name
+            event.event_date = event_date
+            event.event_content = event_content
+            event.save()
+            messages.success(request, 'Book updated successfully')
+            return redirect('events') 
+    return render(request, 'EditEvent.html', {'event': event})
 
+def delete_event(request, event_id):
+    event = Event.objects.get(id=event_id)
+    event.delete()
+    messages.success(request, 'Book Event deleted successfully')
+    return redirect('events')
+
+def view_event(request, event_id):
+    event = Event.objects.get(id=event_id)
+    return render(request, 'ViewEventDetails.html', {'event': event})
+
+
+
+# ---- Book Club Functions ----
 def create_book_club(request):
     if request.method == 'POST':
         errors = BookClub.objects.book_club_validator(request.POST)
@@ -265,42 +302,47 @@ def create_book_club(request):
             book_club = BookClub.objects.create(club_name=club_name, club_content=club_content, club_type=club_type, owner=user)
 
             messages.success(request, 'Book club created successfully')
-            return redirect('writer_profile')  # Adjust to the actual view name where you want to redirect
+            return redirect('writer_profile')  
     else:
         return render(request, 'CreateBookClub.html')
+    
+def view_book_club(request, id):
+    club = BookClub.objects.get(id=id)
+    return render(request, 'ViewBookClub.html', {'club': club})
+
+def edit_book_club(request, book_club_id):
+    club = BookClub.objects.get(id=book_club_id)
+    if request.method == 'POST':
+        errors = BookClub.objects.book_club_validator(request.POST)
+        if errors:
+            for key, value in errors.items():
+                messages.error(request, value, extra_tags='edit_book_club')
+            return redirect('edit_book_club', book_club_id=book_club_id)
+        else:
+            club_name = request.POST['club_name']
+            club_content = request.POST['club_content']
+            club_type = request.POST['club_type']
+            club.club_name = club_name
+            club.club_content = club_content
+            club.club_type = club_type
+            club.save()
+            messages.success(request, 'Book club updated successfully')
+            return redirect('writer_profile')
+    else:
+        return render(request, 'EditBookClub.html', {'club': club}) 
+    
+def delete_book_club(request, book_club_id):
+    club = BookClub.objects.get(id=book_club_id)
+    club.delete()
+    messages.success(request, 'Book club deleted successfully')
+    return redirect('writer_profile')   
+
+def clubs(request):
+    book_clubs = BookClub.objects.all()
+    return render(request, 'WriterProfile.html', {'book_clubs': book_clubs})  
             
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def events(request):
-    event = Event.objects.all() #query to return a QuerySet of all show objects
-    return render(request,'WriterProfile.html', {'event': event})
-
-def edit_event(request):
-    return render(request, 'EditEvent.html')
-
-def delete_event(request):
-    pass
-
-def view_book(request):
-    return render(request, 'ViewBookPage.html')
-def view_event(request):
-    return render(request, 'ViewEventDetails.html')
-
+#---- Create account function ------
 def create_account(request):
     if request.method == 'POST':
         errors = User.objects.user_validator(request.POST)
@@ -336,6 +378,8 @@ def create_account(request):
                 return render(request, 'ReaderHomePage.html', {'user': user})
     return redirect('sign_up')
 
+
+# ----- Login to user's account -----
 def enter_your_account(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -356,6 +400,8 @@ def enter_your_account(request):
         
     return render(request, 'SignInPage.html')
 
+
+# ------ Log out from user's account ------
 def sign_out(request):
     if request.method == 'POST':
         request.session.flush()# make sure all session data is securely removed
@@ -363,6 +409,9 @@ def sign_out(request):
         return redirect('home')
     return redirect('home')
 
+
+
+# ---- Posts Functions
 @login_required
 def create_posts(request): # posting a post function 
     if request.method == 'POST':
@@ -377,43 +426,65 @@ def create_posts(request): # posting a post function
     Post.objects.all()
     return redirect('reader_home_page')
 
-def delete_post(request, post_id): # delete message function
+# def delete_post(request, post_id): # delete message function
+#     if request.method == 'POST':
+#         try:
+#             post = Post.objects.get(id=post_id)
+#         except Post.DoesNotExist:
+#             messages.error(request, 'Post does not exist.')
+#             return redirect('reader_home_page')
+
+#         if Post.user.username == request.session['username']:
+#             Post.delete()
+#             messages.success(request, 'Post deleted successfully!', extra_tags='delete')
+#         else:
+#             messages.error(request, 'You are not authorized to delete this post.', extra_tags='delete')
+        
+#         return redirect('reader_home_page')
+#     return redirect('reader_home_page')
+def delete_post(request, post_id): #delete comment function 
     if request.method == 'POST':
         try:
             post = Post.objects.get(id=post_id)
         except Post.DoesNotExist:
             messages.error(request, 'Post does not exist.')
-            return redirect('reader_home_page')
+            return redirect('writer_home_page')
 
-        if Post.user.username == request.session['username']:
-            Post.delete()
+        if post.user.username == request.session['username']:
+            post.delete()
             messages.success(request, 'Post deleted successfully!', extra_tags='delete')
         else:
             messages.error(request, 'You are not authorized to delete this post.', extra_tags='delete')
         
-        return redirect('reader_home_page')
-    return redirect('reader_home_page')
+        return redirect('writer_profile')
+    return redirect('writer_profile')
 
+
+#----- Comments Functions ------
 @login_required
-def post_comment(request, id):# post comment function
+def post_comment(request, id):
     if request.method == 'POST':
-        comment_content = request.POST.get('comment')
+        comment_content = request.POST.get('content')
+        if not comment_content:
+            messages.error(request, 'Comment cannot be empty.')
+            return redirect('writer_profile')
+        
         current_user = User.objects.get(username=request.session['username'])
         
-        # Ensure that the message exists and is valid
+        # Ensure that the post exists
         try:
             post = Post.objects.get(id=id)
         except Post.DoesNotExist:
-            messages.error(request, 'The message does not exist.')
-            return redirect('writer_home_page')
-
+            messages.error(request, 'The post does not exist.')
+            return redirect('writer_profile')
+        
         # Create the new comment
-        new_comment = Comment.objects.create(user=current_user, post=post, comment=comment_content)
-
+        Comment.objects.create(user=current_user, post=post, content=comment_content)
+        
         # Redirect back to the wall page
-        return redirect('writer_home_page')
+        return redirect('writer_profile')
     
-    return redirect('writer_home_page')
+    return redirect('writer_profile')
 
 
 

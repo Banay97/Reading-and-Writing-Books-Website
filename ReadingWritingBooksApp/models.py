@@ -57,6 +57,8 @@ class BookClubManager(models.Manager):
             errors['club_name'] = 'Book club name should be at least 5 characters long'
         if len(postData['club_content']) < 10:
             errors['club_content'] = 'Book club content should be at least 10 characters long'
+        if len(postData['club_type']) < 3:
+            errors['club_type'] = 'Book club type should be at least 3 characters long'    
         return errors  
     
 class EventManager(models.Manager):

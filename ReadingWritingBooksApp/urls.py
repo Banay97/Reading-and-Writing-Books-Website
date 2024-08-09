@@ -25,10 +25,10 @@ urlpatterns = [
     
 #Event CRUD paths
     path('create-event', views.create_event, name='create_event'),
+    path('view-event/<int:event_id>', views.view_event, name='view_event'),
     path('events', views.events, name='events'),
     path('edit-event/<int:event_id>', views.edit_event, name='edit_event'),
     path('delete-event/<int:event_id>', views.delete_event, name='delete_event'),
-    path('view-event/<int:event_id>', views.view_event, name='view_event'),
     
 #Creating new account, Login to the created account, and log out from the account paths.    
     path('create-account', views.create_account, name='create_account'),
@@ -43,9 +43,10 @@ urlpatterns = [
     
 #Book Club CRUD paths
     path('create-book-club', views.create_book_club, name='create_book_club'),
-    # path('view-book-club/<int:id>', views.view_book_club, name='view_book_club'),
-    # path('edit-book-club/<int:book_club_id>', views.edit_book_book, name='edit_book_club'),
-    # path('delete-book-club/<int:book_club_id>', views.delete_book_club, name='delete_book_club'),    
+    path('view-book-club/<int:id>/', views.view_book_club, name='view_book_club'),
+    path('clubs', views.clubs, name='clubs'),
+    path('edit-book-club/<int:book_club_id>', views.edit_book_club, name='edit_book_club'),
+    path('delete-book-club/<int:book_club_id>', views.delete_book_club, name='delete_book_club'),    
     
     
 ]

@@ -10,26 +10,9 @@
     <link rel="stylesheet" href="{% static 'css/ViewBookDetails.css' %}"> 
  
 
-    <title>View Book Details</title>
+    <title>View Book Club Details</title>
     <!-- Bootstrap CSS (Optional, for carousel styling) -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-    <style>
-        .book-details {
-            max-width: 800px;
-            height: 400px;    margin: 20px auto;
-            padding: 50px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 350px;
-        }
-        .book-details p{
-            font-weight: normal;
-            color: #24333B;
-            font-size: 20px;
-        }
-    </style>
     </head>  
 <body>  
 <header>
@@ -53,7 +36,7 @@
                     <input type="search" class="nav-link" placeholder="Search">
                 </li>
                 <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'writer_profile' %}">Profile</a>
+                    <a class="nav-link text-white" href="{% url 'reader_profile' %}">Profile</a>
                 </li>
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'about_us' %}">About Us</a>
@@ -68,7 +51,7 @@
     </nav>
 </header>
 <main>
-    <div class="wrapper">
+    {% comment %} <div class="wrapper">
         <div class="card">
             <img src="https://anahuang.com/wp-content/uploads/2023/02/Screen-Shot-2023-02-10-at-11.47.30-AM.png" alt="Twisted Hate" width="250">
             <div class="info">
@@ -76,51 +59,47 @@
                 <p>book description</p>
                 <p>Author: John Doe</p>
                 <p>Genre: Fiction</p>
-                <a href="https://online.fliphtml5.com/pfosf/ynrh/#p=1" class="btn">Read Book </a>
+                <a href="#" class="btn">Read More </a>
             </div>
         </div>
         <div class="card">
-            <img src="https://images.booksense.com/images/874/274/9781728274874.jpg" alt="Twisted Game" width="250">
+            <img src="https://images.booksense.com/images/874/274/9781728274874.jpg" alt="Twisted Game" width="150">
             <div class="info">
                 <h2>Heading book title</h2>
                 <p>book description</p>
                 <p>Author: John Doe</p>
                 <p>Genre: Fiction</p>
-                <a href="https://online.fliphtml5.com/cavuk/dngx/#p=1" class="btn">Read Book</a>
+                <a href="#" class="btn">Read More </a>
             </div>
         </div>
         <div class="card">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOZHLtL6__aXYySzoD75RMCpKi5mQH8LiBgQ&s" alt="Twisted Lies" width="250">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOZHLtL6__aXYySzoD75RMCpKi5mQH8LiBgQ&s" alt="Twisted Lies" width="150">
             <div class="info">
                 <h2>Heading book title</h2>
                 <p>book description</p>
                 <p>Author: John Doe</p>
                 <p>Genre: Fiction</p>
-                <a href="https://fliphtml5.com/vsdfu/kuwy/Twisted_Lies_%28Ana_Huang%29/" class="btn">Read Book </a>
+                <a href="#" class="btn">Read More </a>
             </div>
         </div>
         <div class="card">
-            <img src="https://cdn10.bigcommerce.com/s-g9n04qy/products/610188/images/624703/31GnPYYnJxL._SL1300___12293.1658881894.1280.1280.jpg?c=2" alt="Twisted Love" width="250">
+            <img src="https://cdn10.bigcommerce.com/s-g9n04qy/products/610188/images/624703/31GnPYYnJxL._SL1300___12293.1658881894.1280.1280.jpg?c=2" alt="Twisted Love" width="150">
             <div class="info">
                 <h2>Heading book title</h2>
                 <p>book description</p>
                 <p>Author: John Doe</p>
                 <p>Genre: Fiction</p>
-                <a href="https://online.fliphtml5.com/cavuk/ahoi/#p=1" class="btn">Read Book </a>
+                <a href="#" class="btn">Read More </a>
             </div>
         </div>
-    </div>
+    </div> {% endcomment %}
 
         <!-- Book Details Section -->
         <div class="book-details">
             <h2>Book Details:</h2>
-            <p><strong>Title:</strong></p>
-            <p>{{book.title}}</p>
-            <p><strong>Genre:</strong></p>
-            <p>{{book.genre}}</p>
-            {% comment %} <p><strong>Author:</strong> {{user.first_name}} {{user.last_name}}</p> {% endcomment %}
-            <p><strong>Description:</strong></p>
-            <p>{{book.description}}</p>
+            <p><strong>Book Club Name:</strong></p> </p>{{club.club_name}}</p>
+            <p><strong>Book Club content:</strong></p> </p> {{club.club_content}}</p>
+            <p><strong>Book Club Type:</strong></p> </p>{{club.club_type}}</p>
         </div>
     </div>
 

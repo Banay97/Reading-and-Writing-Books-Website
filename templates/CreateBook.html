@@ -55,11 +55,14 @@
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item mx-2">
+                {% comment %} <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'reader_home_page'%}">Reader Community</a>
+                </li> {% endcomment %}
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'writer_home_page'%}">Writer Home Page</a>
                 </li>
                 <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'writer_home_page'%}">Writer Community</a>
+                    <input type="search" class="nav-link" placeholder="Search">
                 </li>
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'about_us' %}">About Us</a>
@@ -67,11 +70,11 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'sign_in' %}">Sign in</a>
+                    <a class="nav-link text-white" href="{% url 'sign_out' %}">Sign out</a>
                 </li>
-                <li class="nav-item">
+                {% comment %} <li class="nav-item">
                     <a class="nav-link text-white" href="{% url 'sign_up' %}">Sign up</a>
-                </li>
+                </li> {% endcomment %}
             </ul>
         </div>
     </nav>

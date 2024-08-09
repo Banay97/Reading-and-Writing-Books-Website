@@ -12,46 +12,94 @@
     <style>
         .comments-section {
             padding: 20px;
-            background-color: ;
+            background-color: #f9f9f9;
             border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         
-        .comments-section h3 {
+        .h3-design {
+            font-size: 24px;
+            color: #333;
             margin-bottom: 20px;
-            color: #343a40;
         }
         
-        .input-group .form-control {
-            border-radius: 0;
+        .input-group {
+            margin-bottom: 20px;
         }
         
-        #button-addon2 {
-            border-radius: 0;
-            border-color: #343a40;
+        .comment-input {
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            padding: 10px;
         }
         
-        .comments-list {
-            margin-top: 20px;
+        .post-button {
+            border-radius: 4px;
         }
         
         .comment-card {
-            background-color: #ffffff;
-            border: 1px solid #e9ecef;
             border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        
+        .comment-actions {
+            border-top: 1px solid #ddd;
+            padding-top: 10px;
+        }
+        
+        .comment-form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .comment-textarea {
+            border-radius: 4px;
+            border: 1px solid #ddd;
             padding: 10px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            resize: none;
         }
         
-        .comment-card .card-text {
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+        
+        .comment-card .comment {
+            background-color: #fff;
+            border-radius: 4px;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comment-header {
+            margin-bottom: 10px;
+        }
+        
+        .comment-author {
+            font-weight: bold;
             margin: 0;
-            color: #495057;
-            font-size: 1rem;
-        }
-        .tables-container {
-            background-color: #f5f5f5;
-            padding: 20px;
         }
         
+        .comment-text {
+            margin: 0;
+        }
+        
+        .delete-comment-form {
+            display: inline;
+        }
+        
+        .btn-danger {
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: #fff;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
         /* Card Styles */
         .cute-card {
             background-color: #ffffff;
@@ -127,9 +175,9 @@
             color: #ffffff;
             text-decoration: none;
         }
-       .h3-design{
+        .h3-design{
         font-size: 55px;
-       }
+        }
     </style>
 </head>
 <body>
@@ -145,15 +193,16 @@
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
-                </li>
+                
                 <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'reader_home_page' %}">Reader Community</a>
+                    <a class="nav-link text-white" href="{% url 'writer_home_page' %}">Writer Home page</a>
                 </li>
+            </li>
+            <li class="nav-item mx-2">
+                <input type="search" name="search" class="form-control" placeholder="Search">
+            </li>
                 <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'writer_home_page' %}">Writer Community</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'reader_profile' %}">Profile</a>
+                    <a class="nav-link text-white" href="{% url 'writer_profile' %}">Profile</a>
                 </li>
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'about_us' %}">About Us</a>
@@ -175,9 +224,7 @@
                 <h3>{{user.first_name}} {{user.last_name}}</h3>
             </div>
         </div>
-        <div class="search-bar mt-3">
-            <input type="search" name="search" class="form-control" placeholder="Search">
-        </div>
+        
         <div>
             <h3 class="mt-4">Bio</h3>
             <p>{{user.bio}}</p>
@@ -194,7 +241,7 @@
                     <h2 class="card-title">Books Library</h2>
                     {%for book in book%}
                     <ul class="book">
-                        <li>{{book.title}}</li>
+                        <li><a href="{%url 'view_book' book.id %}">{{book.title}}</a></li>
                         {% comment %} <li>Book 2</li>
                         <li>Book 3</li>
                         <li>Book 4</li>
@@ -210,7 +257,7 @@
                     <h2 class="card-title">Book Categories</h2>
                     {%for book in book%}
                     <ul class="category">
-                        <li>{{book.genre}}</li>
+                        <li><a href="{%url 'view_book' book.id %}">{{book.genre}}</a></li>
                         {% comment %} <li>Category 2</li>
                         <li>Category 3</li>
                         <li>Category 4</li>
@@ -233,16 +280,41 @@
 
 <section class="container">
     <div class="comments-section">
-        <h3 class=" h3-design text-xl-center 900 ">My Posts</h3>
+        <h3 class="h3-design text-xl-center">My Posts</h3>
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Write a comment..." aria-label="Write a comment" aria-describedby="button-addon2">
-            <button class="btn btn-dark" type="button" id="button-addon2">Post</button>
+            <input type="text" class="form-control comment-input" placeholder="Write a comment..." aria-label="Write a comment">
+            <button class="btn btn-dark post-button" type="button">Post</button>
         </div>
         <div class="comments-list">
             {% for post in post %}
             <div class="comment-card card mb-3">
                 <div class="card-body">
                     <p class="card-text">{{ post.content }}</p>
+                    <form action="{% url 'delete_post' post.id %}" method="POST" class="delete-comment-form">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
+                <div class="comment-actions mt-4">
+                    <form action="{% url 'post_comment' post.id %}" method="POST" class="comment-form">
+                        {% csrf_token %}
+                        <textarea class="comment-textarea" name="content" placeholder="Type your comment here"></textarea>
+                        <button type="submit" class="btn btn-dark">Post a Comment</button>
+                    </form>
+                    <div class="comments mt-4">
+                        {% for comment in post.comments.all %}
+                        <div class="comment card p-3 mb-2">
+                            <div class="comment-header d-flex justify-content-between">
+                                <p class="comment-author">{{ comment.user.first_name }} - {{ comment.created_at }}</p>
+                                <form action="{% url 'delete_comment' comment.id %}" method="POST" class="delete-comment-form">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
+                            <p class="comment-text">{{ comment.content }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
             {% endfor %}
@@ -270,7 +342,7 @@
                             <td><a href="{% url 'view_book' book.id %}" class="cute-link">{{ book.title }}</a></td>
                             <td>{{ book.genre }}</td>
                             <td>{{ book.description }}</td>
-                            <td><a href="{% url 'edit_book' book.id %}" class="cute-link">Edit</a> | <a href="{% url 'delete_book' book.id %}" class="cute-link">Delete</a></td>
+                            <td class="col-2"><a href="{% url 'edit_book' book.id %}" class="cute-link">Edit</a> | <a href="{% url 'delete_book' book.id %}" class="cute-link text-danger"><button type="submit" class="btn btn-danger btn-sm">Delete</button></a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -298,15 +370,15 @@
                     <tbody>
                         {% for event in event %}
                         <tr>
-                            <td><a href="" class="cute-link">{{ event.event_name }}</a></td>
+                            <td><a href="{% url 'view_event' event.id %}" class="cute-link">{{ event.event_name }}</a></td>
                             <td>{{ event.event_date }}</td>
                             <td>{{ event.event_content }}</td>
-                            <td><a href="" class="cute-link">Edit</a> | <a href="" class="cute-link">Delete</a></td>
+                            <td class="col-2"><a href="{% url 'edit_event' event.id %}" class="cute-link">Edit</a> | <a href="{% url 'delete_event' event.id %}" class="cute-link text-danger"><button type="submit" class="btn btn-danger btn-sm">Delete</button></a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                <button class="btn cute-button"><a href="{% url 'create_event' %}" class="create-link">Create Event</a></button>
+                <button class="btn cute-button"><a href="{% url 'create_event' %}" class="create-link ">Create Event</a></button>
             </div>
         </div>
     
@@ -328,15 +400,15 @@
                     <tbody>
                         {% for book_club in book_club %}
                         <tr>
-                            <td><a href="" class="cute-link">{{ book_club.club_name }}</a></td>
+                            <td><a href="{% url 'view_book_club' book_club.id %}" class="cute-link">{{ book_club.club_name }}</a></td>
                             <td>{{ book_club.club_content }}</td>
                             <td>{{ book_club.club_type }}</td>
-                            <td><a href="" class="cute-link">Edit</a> | <a href="" class="cute-link">Delete</a></td>
+                            <td class="col-2"><a href="{% url 'edit_book_club' book_club.id %}" class="cute-link">Edit</a> | <a href="{% url 'delete_book_club' book_club.id %}" class="cute-link text-danger "><button type="submit" class="btn btn-danger btn-sm">Delete</button></a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
-                <button class="btn cute-button"><a href="{% url 'create_book_club' %}" class="create-link">Create Book Club</a></button>
+                <button class="btn cute-button"><a href="{% url 'create_book_club' %}" class="create-link ">Create Book Club</a></button>
             </div>
         </div>
     </div>

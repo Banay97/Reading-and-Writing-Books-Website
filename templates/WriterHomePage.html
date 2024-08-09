@@ -61,7 +61,7 @@
                     <h2 class="user-name">It Ends With Us</h2>
                     <p class="book-author">Author: Colleen Hoover</p>
                     <p class="book-genre">Genre: Romance</p>
-                    <button class="book-button text-dark bg-white">Go to this book</button>
+                    <button class="book-button text-dark bg-white"><a href="https://icrrd.com/public/media/15-05-2021-052358It-Ends-with-Us.pdf">Go to this book</a></button>
                 </div>
             </div>
             <div class="swiper-slide bg-dark">
@@ -70,7 +70,7 @@
                     <h2 class="user-name">It Starts With Us</h2>
                     <p class="book-author">Author: Colleen Hoover</p>
                     <p class="book-genre">Genre: Romance</p>
-                    <button class="book-button text-dark bg-white">Go to this book</button>
+                    <button class="book-button text-dark bg-white"><a href="https://ia801507.us.archive.org/27/items/it-starts-with-us-colleen-hoover-z-lib.org_20221128/It%20Starts%20with%20Us%20%28Colleen%20Hoover%29%20%28z-lib.org%29.pdf">Go to this book</a></button>
                 </div>
             </div>
             <div class="swiper-slide bg-dark">
@@ -79,7 +79,7 @@
                     <h2 class="user-name">November 9</h2>
                     <p class="book-author">Author: Colleen Hoover</p>
                     <p class="book-genre">Genre: Romance</p>
-                    <button class="book-button text-dark bg-white">Go to this book</button>
+                    <button class="book-button text-dark bg-white"><a href ="https://online.fliphtml5.com/txevw/zvze/#p=3">Go to this book</a></button>
                 </div>
             </div>
             <div class="swiper-slide bg-dark">
@@ -88,7 +88,7 @@
                     <h2 class="user-name">Ugly Love</h2>
                     <p class="book-author">Author: Colleen Hoover</p>
                     <p class="book-genre">Genre: Romance</p>
-                    <button class="book-button text-dark bg-white">Go to this book</button>
+                    <button class="book-button text-dark bg-white"><a href ="https://www.junkybooks.com/administrator/thebooks/62fec2186328f-ugly-love.pdf">Go to this book</a></button>
                 </div>
             </div>
         </div>
@@ -106,20 +106,24 @@
         <div class="col-md-3 sidebar-left1">
                 <div class="col-md-6 sidebar-left2">
                     <h3>Book Clubs</h3>
+                    {%for book_club in book_club%}
                     <ul class="book">
-                        <li><a href="#">Book Club 1</a></li>
-                        <li><a href="#">Book Club 2</a></li>
-                        <li><a href="#">Book Club 3</a></li>
+                        <li><a href="#">{{book_club.club_name}}</a></li>
+                        {% comment %} <li><a href="#">Book Club 2</a></li>
+                        <li><a href="#">Book Club 3</a></li> {% endcomment %}
                     </ul>
+                    {%endfor%}
                 </div>
                 
                 <div class="col-md-6 sidebar-left2">
                     <h3>Book Events</h3>
+                    {% for event in event%}
                     <ul class="event">
-                        <li><a href="#">Event 1</a></li>
-                        <li><a href="#">Event 2</a></li>
-                        <li><a href="#">Event 3</a></li>
+                        <li><a href="#">{{event.event_name}}</a></li>
+                        {% comment %} <li><a href="#">Event 2</a></li>
+                        <li><a href="#">Event 3</a></li> {% endcomment %}
                     </ul>
+                    {%endfor%}
                 </div> 
         </div>
         <!-- Centered content -->
@@ -191,20 +195,24 @@
             
             <div class="col-md-6 sidebar-right2">
                 <h3>Top Writers</h3>
+                {% for writer in users %}
                 <ul class="top-writer">
-                    <li><a href="#">Writer 1</a></li>
-                    <li><a href="#">Writer 2</a></li>
-                    <li><a href="#">Writer 3</a></li>
+                    <li><a href="#">{{writer.first_name}} {{writer.last_name}}</a></li>
+                    {% comment %} <li><a href="#">Writer 2</a></li>
+                    <li><a href="#">Writer 3</a></li> {% endcomment %}
                 </ul>
+                {%endfor%}
             </div>
             
             <div class="col-md-6 sidebar-right2">
                 <h3>Top Books</h3>
+                {% for book in books %}
                 <ul class="top-book">
-                    <li><a href="#">Book 1</a></li>
-                    <li><a href="#">Book 2</a></li>
-                    <li><a href="#">Book 3</a></li>
+                    <li><a href="#">{{book.title}}</a></li>
+                    {% comment %} <li><a href="#">Book 2</a></li>
+                    <li><a href="#">Book 3</a></li> {% endcomment %}
                 </ul>
+                {%endfor%}
             </div>  
         </div>
     </div>

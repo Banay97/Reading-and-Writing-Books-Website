@@ -23,11 +23,14 @@
                     <li class="nav-item mx-2">
                         <a class="nav-link text-white" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item mx-2">
+                    {% comment %} <li class="nav-item mx-2">
                         <a class="nav-link text-white" href="{% url 'reader_home_page' %}">Reader Community</a>
+                    </li> {% endcomment %}
+                    <li class="nav-item mx-2">
+                        <a class="nav-link text-white" href="{% url 'writer_home_page' %}">Writer Home Page</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link text-white" href="{% url 'writer_home_page' %}">Writer Community</a>
+                        <input type="search" class="nav-link" placeholder="Search">
                     </li>
                     <li class="nav-item mx-2">
                         <a class="nav-link text-white" href="{% url 'reader_profile' %}">Profile</a>
@@ -49,11 +52,11 @@
             <h2>Event Details</h2>
         </div>
         <div class="event-details">
-            <p><strong>Book Title:</strong> Book1</p>
-            <p><strong>Event Date:</strong> July 31, 2024</p>
-            <p><strong>Event Description:</strong></p>
+            <p><strong>Book Name:</strong> {{event.event_name}}</p>
+            <p><strong>Event Date:</strong> {{event.event_date}}</p>
+            <p><strong>Event Content:</strong></p>
             <div class="event-description">
-                <p>Book discussion and signing event...</p>
+                <p>{{event.event_content}}</p>
             </div>
         </div>
     </div>

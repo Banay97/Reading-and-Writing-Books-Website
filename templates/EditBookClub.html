@@ -7,41 +7,34 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
-    <link rel="stylesheet" href="{% static 'css/CreateBook.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/EditBook.css' %}" />
 
-    <title>Create Book Page</title>
+    <title>Edit Book Club</title>
     
-    <!-- Place the first <script> tag in your HTML's <head> -->
-<script src="https://cdn.tiny.cloud/1/bphxg81fq9qq6v9c4sfukqf70cn1po3u48q0r9kixstlpb6g/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-<style>
-    textarea{
-        width: 100%;
-        height: 100%;
-        resize: horezontal;
-    }
-</style>
-
 </head>  
 <body>  
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
-        <a class="navbar-brand text-white" href="{% url 'home' %}">Reading & Writing Books</a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a id ="link" class="navbar-brand text-white" href="{% url 'home' %}">Reading & Writing Books</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-            <ul class="navbar-nav mx-auto ">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 {% comment %} <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'reader_home_page'%}">Reader Community</a>
+                    <a class="nav-link text-white" href="{% url 'reader_home_page' %}">Reader Community</a>
                 </li> {% endcomment %}
                 <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'writer_home_page'%}">Writer Home Page</a>
+                    <a class="nav-link text-white" href="{% url 'writer_home_page' %}">Writer Home Page</a>
                 </li>
                 <li class="nav-item mx-2">
                     <input type="search" class="nav-link" placeholder="Search">
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'reader_profile' %}">Profile</a>
                 </li>
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'about_us' %}">About Us</a>
@@ -49,29 +42,29 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'sign_out' %}">Sign out</a>
+                    <a class="nav-link text-white" href="{% url 'sign_in' %}">Sign out</a>
                 </li>
-                
             </ul>
         </div>
     </nav>
 </header>
 <section>
     <div class="form-container">
-        <h2>Create Book Club</h2>
-        <form action="{% url 'create_book_club' %}" method="post">
-            {% csrf_token %}
+        <h2>Edit Book Club</h2>
+        <form method="POST" action="{% url 'edit_book_club' club.id %}">
+            {%csrf_token%}
             <div class="form-group">
                 <label for="club_name">Book Club Name:</label>
-                <input type="text" id="club-name" name="club_name" required>
+                <input type="text" id="club_name" name="club_name" value="{{club.club_name}}" required>
             </div>
             <div class="form-group">
                 <label for="club_content">Book Club Content:</label>
-                <input type="text" id="club-content" name="club_content" required>
-                <br>
-                <label for="clun_type">Book Type:</label>
+                <input type="text" id="club_content" name="club_content" value="{{club.club_content}}" required>
+            </div>
+            <div class="form-group">
+                <label for="club_type">Book Type:</label>
                 <select id="book_club" name="club_type" required>
-                    <option value="club_type">Choose Book type ..</option>
+                    <option value="{{club.club_type}}">Choose Book type ..</option>
                     <option value="romance">Romactic Book Club</option>
                     <option value="action">Action Book Club</option>
                     <option value="thriller">Thriller Book Club</option>
@@ -80,17 +73,9 @@
                     <option value="science fiction">Science Fiction Book Club </option>
                     <option value="classic">Classics Book Club </option>
                 </select>
-                {% comment %} <input type="text" id="club-type" name="club_type" required> {% endcomment %}
             </div>
-            <button type="submit" class="save-button">Save</button>
+            <button type="submit" class="save-button">Update</button>
         </form>
-        {% if messages %}
-        <ul class="messages">
-            {% for message in messages %}
-            <li style="color:red;" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
     </div>
     </section>
     <hr>
@@ -158,6 +143,5 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
 </body>  
 </html> 

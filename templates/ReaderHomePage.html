@@ -1,286 +1,406 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+      integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
 
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/ReaderHomePage.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/ReaderHomePage.css' %}" />
 
     <!-- Linking SwiperJS CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
     <title>Writer Home Page</title>
-    
-</head>
-<body>
-<header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
-        <a class="navbar-brand text-white" href="{% url 'home' %}">Reading & Writing Books</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <a class="navbar-brand text-white" href="{% url 'home' %}"
+          >Reading & Writing Books</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-            <ul class="navbar-nav mx-auto ">
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'reader_home_page' %}">Reader Community</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'writer_home_page' %}">Writer Community</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'reader_profile' %}">Profile</a>
-                </li>
-                <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'about_us' %}">About Us</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'sign_out' %}">Sign out</a>
-                </li>
-            </ul>
+        <div
+          class="collapse navbar-collapse justify-content-between"
+          id="navbarNav"
+        >
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item mx-2">
+              <a class="nav-link text-white" href="{% url 'home' %}"
+                >Home <span class="sr-only">(current)</span></a
+              >
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link text-white" href="{% url 'reader_home_page' %}"
+                >Reader Home Page</a
+              >
+            </li>
+            {% comment %}
+            <li class="nav-item mx-2">
+              <a class="nav-link text-white" href="{% url 'writer_home_page' %}"
+                >Writer Community</a
+              >
+            </li>
+            {% endcomment %}
+            <li class="nav-item mx-2">
+              <input type="search" class="nav-link" placeholder="Search" />
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link text-white" href="{% url 'reader_profile' %}"
+                >Profile</a
+              >
+            </li>
+            <li class="nav-item mx-2">
+              <a class="nav-link text-white" href="{% url 'about_us' %}"
+                >About Us</a
+              >
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link text-white" href="{% url 'sign_out' %}"
+                >Sign out</a
+              >
+            </li>
+          </ul>
         </div>
-    </nav>
-</header>
-<h1 class="text-center text-white bg-dark">HELLO <span class="text-info">{{user.username}}</span> ! SO HAPPY TO SEE YOU AGAIN!</h1>
-<div class="slide-container">
-    <h2 class="center-h2">My Books Slider</h2>
-    <div class="swiper slider-wrapper">
+      </nav>
+    </header>
+    <h1 class="text-center text-white bg-dark">
+      HELLO <span class="text-info">{{user.username}}</span> ! SO HAPPY TO SEE
+      YOU AGAIN!
+    </h1>
+    <div class="slide-container">
+      <h2 class="center-h2">Website Books Slider</h2>
+      <div class="swiper slider-wrapper">
         <div class="swiper-wrapper">
-            <div class="swiper-slide bg-dark">
-                <div class="card-item ">
-                    <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/hostedimages/1466643696i/19502975.jpg" alt="Book Image" class="book-image">
-                    <h2 class="user-name">It Ends With Us</h2>
-                    <p class="book-author">Author: Colleen Hoover</p>
-                    <p class="book-genre">Genre: Romance</p>
-                    <button class="book-button text-dark bg-white">Go to this book</button>
-                </div>
+          <div class="swiper-slide bg-dark">
+            <div class="card-item">
+              <img
+                src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/hostedimages/1466643696i/19502975.jpg"
+                alt="Book Image"
+                class="book-image"
+              />
+              <h2 class="user-name">It Ends With Us</h2>
+              <p class="book-author">Author: Colleen Hoover</p>
+              <p class="book-genre">Genre: Romance</p>
+              <button class="book-button text-dark bg-white">
+                Go to this book
+              </button>
             </div>
-            <div class="swiper-slide bg-dark">
-                <div class="card-item">
-                    <img src="https://m.media-amazon.com/images/I/51qfhya2iRL._SL500_.jpg" alt="Book Image" class="book-image">
-                    <h2 class="user-name">It Starts With Us</h2>
-                    <p class="book-author">Author: Colleen Hoover</p>
-                    <p class="book-genre">Genre: Romance</p>
-                    <button class="book-button text-dark bg-white">Go to this book</button>
-                </div>
+          </div>
+          <div class="swiper-slide bg-dark">
+            <div class="card-item">
+              <img
+                src="https://m.media-amazon.com/images/I/51qfhya2iRL._SL500_.jpg"
+                alt="Book Image"
+                class="book-image"
+              />
+              <h2 class="user-name">It Starts With Us</h2>
+              <p class="book-author">Author: Colleen Hoover</p>
+              <p class="book-genre">Genre: Romance</p>
+              <button class="book-button text-dark bg-white">
+                Go to this book
+              </button>
             </div>
-            <div class="swiper-slide bg-dark">
-                <div class="card-item">
-                    <img src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781501110344/november-9-9781501110344_hr.jpg" alt="Book Image" class="book-image">
-                    <h2 class="user-name">November 9</h2>
-                    <p class="book-author">Author: Colleen Hoover</p>
-                    <p class="book-genre">Genre: Romance</p>
-                    <button class="book-button text-dark bg-white">Go to this book</button>
-                </div>
+          </div>
+          <div class="swiper-slide bg-dark">
+            <div class="card-item">
+              <img
+                src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781501110344/november-9-9781501110344_hr.jpg"
+                alt="Book Image"
+                class="book-image"
+              />
+              <h2 class="user-name">November 9</h2>
+              <p class="book-author">Author: Colleen Hoover</p>
+              <p class="book-genre">Genre: Romance</p>
+              <button class="book-button text-dark bg-white">
+                Go to this book
+              </button>
             </div>
-            <div class="swiper-slide bg-dark">
-                <div class="card-item">
-                    <img src="https://images.booksense.com/images/188/753/9781476753188.jpg" alt="Book Image" class="book-image">
-                    <h2 class="user-name">Ugly Love</h2>
-                    <p class="book-author">Author: Colleen Hoover</p>
-                    <p class="book-genre">Genre: Romance</p>
-                    <button class="book-button text-dark bg-white">Go to this book</button>
-                </div>
+          </div>
+          <div class="swiper-slide bg-dark">
+            <div class="card-item">
+              <img
+                src="https://images.booksense.com/images/188/753/9781476753188.jpg"
+                alt="Book Image"
+                class="book-image"
+              />
+              <h2 class="user-name">Ugly Love</h2>
+              <p class="book-author">Author: Colleen Hoover</p>
+              <p class="book-genre">Genre: Romance</p>
+              <button class="book-button text-dark bg-white">
+                Go to this book
+              </button>
             </div>
+          </div>
         </div>
         <!-- If we need pagination -->
         <div class="swiper-pagination"></div>
         <!-- If we need navigation buttons -->
         <div class="swiper-button-prev"></div>
         <div class="swiper-button-next"></div>
+      </div>
     </div>
-</div>
-<hr>
+    <hr />
 
-<div class="container-fluid">
-    <div class="row">
+    <div class="container-fluid">
+      <div class="row">
         <div class="col-md-3 sidebar-left1">
-                <div class="col-md-3 sidebar-left2">
-                    <h3>Book Clubs</h3>
-                    <ul class="book">
-                        <li><a href="#">Book Club 1</a></li>
-                        <li><a href="#">Book Club 2</a></li>
-                        <li><a href="#">Book Club 3</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-md-3 sidebar-left2">
-                    <h3>Book Events</h3>
-                    <ul class="event">
-                        <li><a href="#">Event 1</a></li>
-                        <li><a href="#">Event 2</a></li>
-                        <li><a href="#">Event 3</a></li>
-                    </ul>
-                </div> 
+          <div class="sidebar-left2">
+            <h3>Book Clubs</h3>
+            <ul class="book">
+              <li><a href="#">Book Club 1</a></li>
+              <li><a href="#">Book Club 2</a></li>
+              <li><a href="#">Book Club 3</a></li>
+            </ul>
+          </div>
+          <div class="sidebar-left2">
+            <h3>Book Events</h3>
+            <ul class="event">
+              <li><a href="#">Event 1</a></li>
+              <li><a href="#">Event 2</a></li>
+              <li><a href="#">Event 3</a></li>
+            </ul>
+          </div>
         </div>
-        <div class="col-md-6 content">
-            <h2 class="h2"> Post Section</h2>
-            <div class="card">
-                <form method="POST" action="{%url 'reader_posts'%}">
-                    {% csrf_token %}
-                    <h3>Write a new post</h3>
-                    <textarea name="post_content" rows="4" cols="80"></textarea>
-                    <button type="submit">Post</button>
+
+        <!-- Centered content -->
+        <div class="col-md-6 content mt-5">
+          <h2 class="h2 text-center mb-4">Post Section</h2>
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <h3 class="card-title">Write a New Post</h3>
+              <form method="POST" action="{% url 'create_posts' %}">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <textarea
+                    name="post_content"
+                    class="form-control"
+                    rows="4"
+                    placeholder="What's on your mind?"
+                  ></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark custom-button w-100">
+                  Post
+                </button>
+              </form>
+            </div>
+          </div>
+
+          {% for post in posts %}
+          <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+              <div class="d-flex justify-content-between">
+                <h5 class="card-title">{{ post.user.username }}</h5>
+                <small class="text-muted">{{ post.created_at }}</small>
+              </div>
+              <p class="card-text">{{ post.content }}</p>
+              <div class="d-flex">
+                <form
+                  action="{% url 'delete_post' post.id %}"
+                  method="POST"
+                  class="me-2"
+                >
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm">
+                    Delete Post
+                  </button>
                 </form>
-                {% for post in posts%}
-                <div class="post">
-                    <p>{{ post.user.username }} {{ post.created_at }}</p>
-                    <p>{{ post.post }}</p>
-                    <form action="{% url 'delete_reader_post' post.id %}" method="POST" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit">Delete Post</button>
-                    </form>
-                    <form action="{% url 'post_reader_comment' post.id %}" method="POST" style="display:inline;">
-                        {% csrf_token %}
-                        <textarea class="comment-textarea" name="comment" placeholder="Type your comment here"></textarea>
-                        <button type="submit">Post a Comment</button>
-                    </form>
-                    <div class="comments">
-                        {% for comment in post.comments.all %}
-                        <div class="comment">
-                            <p>{{ comment.user.username }} {{ comment.created_at }}</p>
-                            <p>{{ comment.comment }}</p>
-                            <form action="{% url 'delete_reader_comment' comment.id %}" method="POST" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit">Delete Comment</button>
-                            </form>
-                        </div>
-                        {% endfor %}
-                    </div>
+                <form
+                  action="{% url 'post_comment' post.id %}"
+                  method="POST"
+                  class="flex-fill"
+                >
+                  {% csrf_token %}
+                  <div class="input-group">
+                    <textarea
+                      class="form-control"
+                      name="comment"
+                      placeholder="Type your comment here"
+                    ></textarea>
+                    <button type="submit" class="btn btn-primary btn-sm">
+                      Post Comment
+                    </button>
+                  </div>
+                </form>
+              </div>
+              <div class="comments mt-4">
+                {% for comment in post.comments.all %}
+                <div class="comment mb-3 p-3 bg-light rounded">
+                  <div class="d-flex justify-content-between">
+                    <h6 class="mb-0">{{ comment.user.username }}</h6>
+                    <small class="text-muted">{{ comment.created_at }}</small>
+                  </div>
+                  <p class="mb-1">{{ comment.comment }}</p>
+                  <form
+                    action="{% url 'delete_comment' comment.id %}"
+                    method="POST"
+                  >
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-link text-danger p-0">
+                      Delete Comment
+                    </button>
+                  </form>
                 </div>
                 {% endfor %}
-                {% comment %} <textarea ></textarea>
-                <button>Post </button> {% endcomment %}
+              </div>
             </div>
-    </div>
-        <div class="col-md-3 sidebar-right1">
-            
-            <div class="col-md-3 sidebar-right2">
-                <h3>Top Writers</h3>
-                <ul class="top-writer">
-                    <li><a href="#">Writer 1</a></li>
-                    <li><a href="#">Writer 2</a></li>
-                    <li><a href="#">Writer 3</a></li>
-                </ul>
-            </div>
-            
-            <div class="col-md-3 sidebar-right2">
-                <h3>Recommended Books</h3>
-                <ul class="top-book">
-                    <li><a href="#">Book 1</a></li>
-                    <li><a href="#">Book 2</a></li>
-                    <li><a href="#">Book 3</a></li>
-                </ul>
-            </div>  
+          </div>
+          {% endfor %}
         </div>
+
+        <div class="col-md-3 sidebar-right1">
+          <div class="col-md-6 sidebar-right2">
+            <h3>Top Writers</h3>
+            <ul class="top-writer">
+              <li><a href="#">Writer 1</a></li>
+              <li><a href="#">Writer 2</a></li>
+              <li><a href="#">Writer 3</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-6 sidebar-right2">
+            <h3>Recommended Books</h3>
+            <ul class="top-book">
+              <li><a href="#">Book 1</a></li>
+              <li><a href="#">Book 2</a></li>
+              <li><a href="#">Book 3</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
-</div>
-{% comment %} <hr> {% endcomment %}
+    {% comment %}
+    <hr />
+    {% endcomment %}
     <footer class="bg-dark text-white text-center text-lg-start">
-        <h3 class=" p-3 bg-secondary">Reading & Writing Books</h3>
-        <div class="container p-4">
+      <h3 class="p-3 bg-secondary">Reading & Writing Books</h3>
+      <div class="container p-4">
         <div class="row">
-            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+          <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
             <h5 class="text-uppercase">Contact</h5>
-                <ul class="list-unstyled mb-0">
-                <li>
-                    <a href="#!" class="text-white">Email: contact@readingwritingbooks.com</a>
-                </li>
-                <li>
-                    <a href="#!" class="text-white">Phone: +972 321 456 897</a>
-                </li>
-                <li>
-                    <a href="#!" class="text-white">Address: Palestine, Ramallah</a>
-                </li>
-                </ul>
-            </div>
-            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <ul class="list-unstyled mb-0">
+              <li>
+                <a href="#!" class="text-white"
+                  >Email: contact@readingwritingbooks.com</a
+                >
+              </li>
+              <li>
+                <a href="#!" class="text-white">Phone: +972 321 456 897</a>
+              </li>
+              <li>
+                <a href="#!" class="text-white">Address: Palestine, Ramallah</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
             <h5 class="text-uppercase">Company</h5>
             <ul class="list-unstyled mb-0">
-                <li>
+              <li>
                 <a href="#!" class="text-white">About Us</a>
-                </li>
-                <li>
+              </li>
+              <li>
                 <a href="#!" class="text-white">Privacy Policy</a>
-                </li>
-                <li>
+              </li>
+              <li>
                 <a href="#!" class="text-white">Terms of Service</a>
-                </li>
-                <li>
+              </li>
+              <li>
                 <a href="#!" class="text-white">Cookie Policy</a>
-                </li>
+              </li>
             </ul>
-            </div>
-    
-            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+          </div>
+
+          <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
             <h5 class="text-uppercase">Social Media</h5>
             <ul class="list-unstyled mb-0">
-                <li>
-                <a href="https://facebook.com" class="text-white"><i class="fab fa-facebook-f"></i> Facebook</a>
-                </li>
-                <li>
-                <a href="https://twitter.com" class="text-white"><i class="fab fa-twitter"></i> Twitter</a>
-                </li>
-                <li>
-                <a href="https://instagram.com" class="text-white"><i class="fab fa-instagram"></i> Instagram</a>
-                </li>
+              <li>
+                <a href="https://facebook.com" class="text-white"
+                  ><i class="fab fa-facebook-f"></i> Facebook</a
+                >
+              </li>
+              <li>
+                <a href="https://twitter.com" class="text-white"
+                  ><i class="fab fa-twitter"></i> Twitter</a
+                >
+              </li>
+              <li>
+                <a href="https://instagram.com" class="text-white"
+                  ><i class="fab fa-instagram"></i> Instagram</a
+                >
+              </li>
             </ul>
-            </div>
+          </div>
         </div>
-        </div>
-    
-        <div class="text-center p-3 bg-secondary">
-        <small> Copyright © Reading & Writing Books. All rights reserved.</small>
-        </div>
+      </div>
+
+      <div class="text-center p-3 bg-secondary">
+        <small>
+          Copyright © Reading & Writing Books. All rights reserved.</small
+        >
+      </div>
     </footer>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
-<!-- Linking SwiperJS script -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- Linking SwiperJS script -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
-<script>
-    const swiper = new Swiper('.swiper', {
+    <script>
+      const swiper = new Swiper(".swiper", {
         loop: true,
         grabCursor: true,
         spaceBetween: 20,
-    
+
         // If we need pagination
         pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
+          el: ".swiper-pagination",
+          clickable: true,
         },
-    
+
         // Navigation arrows
         navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
         },
-        
+
         // Responsive breakpoints
         breakpoints: {
-            0: {
-                slidesPerView: 1,
-                spaceBetween: 10,
-            },
-            600: {
-                slidesPerView: 2,
-                spaceBetween: 20,
-            },
-            1024: {
-                slidesPerView: 3,
-                spaceBetween: 30,
-            },
+          0: {
+            slidesPerView: 1,
+            spaceBetween: 10,
+          },
+          600: {
+            slidesPerView: 2,
+            spaceBetween: 20,
+          },
+          1024: {
+            slidesPerView: 3,
+            spaceBetween: 30,
+          },
         },
-    });
-</script>
-
-</body>
+      });
+    </script>
+  </body>
 </html>

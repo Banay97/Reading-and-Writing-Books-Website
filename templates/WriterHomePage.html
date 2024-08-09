@@ -25,11 +25,14 @@
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item mx-2">
+                {% comment %} <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'reader_home_page' %}">Reader Community</a>
+                </li> {% endcomment %}
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'writer_home_page' %}">Writer Home Page</a>
                 </li>
                 <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="{% url 'writer_home_page' %}">Writer Community</a>
+                    <input type="search" class="nav-link" placeholder="Search">
                 </li>
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'writer_profile' %}">Profile</a>
@@ -49,7 +52,7 @@
 </header>
 <h1 class="text-center text-white bg-dark">HELLO <span class="text-info">{{user.username}}</span> ! SO HAPPY TO SEE YOU AGAIN!</h1>
 <div class="slide-container">
-    <h2 class="center-h2">My Books Slider</h2>
+    <h2 class="center-h2">Website Books Slider</h2>
     <div class="swiper slider-wrapper">
         <div class="swiper-wrapper">
             <div class="swiper-slide bg-dark">
@@ -101,7 +104,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 sidebar-left1">
-                <div class="col-md-3 sidebar-left2">
+                <div class="col-md-6 sidebar-left2">
                     <h3>Book Clubs</h3>
                     <ul class="book">
                         <li><a href="#">Book Club 1</a></li>
@@ -110,7 +113,7 @@
                     </ul>
                 </div>
                 
-                <div class="col-md-3 sidebar-left2">
+                <div class="col-md-6 sidebar-left2">
                     <h3>Book Events</h3>
                     <ul class="event">
                         <li><a href="#">Event 1</a></li>
@@ -119,16 +122,74 @@
                     </ul>
                 </div> 
         </div>
-        <div class="col-md-6 content">
-            <h2 class="h2"> Post Section</h2>
-            <div class="card">
-                <textarea ></textarea>
-                <button class="post-btn">Post </button>
+        <!-- Centered content -->
+        <div class="col-md-6 content mt-5">
+            <h2 class="h2 text-center mb-4">Post Section</h2>
+            <div class="card mb-4 shadow-sm">
+              <div class="card-body">
+                <h3 class="card-title">Write a New Post</h3>
+                <form method="POST" action="{% url 'create_posts' %}">
+                  {% csrf_token %}
+                  <div class="mb-3">
+                    <textarea
+                      name="post_content"
+                      class="form-control"
+                      rows="4"
+                      placeholder="What's on your mind?"
+                    ></textarea>
+                  </div>
+                  <button type="submit" class="btn btn-dark custom-button w-100">
+                    Post
+                  </button>
+                </form>
+              </div>
             </div>
-    </div>
+            {% for post in posts %}
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title">{{ post.user.username }}</h5>
+                        <small class="text-muted">{{ post.created_at }}</small>
+                    </div>
+                    <p class="card-text">{{ post.content }}</p>
+                    <div class="d-flex">
+                        <form action="{% url 'delete_comment' comment.id %}" method="POST" class="me-2">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Delete Post</button>
+                        </form>
+                        <form action="{% url 'post_comment' post.id %}" method="POST" class="flex-fill">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <textarea class="form-control" name="comment" placeholder="Type your comment here"></textarea>
+                                <button type="submit" class="btn btn-primary btn-sm">Post Comment</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="comments mt-4">
+                        <form action="{% url 'post_comment' post.id %}" method="POST" style="display:inline;">
+                            {% csrf_token %}
+                            <textarea class="comment-textarea" name="comment" placeholder="Type your comment here"></textarea>
+                            <button type="submit">Post a Comment</button>
+                        </form>
+                        <div class="comments">
+                            {% for comment in post.comments.all %}
+                            <div class="comment">
+                                <p>{{ comment.user.first_name }} {{ comment.created_at }}</p>
+                                <p>{{ comment.comment }}</p>
+                                <form action="{% url 'delete_comment' comment.id %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit">Delete Comment</button>
+                                </form>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+        </div>
+
         <div class="col-md-3 sidebar-right1">
             
-            <div class="col-md-3 sidebar-right2">
+            <div class="col-md-6 sidebar-right2">
                 <h3>Top Writers</h3>
                 <ul class="top-writer">
                     <li><a href="#">Writer 1</a></li>
@@ -137,7 +198,7 @@
                 </ul>
             </div>
             
-            <div class="col-md-3 sidebar-right2">
+            <div class="col-md-6 sidebar-right2">
                 <h3>Top Books</h3>
                 <ul class="top-book">
                     <li><a href="#">Book 1</a></li>
@@ -148,7 +209,7 @@
         </div>
     </div>
 </div>
-{% comment %} <hr> {% endcomment %}
+
     <footer class="bg-dark text-white text-center text-lg-start">
         <h3 class=" p-3 bg-secondary">Reading & Writing Books</h3>
         <div class="container p-4">

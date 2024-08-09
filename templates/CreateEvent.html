@@ -75,23 +75,33 @@
     <section>
       <div class="form-container">
         <h2>Create Event</h2>
-        <form action="/create-event" method="post">
+        <form action="{% url 'create_event' %}" method="POST">
+          {% csrf_token %}
           <div class="form-group">
-            <label for="book-title">Book Title:</label>
-            <input type="text" id="book-title" name="book-title" value="Book1" required/>
+            <label for="event_name">Event Name:</label>
+            <input type="text" id="event_name" name="event_name" value="{{ event.event_name }}" required/>
           </div>
           <div class="form-group">
-            <label for="event-date">Event Date:</label>
-            <input type="date" id="event-date" name="event-date" required />
+            <label for="event_date">Event Date:</label>
+            <input type="date" id="event_date" name="event_date" value="{{ event.event_date }}" required />
           </div>
           <div class="form-group">
-            <label for="event-description">Event Description:</label>
-            <textarea id="event-description" name="event-description" rows="4" required> Book by ...</textarea>
+            <label for="event_content">Event Content:</label>
+            <textarea id="event_content" name="event_content" rows="4" required>{{ event.event_content }}</textarea>
+          </div>
+          <div class="form-group">
+            <label for="book_club">Book Club:</label>
+            <select id="book_club" name="book_club" required>
+              {% for book_club in book_clubs %}
+              <option value="{{ book_club.id }}">{{ book_club.club_name }}</option>
+              {% endfor %}
+            </select> 
           </div>
           <button type="submit" class="create-button">Create</button>
         </form>
       </div>
     </section>
+    
     <hr />
 
     <footer class="bg-dark text-white text-center text-lg-start">

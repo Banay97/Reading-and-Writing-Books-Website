@@ -7,64 +7,135 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <title>Reader Home Page</title>
+    <link rel="stylesheet" href="{% static 'css/WriterProfile.css' %}">
+    <title>Reader Profile Page</title>
     <style>
-        *{
-            font-family: 'Luckiest Guy', cursive;
+        .comments-section {
+            padding: 20px;
+            background-color: ;
+            border-radius: 8px;
         }
-        img {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-        }
-        .profile-header {
-            display: flex;
-            align-items: center;
-        }
-        .profile-header img {
-            margin-right: 15px;
-        }
-        .search-bar {
-            display: flex;
-            align-items: center;
-        }
-        .search-bar input {
-            width: 200px;
-        }
-        .card-columns {
-            column-count: 3;
-        }
-        .card {
-            margin-bottom: 15px;
-        }
-        <button class="btn btn-primary"><a class= "create" href="{%url 'create_book'%}">Create Book</a></button>
         
-        .graph-image{
+        .comments-section h3 {
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+        
+        .input-group .form-control {
+            border-radius: 0;
+        }
+        
+        #button-addon2 {
+            border-radius: 0;
+            border-color: #343a40;
+        }
+        
+        .comments-list {
+            margin-top: 20px;
+        }
+        
+        .comment-card {
+            background-color: #ffffff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .comment-card .card-text {
+            margin: 0;
+            color: #495057;
+            font-size: 1rem;
+        }
+        .tables-container {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        
+        /* Card Styles */
+        .cute-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 10%;
+        }
+        
+        .cute-card .card-header {
+            background-color: #24333B; /* Lighter gray header */
+            color: #ffffff;
+            font-weight: bold;
+            text-align: center;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            font-size: 50px;
+        }
+        
+        /* Table Styles */
+        .cute-table {
+            margin-top: 20px;
             width: 100%;
-            height: 200px;
-            border-radius:0;
             
         }
-        .create-book{
-            color: white;
-            text-decoration: none;
-
+        
+        .cute-table thead {
+            background-color: #C0C0C0;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: center;
         }
-    .graph-image{
-        width: 100%;
-        height: 200px;
-        border-radius:0;
-    }
-    ul.book{
-        list-style-type:"📖";
-    }
-    ul.category{
-        list-style-type:none;
-    }
+        
+        .cute-table th, .cute-table td {
+            padding: 12px 15px;
+            text-align: center;
+            color: #24333B;
+        }
+        
+        .cute-table tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        /* Links */
+        .cute-link {
+            color: #24333B;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .cute-link:hover {
+            color: #4a42d1;
+            text-decoration: underline;
+        }
+        
+        /* Button Styles */
+        .cute-button {
+            background-color: #24333B;
+            color: #ffffff;
+            border-radius: 20px;
+            padding: 10px 20px;
+            font-family: 'Comic Sans MS', sans-serif;
+            font-size: 16px;
+            border: none;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .cute-button:hover {
+            background-color: #d0d0d0;
+        }
+        
+        .create-link {
+            color: #ffffff;
+            text-decoration: none;
+        }
+       .h3-design{
+        font-size: 55px;
+       }
     </style>
 </head>
 <body>
 <header>
+    {% comment %} <button class="btn btn-primary"><a class= "create" href="{%url 'create_book'%}">Create Book</a></button> {% endcomment %}
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a id ="link" class="navbar-brand text-white" href="{% url 'home' %}">Reading & Writing Books</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -121,13 +192,15 @@
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title">Books Library</h2>
+                    {%for book in book%}
                     <ul class="book">
-                        <li>Book 1</li>
-                        <li>Book 2</li>
+                        <li>{{book.title}}</li>
+                        {% comment %} <li>Book 2</li>
                         <li>Book 3</li>
                         <li>Book 4</li>
-                        <li>Book 5</li>
+                        <li>Book 5</li> {% endcomment %}
                     </ul>
+                    {%endfor%}
                 </div>
             </div>
         </div>
@@ -135,13 +208,15 @@
             <div class="card">
                 <div class="card-body">
                     <h2 class="card-title">Book Categories</h2>
+                    {%for book in book%}
                     <ul class="category">
-                        <li>Category 1</li>
-                        <li>Category 2</li>
+                        <li>{{book.genre}}</li>
+                        {% comment %} <li>Category 2</li>
                         <li>Category 3</li>
                         <li>Category 4</li>
-                        <li>Category 5</li>
+                        <li>Category 5</li> {% endcomment %}
                     </ul>
+                    {%endfor%}
                 </div>
             </div>
         </div>
@@ -157,89 +232,116 @@
 </main>
 
 <section class="container">
-    <div>
-        <h3>Book Comments</h3>
-        <input type="text" class="form-control" placeholder="Post..">
-        <p>Posts content goes here.</p>
+    <div class="comments-section">
+        <h3 class=" h3-design text-xl-center 900 ">My Posts</h3>
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Write a comment..." aria-label="Write a comment" aria-describedby="button-addon2">
+            <button class="btn btn-dark" type="button" id="button-addon2">Post</button>
+        </div>
+        <div class="comments-list">
+            {% for post in post %}
+            <div class="comment-card card mb-3">
+                <div class="card-body">
+                    <p class="card-text">{{ post.content }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
-    <aside class="mt-4">
-        <button class="btn btn-primary "><a href="{%url 'create_book'%}" class="create-book">Create Book</a></button>
-        <hr>
-        <button class="btn btn-primary"><a href="{%url 'create_event'%}" class="create-book">Create Event</a></button>
-    </aside>
-    <div class="mt-4">
-        <h2>Books</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Book Genre</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {%for book in books%}
-                <tr>
-                    <td><a href="{%url 'view_book_detail'%}">{{book.title}}</a></td>
-                    <td>{{book.genre}}</td>
-                    <td>{{book.description}}</td>
-                    <td><a href="{%url 'edit_book'%}">Edit</a> | <a href="{%url 'delete_book'%}">Delete</a></td>
-                </tr>
-                {%endfor%}
-                {% comment %} <tr>
-                    <td><a href="{%url 'view_book_detail'%}">To Kill a Mockingbird</a></td>
-                    <td>Drama</td>
-                    <td>A novel by Harper Lee</td>
-                    <td><a href="{%url 'edit_book'%}">Edit</a> | <a href="{%url 'delete_book'%}">Delete</a></td>
-                </tr>
-                <tr>
-                    <td><a href="{%url 'view_book_detail'%}">1984</a></td>
-                    <td>Dystopian</td>
-                    <td>A novel by George Orwell</td>
-                    <td><a href="{%url 'edit_book'%}">Edit</a> | <a href="{%url 'delete_book'%}">Delete</a></td>
-                </tr>
-                <tr>
-                    <td><a href="{%url 'view_book_detail'%}">The Great Gatsby</a></td>
-                    <td>Classic</td>
-                    <td>A novel by F. Scott Fitzgerald</td>
-                    <td><a href="{%url 'edit_book'%}">Edit</a> | <a href="{%url 'delete_book'%}">Delete</a></td>
-                </tr> {% endcomment %}
-            </tbody>
-        </table>
+    <div class="tables-container mt-4">
+        <!-- Books Section -->
+        <div class="card cute-card">
+            <div class="card-header cute-title">
+                Books
+            </div>
+            <div class="card-body">
+                <table class="table cute-table">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Book Genre</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in book %}
+                        <tr>
+                            <td><a href="{% url 'view_book' book.id %}" class="cute-link">{{ book.title }}</a></td>
+                            <td>{{ book.genre }}</td>
+                            <td>{{ book.description }}</td>
+                            <td><a href="{% url 'edit_book' book.id %}" class="cute-link">Edit</a> | <a href="{% url 'delete_book' book.id %}" class="cute-link">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button class="btn cute-button"><a href="{% url 'create_book' %}" class="create-link">Create Book</a></button>
 
-        <h2>Events</h2>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Book Title</th>
-                    <th>Event Date</th>
-                    <th>Event Description</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><a href="{%url 'view_event_detail'%}">To Kill a Mockingbird</a></td>
-                    <td>Harper Lee</td>
-                    <td>1960</td>
-                    <td><a href="{%url 'edit_event'%}">Edit</a> | <a href="{%url 'delete_event'%}">Delete</a></td>
-                </tr>
-                <tr>
-                    <td><a href="{%url 'view_event_detail'%}">1984</td>
-                    <td>George Orwell</td>
-                    <td>1949</td>
-                    <td><a href="{%url 'edit_event'%}">Edit</a> | <a href="{%url 'delete_event'%}">Delete</a></td>
-                </tr>
-                <tr>
-                    <td><a href="{%url 'view_event_detail'%}">The Great Gatsby</td>
-                    <td>F. Scott Fitzgerald</td>
-                    <td>1925</td>
-                    <td><a href="{%url 'edit_event'%}">Edit</a> | <a href="{%url 'delete_event'%}">Delete</a></td>
-                </tr>
-            </tbody>
-        </table>
+            </div>
+        </div>
+    
+        <!-- Events Section -->
+        <div class="card cute-card mt-4">
+            <div class="card-header cute-title">
+                Events
+            </div>
+            <div class="card-body">
+                <table class="table cute-table">
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Event Date</th>
+                            <th>Event content</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for event in event %}
+                        <tr>
+                            <td><a href="" class="cute-link">{{ event.event_name }}</a></td>
+                            <td>{{ event.event_date }}</td>
+                            <td>{{ event.event_content }}</td>
+                            <td><a href="" class="cute-link">Edit</a> | <a href="" class="cute-link">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button class="btn cute-button"><a href="{% url 'create_event' %}" class="create-link">Create Event</a></button>
+            </div>
+        </div>
+    
+        <!-- Book Club Section -->
+        <div class="card cute-card mt-4">
+            <div class="card-header cute-title">
+                Book Club
+            </div>
+            <div class="card-body">
+                <table class="table cute-table">
+                    <thead>
+                        <tr>
+                            <th>Book Club Name</th>
+                            <th>Book Club Content</th>
+                            <th>Book Club Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book_club in book_club %}
+                        <tr>
+                            <td><a href="" class="cute-link">{{ book_club.club_name }}</a></td>
+                            <td>{{ book_club.club_content }}</td>
+                            <td>{{ book_club.club_type }}</td>
+                            <td><a href="" class="cute-link">Edit</a> | <a href="" class="cute-link">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <button class="btn cute-button"><a href="{% url 'create_book_club' %}" class="create-link">Create Book Club</a></button>
+            </div>
+        </div>
     </div>
+    {% comment %}{% url 'edit_book_club' book_club.id %} {% url 'view_book_club' book_club.id %}{% url 'delete_book_club' book_club.id %} {% endcomment %}
+
 </section>
 
 <footer class="bg-dark text-white text-center text-lg-start mt-4">
@@ -291,6 +393,11 @@
         </div>
     </div>
 </footer>
+{% comment %} <div class="custom-shape-divider-bottom-1723142584">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M1200,0H0V120H281.94C572.9,116.24,602.45,3.86,602.45,3.86h0S632,116.24,923,120h277Z" class="shape-fill"></path>
+    </svg>
+</div> {% endcomment %}
 
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>

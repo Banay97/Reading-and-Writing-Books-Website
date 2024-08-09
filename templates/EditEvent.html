@@ -46,18 +46,18 @@
     </header>
     <div class="form-container">
         <h2>Edit Event</h2>
-        <form action="/update-event" method="post">
+        <form action="{%url 'edit_event' event.id%}" method="post">
             <div class="form-group">
-                <label for="book-title">Book Title:</label>
-                <input type="text" id="book-title" name="book-title" value="Book1" required>
+                <label for="event_name">Event Name:</label>
+                <input type="text" id="event_name" name="event_name" value="{{event.event_name}}" required>
             </div>
             <div class="form-group">
-                <label for="event-date">Event Date:</label>
-                <input type="date" id="event-date" name="event-date" value="2024-07-31" required>
+                <label for="event_date">Event Date:</label>
+                <input type="date" id="event_date" name="event_date" value="{{event.event_date}}" required>
             </div>
             <div class="form-group">
-                <label for="event-description">Event Description:</label>
-                <textarea id="event-description" name="event-description" rows="4" required>Book discussion and signing event...</textarea>
+                <label for="event_content">Event Content:</label>
+                <textarea id="event_content" name="event_content" rows="4" required>{{event.event_content}}</textarea>
             </div>
             <button type="submit" class="update-button">Update</button>
         </form>

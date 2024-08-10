@@ -14,7 +14,7 @@
 <body>  
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
-        <a class="navbar-brand text-white" href="{% url 'home' %}">Reading & Writing Books</a>
+        <a class="navbar-brand text-white" href="{% url 'home' %}"><img src="{%static 'image/logo.png'%}" width="80" > Reading & Writing Books</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -62,21 +62,21 @@
             <div class="col-md-4">
                 <div class="card" style="width: 18rem;">
                 <div class="card-body text-center text-white bg-dark">
-                    <p class="bold-text">Readers 📚🤓</p>
+                    <p class="bold-text">Readers Community <br>📚🤓</p>
                 </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card" style="width: 18rem;">
                 <div class="card-body text-center text-white bg-dark">
-                    <p class="bold-text">Writers 📔✏️</p>
+                    <p class="bold-text">Writers Community <br>📔✏️</p>
                 </div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="card" style="width: 18rem;">
                 <div class="card-body text-center text-white bg-dark">
-                    <p class="bold-text">Clubs and Events 🎧📚</p>
+                    <p class="bold-text">Clubs and Events Community🎧📚</p>
                 </div>
                 </div>
             </div>
@@ -90,8 +90,8 @@
                 <h2>Contact Us</h2>
                 <form>
                     <div class="form-group">
-                        <form action="{%url 'about_us' %}" method="POST">
-                            {%csrf_token%}
+                        <form action="{%url 'about_us' %}" method="POST" onsubmit="sendEmail(); reset(); return false;">
+                            {% comment %} {%csrf_token%} {% endcomment %}
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" class="form-control" required>
                     </div>
@@ -106,16 +106,16 @@
         <div class="col-md-6">
             <div class="card faq-card text-white bg-dark">
                 <h2>Frequent Questions</h2>
-                <h4>How can I find books in a specific genre on your website?</h4>
-                <p>You can browse books by genre using our genre filter located on the main menu or by visiting the 'Genres' section. You can also use the search bar to find specific books or authors.</p>
+                 <h4>How can I find books in a specific genre on your website?</h4>
+                <details >You can browse books by genre using our genre filter located on the main menu or by visiting the 'Genres' section. You can also use the search bar to find specific books or authors.</details>
                 <h4>Do you offer book recommendations?</h4>
-                <p>Yes, we provide personalized book recommendations based on your reading history and preferences. You can also check out our curated lists and featured recommendations on the homepage.</p>
+                <details>Yes, we provide personalized book recommendations based on your reading history and preferences. You can also check out our curated lists and featured recommendations on the homepage.</details>
                 <h4>How can I leave a review for a book?</h4>
-                <p>To leave a review, simply navigate to the book's page and click on the 'Write a Review' button. You can rate the book, share your thoughts, and help other readers make informed choices.</p>
+                <details>To leave a review, simply navigate to the book's page and click on the 'Write a Review' button. You can rate the book, share your thoughts, and help other readers make informed choices.</details>
                 <h4>Do you have a book club or discussion forums?</h4>
-                <p>Yes, we have an online book club and discussion forums where members can discuss books, share insights, and connect with fellow readers. You can join a group that matches your interests or start your own.</p>
+                <details>Yes, we have an online book club and discussion forums where members can discuss books, share insights, and connect with fellow readers. You can join a group that matches your interests or start your own.</details>
                 <h4>How can I track my reading progress?</h4>
-                <p>You can track your reading progress by logging into your account and using our reading tracker feature. It allows you to mark books as 'Currently Reading,' 'Want to Read,' or 'Read,' and provides stats on your reading habits.</p>
+                <details>You can track your reading progress by logging into your account and using our reading tracker feature. It allows you to mark books as 'Currently Reading,' 'Want to Read,' or 'Read,' and provides stats on your reading habits.</details>
             </div>
         </div>
     </div>
@@ -138,6 +138,9 @@
                 <li>
                     <a href="#!" class="text-white">Address: Palestine, Ramallah</a>
                 </li>
+                {% comment %} <li>
+                    <a href="#!" class="text-white">Website Logo by: Meriem Khali</a>
+                </li> {% endcomment %}
                 </ul>
             </div>
             <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
@@ -176,7 +179,7 @@
         </div>
     
         <div class="text-center p-3 bg-secondary">
-        <small> Copyright © Reading & Writing Books. All rights reserved.</small>
+        <small> Copyright © Reading & Writing Books, Website Logo by: Meriem Khali. All rights reserved.</small>
         </div>
     </footer>
 
@@ -186,5 +189,23 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+
+<script>
+function sendEmail(){
+    Email.send({
+        Host : "smtp.gmail.com",
+        Username : "bayan.sarari97@gmail.com",
+        Password : "xzsawq2198@",
+        To : 'bayan.sarari97@gmail.com',
+        From : document.getElementById("email").value,
+        Subject : "New Comment Form Enquiry",
+        Body : "And this is the body"
+    }).then(
+        message => alert(message)
+    );
+}
+</script>
 </body>  
 </html> 

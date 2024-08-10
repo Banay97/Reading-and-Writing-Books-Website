@@ -185,7 +185,7 @@
     {% comment %} <button class="btn btn-primary"><a class= "create" href="{%url 'create_book'%}">Create Book</a></button> {% endcomment %}
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a id ="link" class="navbar-brand text-white" href="{% url 'home' %}">Reading & Writing Books</a>
+        <a class="navbar-brand text-white" href="{% url 'home' %}"><img src="{%static 'image/logo.png'%}" width="80" > Reading & Writing Books</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -210,7 +210,7 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{% url 'sign_in' %}">Sign out</a>
+                    <a class="nav-link text-white" href="{% url 'home' %}">Sign out</a>
                 </li>
             </ul>
         </div>
@@ -218,7 +218,7 @@
 
     <div class="container mt-4">
         <div class="profile-header">
-            <img src="https://img.freepik.com/free-photo/3d-render-little-boy-with-jacket-jeansie_1142-57736.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="">
+            <img src="https://img.freepik.com/premium-photo/animated-girl-cartoon-character-generated-ai_652383-2311.jpg?ga=GA1.1.209331547.1723160267&semt=ais_hybrid" alt="user image">
             <div>
                 <a href="{%url 'edit_writer_profile' user.id %}" class="btn btn-link">Edit Profile</a>
                 <h3>{{user.first_name}} {{user.last_name}}</h3>
@@ -281,16 +281,23 @@
 <section class="container">
     <div class="comments-section">
         <h3 class="h3-design text-xl-center">My Posts</h3>
-        <div class="input-group mb-3">
-            <input type="text" class="form-control comment-input" placeholder="Write a comment..." aria-label="Write a comment">
-            <button class="btn btn-dark post-button" type="button">Post</button>
-        </div>
+        {% comment %} <div class="input-group mb-3">
+            <form method="POST" action="{% url 'create_posts' %}">
+                {% csrf_token %}
+                <div class="input-group mb-3">
+                    <textarea type="text" class="form-control" name="content" placeholder="Write a post..." aria-label="Write a post" aria-describedby="button-addon2" cols="100"></textarea>
+                    <button class="btn btn-dark" type="button" id="button-addon2">Post</button>
+                </div>
+            </form>
+        </div> {% endcomment %}
         <div class="comments-list">
             {% for post in post %}
             <div class="comment-card card mb-3">
                 <div class="card-body">
+                    <p class="card-text ">Posted by {{ post.user.username }} on {{ post.created_at }}</p><br>
+                    
                     <p class="card-text">{{ post.content }}</p>
-                    <form action="{% url 'delete_post' post.id %}" method="POST" class="delete-comment-form">
+                    <form action="{% url 'delete_post' post.id %}" method="POST" class="delete-comment-form" id="display-data">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                     </form>
@@ -473,5 +480,7 @@
 
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+
+
 </body>
 </html>

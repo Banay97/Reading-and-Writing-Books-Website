@@ -8,29 +8,38 @@
 
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
     <link rel="stylesheet" href="{% static 'css/EditReaderProfilePage.css' %}"> 
-    <title>Home Page</title>  
+    <title>Home Page</title>
+    <style>
+        #image-logo{
+            width:10%;
+            height:10%;
+        }
+    </style>  
     
 </head>  
 <body>  
 <header>
     <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
-        <a class="navbar-brand text-white" href="{% url 'home' %}">Reading & Writing Books</a>
+        <a class="navbar-brand text-white" href="{% url 'home' %}"><img src="{%static 'image/logo.png'%}" width="50" id="image-logo" > Reading & Writing Books</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
-            <ul class="navbar-nav mx-auto ">
+            <ul class="navbar-nav mx-auto">
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="#">Reader Home Page</a>
+                    <a class="nav-link text-white" href="{% url 'reader_home_page' %}">Reader Home Page</a>
                 </li>
-                {% comment %} <li class="nav-item mx-2">
-                    <a class="nav-link text-white" href="#">Writer Community</a>
-                </li> {% endcomment %}
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'all_books_page' %}">Books Page</a>
+                </li> 
                 <li class="nav-item mx-2">
                     <input type="search" class="nav-link" placeholder="Search">
+                </li>
+                <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'reader_profile' %}">Profile</a>
                 </li>
                 <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'about_us' %}">About Us</a>
@@ -40,14 +49,16 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{% url 'sign_in' %}">Sign out</a>
                 </li>
+                
             </ul>
         </div>
+    </nav>
     </nav>
 </header>
 <section>
     <div>
         <img src="https://img.freepik.com/free-photo/3d-render-little-boy-with-jacket-jeansie_1142-57736.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="user image">
-        <a href="">Upload Photo</a>
+        <a href="">Update Photo</a>
     </div>
     <div class="container">
         <h2>Edit Profile</h2>
@@ -58,8 +69,8 @@
             <input type="text" placeholder="Username .." name="username" value="{{ user.username }}">
             <input type="email" placeholder="Email .." name="email" value="{{ user.email }}">
             <textarea placeholder="Bio .." name="bio">{{ user.bio }}</textarea>
-            <button type="submit">Update Profile</button>
-            <button type="button"><a href="{% url 'writer_profile' %}">View Profile</a></button>
+            <button type="submit" class="btn bg-dark">Update Profile</button>
+            {% comment %} <button type="button"><a href="{% url 'writer_profile' %}">View Profile</a></button> {% endcomment %}
         </form>
         {% if messages %}
             <ul class="messages">

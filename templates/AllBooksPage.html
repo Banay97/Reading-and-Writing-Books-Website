@@ -1,0 +1,403 @@
+{%load static%}
+<!DOCTYPE html>  
+<html>  
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
+    <link rel="stylesheet" href="{% static 'css/AboutUsPage.css' %}"> 
+    <title>About Us Page</title>  
+<style>
+    main{
+        background: linear-gradient(38deg, #323b41, transparent);
+    }
+</style>
+</head>  
+<body>  
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark ">
+        <a class="navbar-brand text-white" href="{% url 'home' %}"><img src="{%static 'image/logo.png'%}" width="80" > Reading & Writing Books</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item mx-2">
+                  <a class="nav-link text-white" href="{% url 'home' %}"
+                    >Home <span class="sr-only">(current)</span></a
+                  >
+                </li>
+                <li class="nav-item mx-2">
+                  <a class="nav-link text-white" href="{% url 'reader_home_page' %}"
+                    >Reader Home Page</a
+                  >
+                </li>
+                <li class="nav-item mx-2">
+                  <a class="nav-link text-white" href="{% url 'all_books_page' %}">Books Page</a>
+              </li> 
+                <li class="nav-item mx-2">
+                  <input type="search" class="nav-link" placeholder="Search" />
+                </li>
+                <li class="nav-item mx-2">
+                  <a class="nav-link text-white" href="{% url 'reader_profile' %}"
+                    >Profile</a
+                  >
+                </li>
+                <li class="nav-item mx-2">
+                  <a class="nav-link text-white" href="{% url 'about_us' %}"
+                    >About Us</a
+                  >
+                </li>
+              </ul>
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'sign_out' %}">Sign out</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<br>
+<main>
+    <div class="container my-4">
+        <h1 class="text-center">Book Categories</h1>
+
+        <!-- Fiction Category -->
+        <div class="card mb-4 ">
+            <div class="card-header">
+                <h3>Fiction</h3>
+            </div>
+            <div class="card-body">
+                <div class="row bg-dark">
+                    <div class="col-md-4 ">
+                        <div class="card">
+                            <img src="https://m.media-amazon.com/images/I/41ZmA-GFlXL._AC_UF1000,1000_QL80_.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title"> To Kill a Mockingbird</h5>
+                                <p class="card-text"><b>Author: Harper Lee</b></p>
+                                <p class="card-text">Description:Description: A young girl, Scout Finch, learns about racial injustice in the American South as her father, Atticus Finch, defends an innocent black man accused of rape. </p>
+                                <br>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://api.bruna.nl/images/active/carrousel/fullsize/9781716075735_front.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">The Great Gatsby</h5>
+                                <p class="card-text"><b>Author: F. Scott Fitzgerald</b></p>
+                                <p class="card-text">Description: The tragic story of Jay Gatsby and his unrequited love for Daisy Buchanan, set against the backdrop of the Roaring Twenties </p>
+                                <br>
+                                <button class="btn btn-dark" type="submit" onclick="">Add to Library</button>
+                                <button class="btn btn-danger" onclick="">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://m.media-amazon.com/images/I/61NAx5pd6XL._AC_UF1000,1000_QL80_.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">1984</h5>
+                                <p class="card-text"><b>Author: George Orwell</b></p>
+                                <p class="card-text">Description: A dystopian novel depicting a totalitarian society under the rule of Big Brother, where individual freedom is suppressed.</p>
+                                <br><br><br>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% comment %} <a href="#" class="">See More</a> {% endcomment %}
+            </div>
+        </div>
+
+        <!-- Non-Fiction Category -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Non-Fiction</h3>
+            </div>
+            <div class="card-body">
+                <div class="row bg-info">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://www.ynharari.com/wp-content/uploads/2017/01/Sapiens_ny_8cec9285-d49c-4c50-a87d-7e40e4707964-e1543417570452.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">Sapiens: A Brief History of Humankind</h5>
+                                <p class="card-text"><b>Author: Yuval Noah Harari</b></p>
+                                <p class="card-text">Description: A comprehensive exploration of human history, from the emergence of Homo sapiens to the present day.</p>
+                                <br><br>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://m.media-amazon.com/images/I/81cJTmFpG-L._AC_UF1000,1000_QL80_.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">Becoming</h5>
+                                <p class="card-text"><b>Author: Michelle Obama</b></p>
+                                <p class="card-text">Description: The memoir of former First Lady Michelle Obama, detailing her life from childhood through her years in the White House.</p>
+                                <br><br>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS8YYdDdIdTOItZjGX8i4JzSIBuPaqcAInZw&s" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title"> Educated</h5>
+                                <p class="card-text"><b>Author: Tara Westover</b></p>
+                                <p class="card-text">Description: A memoir about a woman who grows up in a strict and abusive household in rural Idaho but eventually escapes to learn about the world through education.</p>
+                                <br>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Romance Category -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Romance</h3>
+            </div>
+            <div class="card-body">
+                <div class="row bg-dark">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://assets.teenvogue.com/photos/571fae69eaac112050c3044b/master/w_1600%2Cc_limit/059f38a0-b3b6-0133-b37e-0e438b3b98d1.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">Me Before You</h5>
+                                <p class="card-text"><b>Author: Jojo Moyes</b></p>
+                                <p class="card-text">Description: The heart-wrenching love story of Louisa Clark and Will Traynor, a man paralyzed from a tragic accident.</p>
+                                <br>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://nicholassparks.com/wp-content/uploads/2022/08/MV5BMTk3OTM5Njg5M15BMl5BanBnXkFtZTYwMzA0ODI3._V1_FMjpg_UX1000_.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">The Notebook</h5>
+                                <p class="card-text"><b>Author: Nicholas Sparks</b></p>
+                                <p class="card-text">Description: The enduring love story of Noah and Allie, who are separated by social class but reunited later in life.</p>
+                                <br>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://m.media-amazon.com/images/I/51PrW27sXWL.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">Outlander</h5>
+                                <p class="card-text"><b>Author: Diana Gabaldon</b></p>
+                                <p class="card-text">Description: A historical romance with a time-travel twist, following Claire Randall, a WWII nurse who is transported back to 18th-century Scotland.</p>
+                                
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Horror</h3>
+            </div>
+            <div class="card-body">
+                <div class="row bg-info">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1353277730i/11588.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">The Shining</h5>
+                                <p class="card-text"><b>Author: Stephen King</b></p>
+                                <p class="card-text">Description: Jack Torrance becomes the caretaker of the Overlook Hotel, but the hotel's malevolent forces drive him into madness.</p>
+                                <br>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://m.media-amazon.com/images/I/61lpCBN58DL._AC_UF1000,1000_QL80_.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">Dracula</h5>
+                                <p class="card-text"><b>Author: Bram Stoker</b></p>
+                                <p class="card-text">Description: The classic tale of Count Dracula's attempt to move from Transylvania to England, and the battle to stop him.</p>
+                                <br>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://i0.wp.com/bloody-disgusting.com/wp-content/uploads/2017/04/It-Audiobook.jpg?w=402&h=565&ssl=1" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">It</h5>
+                                <p class="card-text"><b>Author: Stephen King</b></p>
+                                <p class="card-text">Description: A group of children in the small town of Derry, Maine, confront a malevolent entity that takes the form of a clown named Pennywise.</p>
+                                
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mb-4">
+            <div class="card-header">
+                <h3>Mystery & Thirller</h3>
+            </div>
+            <div class="card-body">
+                <div class="row bg-dark">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://m.media-amazon.com/images/I/71+khXHbe5L._AC_UF1000,1000_QL80_.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">Gone Girl</h5>
+                                <p class="card-text"><b>Author: Gillian Flynn</b></p>
+                                <p class="card-text">Description: The disappearance of Amy Dunne becomes a media sensation, but her husband Nick quickly becomes the prime suspect in her possible murder.</p>
+                                <br>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://i.ebayimg.com/images/g/JCYAAOSw8~hcTvNq/s-l1200.webp" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">The Girl with the Dragon Tattoo</h5>
+                                <p class="card-text"><b>Author: Stieg Larsson</b></p>
+                                <p class="card-text">Description: Journalist Mikael Blomkvist and hacker Lisbeth Salander investigate the disappearance of a wealthy heiress, uncovering dark secrets along the way.</p>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://m.media-amazon.com/images/I/81N+sjNpGML._AC_UF1000,1000_QL80_.jpg" class="card-img-top" alt="Book Cover" height="400">
+                            <div class="card-body">
+                                <h5 class="card-title">Big Little Lies</h5>
+                                <p class="card-text"><b>Author: Liane Moriarty</b></p>
+                                <p class="card-text">Description: The seemingly perfect lives of three women unravel, leading to a murder investigation that exposes hidden secrets and lies.</p>
+                                <br><br>
+                                <button class="btn btn-dark" type="submit">Add to Library</button>
+                                <button class="btn btn-danger">🤍</button>
+                                <span class="badge bg-secondary text-white">{{book.likes}} Likes</span>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main> 
+    <hr>
+    <footer class="bg-dark text-white text-center text-lg-start">
+        <h3 class=" p-3 bg-secondary">Reading & Writing Books</h3>
+        <div class="container p-4">
+        <div class="row">
+            <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Contact</h5>
+                <ul class="list-unstyled mb-0">
+                <li>
+                    <a href="#!" class="text-white">Email: contact@readingwritingbooks.com</a>
+                </li>
+                <li>
+                    <a href="#!" class="text-white">Phone: +972 321 456 897</a>
+                </li>
+                <li>
+                    <a href="#!" class="text-white">Address: Palestine, Ramallah</a>
+                </li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Company</h5>
+            <ul class="list-unstyled mb-0">
+                <li>
+                <a href="#!" class="text-white">About Us</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Privacy Policy</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Terms of Service</a>
+                </li>
+                <li>
+                <a href="#!" class="text-white">Cookie Policy</a>
+                </li>
+            </ul>
+            </div>
+    
+            <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
+            <h5 class="text-uppercase">Social Media</h5>
+            <ul class="list-unstyled mb-0">
+                <li>
+                <a href="https://facebook.com" class="text-white"><i class="fab fa-facebook-f"></i> Facebook</a>
+                </li>
+                <li>
+                <a href="https://twitter.com" class="text-white"><i class="fab fa-twitter"></i> Twitter</a>
+                </li>
+                <li>
+                <a href="https://instagram.com" class="text-white"><i class="fab fa-instagram"></i> Instagram</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </div>
+    
+        <div class="text-center p-3 bg-secondary">
+        <small> Copyright © Reading & Writing Books. All rights reserved.</small>
+        </div>
+    </footer>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+
+</body>  
+</html> 

@@ -25,9 +25,8 @@
   <body>
     <header>
       <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-        <a class="navbar-brand text-white" href="{% url 'home' %}"
-          >Reading & Writing Books</a
-        >
+        <a class="navbar-brand text-white" href="{% url 'home' %}"><img src="{%static 'image/logo.png'%}" width="80" > Reading & Writing Books</a>
+
         <button
           class="navbar-toggler"
           type="button"
@@ -54,13 +53,9 @@
                 >Reader Home Page</a
               >
             </li>
-            {% comment %}
             <li class="nav-item mx-2">
-              <a class="nav-link text-white" href="{% url 'writer_home_page' %}"
-                >Writer Community</a
-              >
-            </li>
-            {% endcomment %}
+              <a class="nav-link text-white" href="{% url 'all_books_page' %}">Books Page</a>
+          </li> 
             <li class="nav-item mx-2">
               <input type="search" class="nav-link" placeholder="Search" />
             </li>
@@ -86,103 +81,83 @@
       </nav>
     </header>
     <h1 class="text-center text-white bg-dark">
-      HELLO <span class="text-info">{{user.username}}</span> ! SO HAPPY TO SEE
-      YOU AGAIN!
-    </h1>
-    <div class="slide-container">
-      <h2 class="center-h2">Website Books Slider</h2>
-      <div class="swiper slider-wrapper">
-        <div class="swiper-wrapper">
-          <div class="swiper-slide bg-dark">
-            <div class="card-item">
-              <img
-                src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/hostedimages/1466643696i/19502975.jpg"
-                alt="Book Image"
-                class="book-image"
-              />
-              <h2 class="user-name">It Ends With Us</h2>
-              <p class="book-author">Author: Colleen Hoover</p>
-              <p class="book-genre">Genre: Romance</p>
-              <button class="book-button text-dark bg-white">
-                Go to this book
-              </button>
+      HELLO <span class="text-info">{{user.username}}</span> ! SO HAPPY TO SEE YOU AGAIN!</h1>
+      <div class="slide-container">
+        <h2 class="center-h2 p-5">Website Books Slider</h2>
+        <div class="swiper slider-wrapper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide bg-dark">
+                    <div class="card-item ">
+                        <img src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/hostedimages/1466643696i/19502975.jpg" alt="Book Image" class="book-image">
+                        <h2 class="user-name">It Ends With Us</h2>
+                        <p class="book-author">Author: Colleen Hoover</p>
+                        <p class="book-genre">Genre: Romance</p>
+                        <button class="book-button text-dark bg-white"><a href="https://icrrd.com/public/media/15-05-2021-052358It-Ends-with-Us.pdf">Go to this book</a></button>
+                    </div>
+                </div>
+                <div class="swiper-slide bg-dark">
+                    <div class="card-item">
+                        <img src="https://m.media-amazon.com/images/I/51qfhya2iRL._SL500_.jpg" alt="Book Image" class="book-image">
+                        <h2 class="user-name">It Starts With Us</h2>
+                        <p class="book-author">Author: Colleen Hoover</p>
+                        <p class="book-genre">Genre: Romance</p>
+                        <button class="book-button text-dark bg-white"><a href="https://ia801507.us.archive.org/27/items/it-starts-with-us-colleen-hoover-z-lib.org_20221128/It%20Starts%20with%20Us%20%28Colleen%20Hoover%29%20%28z-lib.org%29.pdf">Go to this book</a></button>
+                    </div>
+                </div>
+                <div class="swiper-slide bg-dark">
+                    <div class="card-item">
+                        <img src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781501110344/november-9-9781501110344_hr.jpg" alt="Book Image" class="book-image">
+                        <h2 class="user-name">November 9</h2>
+                        <p class="book-author">Author: Colleen Hoover</p>
+                        <p class="book-genre">Genre: Romance</p>
+                        <button class="book-button text-dark bg-white"><a href ="https://online.fliphtml5.com/txevw/zvze/#p=3">Go to this book</a></button>
+                    </div>
+                </div>
+                <div class="swiper-slide bg-dark">
+                    <div class="card-item">
+                        <img src="https://images.booksense.com/images/188/753/9781476753188.jpg" alt="Book Image" class="book-image">
+                        <h2 class="user-name">Ugly Love</h2>
+                        <p class="book-author">Author: Colleen Hoover</p>
+                        <p class="book-genre">Genre: Romance</p>
+                        <button class="book-button text-dark bg-white"><a href ="https://www.junkybooks.com/administrator/thebooks/62fec2186328f-ugly-love.pdf">Go to this book</a></button>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="swiper-slide bg-dark">
-            <div class="card-item">
-              <img
-                src="https://m.media-amazon.com/images/I/51qfhya2iRL._SL500_.jpg"
-                alt="Book Image"
-                class="book-image"
-              />
-              <h2 class="user-name">It Starts With Us</h2>
-              <p class="book-author">Author: Colleen Hoover</p>
-              <p class="book-genre">Genre: Romance</p>
-              <button class="book-button text-dark bg-white">
-                Go to this book
-              </button>
-            </div>
-          </div>
-          <div class="swiper-slide bg-dark">
-            <div class="card-item">
-              <img
-                src="https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781501110344/november-9-9781501110344_hr.jpg"
-                alt="Book Image"
-                class="book-image"
-              />
-              <h2 class="user-name">November 9</h2>
-              <p class="book-author">Author: Colleen Hoover</p>
-              <p class="book-genre">Genre: Romance</p>
-              <button class="book-button text-dark bg-white">
-                Go to this book
-              </button>
-            </div>
-          </div>
-          <div class="swiper-slide bg-dark">
-            <div class="card-item">
-              <img
-                src="https://images.booksense.com/images/188/753/9781476753188.jpg"
-                alt="Book Image"
-                class="book-image"
-              />
-              <h2 class="user-name">Ugly Love</h2>
-              <p class="book-author">Author: Colleen Hoover</p>
-              <p class="book-genre">Genre: Romance</p>
-              <button class="book-button text-dark bg-white">
-                Go to this book
-              </button>
-            </div>
-          </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+            <!-- If we need navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
         </div>
-        <!-- If we need pagination -->
-        <div class="swiper-pagination"></div>
-        <!-- If we need navigation buttons -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-      </div>
     </div>
-    <hr />
+    <hr>
 
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-3 sidebar-left1">
-          <div class="sidebar-left2">
-            <h3>Book Clubs</h3>
-            <ul class="book">
-              <li><a href="#">Book Club 1</a></li>
-              <li><a href="#">Book Club 2</a></li>
-              <li><a href="#">Book Club 3</a></li>
-            </ul>
-          </div>
-          <div class="sidebar-left2">
-            <h3>Book Events</h3>
-            <ul class="event">
-              <li><a href="#">Event 1</a></li>
-              <li><a href="#">Event 2</a></li>
-              <li><a href="#">Event 3</a></li>
-            </ul>
-          </div>
+                <div class="col-md-6 sidebar-left2">
+                    <h3>Book Clubs</h3>
+                    {%for book_club in book_club%}
+                    <ul class="book">
+                        <li><a href="{%url 'view_book_club' book_club.id %}">{{book_club.club_name}}</a></li>
+                        {% comment %} <li><a href="#">Book Club 2</a></li>
+                        <li><a href="#">Book Club 3</a></li> {% endcomment %}
+                    </ul>
+                    {%endfor%}
+                </div>
+                
+                <div class="col-md-6 sidebar-left2">
+                    <h3>Book Events</h3>
+                    {% for event in event%}
+                    <ul class="event">
+                        <li><a href="{%url 'view_event' event.id%}">{{event.event_name}}</a></li>
+                        {% comment %} <li><a href="#">Event 2</a></li>
+                        <li><a href="#">Event 3</a></li> {% endcomment %}
+                    </ul>
+                    {%endfor%}
+                </div> 
         </div>
+        
 
         <!-- Centered content -->
         <div class="col-md-6 content mt-5">

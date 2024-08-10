@@ -39,6 +39,8 @@ class BookManager(models.Manager):
         if len(postData['description']) < 10:
             errors['description'] = 'Description should be at least 10 characters long'
         return errors   
+    
+    
 class BookClubManager(models.Manager):
     def book_club_validator(self, postData):
         errors = {}
@@ -49,17 +51,7 @@ class BookClubManager(models.Manager):
         if len(postData['club_type']) < 3:
             errors['club_type'] = 'Club type should be at least 3 characters long'    
         return errors
-        
-class BookClubManager(models.Manager):
-    def book_club_validator(self, postData):
-        errors = {}
-        if len(postData['club_name']) < 5:
-            errors['club_name'] = 'Book club name should be at least 5 characters long'
-        if len(postData['club_content']) < 10:
-            errors['club_content'] = 'Book club content should be at least 10 characters long'
-        if len(postData['club_type']) < 3:
-            errors['club_type'] = 'Book club type should be at least 3 characters long'    
-        return errors  
+
     
 class EventManager(models.Manager):
     def event_validator(self, postData):
@@ -87,6 +79,7 @@ class User(models.Model):
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    library = models.ManyToManyField('Book', related_name='liked_by_user', blank=True)
     objects = UserManager()
     
     def __str__(self):
@@ -103,6 +96,7 @@ class Book(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     published_date = models.DateField(auto_now=True)
+    likes = models.ManyToManyField(User, related_name='liked_books', blank=True)
 
     objects = BookManager()
     

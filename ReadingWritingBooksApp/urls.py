@@ -7,6 +7,7 @@ urlpatterns = [
     path('sign-up', views.sign_up, name='sign_up'),
     
     path('about-us', views.about_us, name='about_us'),
+    path('all-books-page', views.all_books_page, name='all_books_page'),
     path('writer-home-page', views.writer_home_page, name='writer_home_page'),
     path('reader-home-page', views.reader_home_page, name='reader_home_page'),
     path('writer-profile-page', views.writer_profile, name='writer_profile'),
@@ -46,7 +47,21 @@ urlpatterns = [
     path('view-book-club/<int:id>/', views.view_book_club, name='view_book_club'),
     path('clubs', views.clubs, name='clubs'),
     path('edit-book-club/<int:book_club_id>', views.edit_book_club, name='edit_book_club'),
-    path('delete-book-club/<int:book_club_id>', views.delete_book_club, name='delete_book_club'),    
+    path('delete-book-club/<int:book_club_id>', views.delete_book_club, name='delete_book_club'), 
     
     
+#homePage CRUD paths
+    # path('post-home', views.home_page_create_posts, name='home_page_create_posts'),   
+    # path('delete-home', views.home_page_delete_post, name='home_page_delete_post'),  
+    # path('home-post-comment/<int:id>', views.home_page_post_comment, name='home_page_post_comment'), #post comment path
+    # path('home-delete-comment/<int:comment_id>', views.home_page_delete_comment, name='home_page_delete_comment'),#delete comment path 
+    
+#Adding Books and Likes paths
+    path('add-book-to-library/<int:book_id>', views.add_book_to_library, name='add_book_to_library'),
+    path('like-book/<int:book_id>', views.like_book, name='like_book'), 
+    path('reader-posts',views.post_post, name='reader_posts'), 
+    path('delete-reader-posts/<int:post_id>', views.delete_reader_post,name='delete_reader_post'),
+    path('post-reader-comment/<int:id>',views.post_reader_comment, name='post_reader_comment'),
+    path('delete-reader-comment/<int:comment_id>', views.delete_reader_comment, name='delete_reader_comment'),
+
 ]

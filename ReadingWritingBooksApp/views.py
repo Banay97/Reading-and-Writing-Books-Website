@@ -26,6 +26,10 @@ def about_us(request):#rendering to the about us page
     
     return render(request, 'AboutUsPage.html')
 
+def all_books_page(request):
+    books = Book.objects.all()
+    return render(request, 'allBooksPage.html', {'books':books} )
+
 def get_home_page_context(username):
     current_user = User.objects.get(username=username)  # Get the user data descending to the username
     post = Post.objects.all().order_by('-created_at')  # Get all the posts in ascending order
@@ -54,12 +58,13 @@ def writer_home_page(request):#this will render to the writer home page when the
 
 def reader_home_page(request):#this will render to the reader home page when the user is logged in and check the permissions of the user
     #also making sure that all th user info, posts, and comments,events, and book clubs are added to his/her home page
-    Post.objects.all()
+    # user_posts = Post.objects.filter(user=request.user.username).order_by('-created_at')
+
     if 'username' not in request.session:
         return render(request, 'signInPage.html')
     
     context = get_home_page_context(request.session['username'])
-    return render(request, 'ReaderHomePage.html', context)
+    return render(request, 'ReaderHomePage.html',  context)
 
 
 
@@ -178,7 +183,7 @@ def create_book(request):
             return redirect('writer_profile')
 
     # For GET request, initialize `book` to an empty dictionary or a default value
-    return render(request, 'CreateBook.html', {'book': {}})
+    return render(request, 'WriterProfile.html', {'book': {}})
 
 
 def edit_book(request, book_id):
@@ -385,6 +390,10 @@ def enter_your_account(request):
         username = request.POST['username']
         password = request.POST['password']
         user = User.objects.filter(username=username).first()
+        posts =Post.objects.all()
+        events = Event.objects.all()
+        books = Book.objects.all()
+        comments=Comment.objects.all()
         
         if user and bcrypt.checkpw(password.encode(), user.password.encode()):
             request.session['username'] = username
@@ -411,7 +420,7 @@ def sign_out(request):
 
 
 
-# ---- Posts Functions
+# ---- Posts Functions for the writer side
 @login_required
 def create_posts(request): # posting a post function 
     if request.method == 'POST':
@@ -422,33 +431,17 @@ def create_posts(request): # posting a post function
         # Get the latest 3 messages for the current user
         posts = Post.objects.filter(user=current_user).order_by('-created_at')
 
-        return render(request, 'ReaderHomePage.html', {'posts': posts, 'current_user': current_user})
+        return render(request, 'WriterProfile.html', {'posts': posts, 'current_user': current_user})
     Post.objects.all()
-    return redirect('reader_home_page')
+    return redirect('writer_profile')
 
-# def delete_post(request, post_id): # delete message function
-#     if request.method == 'POST':
-#         try:
-#             post = Post.objects.get(id=post_id)
-#         except Post.DoesNotExist:
-#             messages.error(request, 'Post does not exist.')
-#             return redirect('reader_home_page')
-
-#         if Post.user.username == request.session['username']:
-#             Post.delete()
-#             messages.success(request, 'Post deleted successfully!', extra_tags='delete')
-#         else:
-#             messages.error(request, 'You are not authorized to delete this post.', extra_tags='delete')
-        
-#         return redirect('reader_home_page')
-#     return redirect('reader_home_page')
 def delete_post(request, post_id): #delete comment function 
     if request.method == 'POST':
         try:
             post = Post.objects.get(id=post_id)
         except Post.DoesNotExist:
             messages.error(request, 'Post does not exist.')
-            return redirect('writer_home_page')
+            return redirect('writer_profile')
 
         if post.user.username == request.session['username']:
             post.delete()
@@ -459,8 +452,7 @@ def delete_post(request, post_id): #delete comment function
         return redirect('writer_profile')
     return redirect('writer_profile')
 
-
-#----- Comments Functions ------
+#----- Comments Functionsfor the writer side  ------
 @login_required
 def post_comment(request, id):
     if request.method == 'POST':
@@ -506,10 +498,98 @@ def delete_comment(request, comment_id): #delete comment function
     return redirect('writer_home_page')
 
 
+#Adding Books to Reader Library and Liking Books Functions
+
+@login_required
+def add_book_to_library(request, book_id):
+    book =Book.objects.get(id=book_id)
+    current_user = User.objects.get(username=request.session['username'])
+    if book not in current_user.library.all():
+        current_user.library.add(book)
+    return redirect('all_books_page')
+
+
+def like_book(request, book_id):
+    book = Book.objects.get(id=book_id)
+    current_user = User.objects.get(username=request.session['username'])
+    book.likes +=1
+    book.save()    
+    return redirect('all_books_page')
+
+
+#---- Post function for the reader side -----
+@login_required
+def post_post(request):
+    if request.method =='POST':
+        post_content = request.POST.get('content')
+        current_user = User.objects.get(username=request.session['username'])
+        new_post = Post.objects.create(user=current_user, content=post_content) #create new message and save it in database
+        messages.success(request, "Post Created Successfully!")
+        return redirect('reader_profile')
+    return redirect('reader_profile')
+
+@login_required
+def delete_reader_post(request, post_id):
+    if request.method == 'POST':
+        try:
+            post = Post.objects.get(id=post_id)
+        except Post.DoesNotExist:
+            messages.error(request, 'Post does not exist.')
+            return redirect('reader_profile')
+        if post.user.username == request.session['username']:
+            post.delete()
+            messages.success(request, 'Post deleted successfully!', extra_tags='delete')
+        else:
+            messages.error(request, 'You are not authorized to delete this post.', extra_tags='delete')
+            
+        return redirect('reader_profile')
+    return redirect('reader_profile')
+
+# ---- Comments Function for reader side ----            
+
+@login_required
+def post_reader_comment(request, id):
+    if request.method == 'POST':
+        comment_content = request.POST.get('content')
+        if not comment_content:
+            messages.error(request, 'Comment cannot be empty.')
+            return redirect('reader_profile')
+        
+        current_user = User.objects.get(username=request.session['username'])
+        
+        # Ensure that the post exists
+        try:
+            post = Post.objects.get(id=id)
+        except Post.DoesNotExist:
+            messages.error(request, 'The post does not exist.')
+            return redirect('reader_profile')
+        
+        # Create the new comment
+        Comment.objects.create(user=current_user, post=post, content=comment_content)
+        
+        # Redirect back to the wall page
+        return redirect('reader_profile')
+    
+    return redirect('reader_profile')
 
 
 
+def delete_reader_comment(request, comment_id): #delete comment function 
+    if request.method == 'POST':
+        try:
+            comment = Comment.objects.get(id=comment_id)
+        except Comment.DoesNotExist:
+            messages.error(request, 'Comment does not exist.')
+            return redirect('reader_profile')
 
+        if comment.user.username == request.session['username']:
+            comment.delete()
+            messages.success(request, 'Comment deleted successfully!', extra_tags='delete')
+        else:
+            messages.error(request, 'You are not authorized to delete this comment.', extra_tags='delete')
+        
+        return redirect('reader_profile')
+    return redirect('reader_profile')
 
 
 

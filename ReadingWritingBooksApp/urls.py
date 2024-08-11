@@ -57,8 +57,8 @@ urlpatterns = [
     # path('home-delete-comment/<int:comment_id>', views.home_page_delete_comment, name='home_page_delete_comment'),#delete comment path 
     
 #Adding Books and Likes paths
-    path('add-book-to-library/<int:book_id>', views.add_book_to_library, name='add_book_to_library'),
-    path('like-book/<int:book_id>', views.like_book, name='like_book'), 
+    # path('add-book-to-library/<int:book_id>', views.add_book_to_library, name='add_book_to_library'),
+    # path('like-book/<int:book_id>', views.like_book, name='like_book'), 
     path('reader-posts',views.post_post, name='reader_posts'), 
     path('delete-reader-posts/<int:post_id>', views.delete_reader_post,name='delete_reader_post'),
     path('post-reader-comment/<int:id>',views.post_reader_comment, name='post_reader_comment'),

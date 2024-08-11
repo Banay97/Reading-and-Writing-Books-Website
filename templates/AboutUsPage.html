@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
     <link rel="stylesheet" href="{% static 'css/AboutUsPage.css' %}"> 
+    <script src="{% static 'js/ajax.js' %}"></script>
     <title>About Us Page</title>  
 
 </head>  
@@ -83,15 +84,18 @@
             </div>
         </div>
         <hr>
+
+
 <div class="container container-custom">
     <div class="row">
         <div class="col-md-6">
             <div class="card text-white bg-dark">
+                <div id="alert-box"></div>
                 <h2>Contact Us</h2>
                 <form>
                     <div class="form-group">
                         <form action="{%url 'about_us' %}" method="POST" onsubmit="sendEmail(); reset(); return false;">
-                            {% comment %} {%csrf_token%} {% endcomment %}
+                            {%csrf_token%} 
                         <label for="email">Email:</label>
                         <input type="email" id="email" name="email" class="form-control" required>
                     </div>
@@ -103,10 +107,12 @@
                         </form>
             </div>
         </div>
+
+
         <div class="col-md-6">
             <div class="card faq-card text-white bg-dark">
                 <h2>Frequent Questions</h2>
-                 <h4>How can I find books in a specific genre on your website?</h4>
+                <h4>How can I find books in a specific genre on your website?</h4>
                 <details >You can browse books by genre using our genre filter located on the main menu or by visiting the 'Genres' section. You can also use the search bar to find specific books or authors.</details>
                 <h4>Do you offer book recommendations?</h4>
                 <details>Yes, we provide personalized book recommendations based on your reading history and preferences. You can also check out our curated lists and featured recommendations on the homepage.</details>

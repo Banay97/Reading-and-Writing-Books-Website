@@ -8,6 +8,12 @@
 
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/WriterProfile.css' %}">
+    <!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+<!-- SweetAlert2 JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <title>Reader Profile Page</title>
     <style>
         .comments-section {
@@ -327,37 +333,38 @@
             {% endfor %}
         </div>
     </div>
-    <div class="tables-container mt-4">
-        <!-- Books Section -->
-        <div class="card cute-card">
-            <div class="card-header cute-title">
-                Books
-            </div>
-            <div class="card-body">
-                <table class="table cute-table">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Book Genre</th>
-                            <th>Description</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for book in book %}
-                        <tr>
-                            <td><a href="{% url 'view_book' book.id %}" class="cute-link">{{ book.title }}</a></td>
-                            <td>{{ book.genre }}</td>
-                            <td>{{ book.description }}</td>
-                            <td class="col-2"><a href="{% url 'edit_book' book.id %}" class="cute-link">Edit</a> | <a href="{% url 'delete_book' book.id %}" class="cute-link text-danger"><button type="submit" class="btn btn-danger btn-sm">Delete</button></a></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-                <button class="btn cute-button"><a href="{% url 'create_book' %}" class="create-link">Create Book</a></button>
-
-            </div>
+</div>
+<div class="tables-container mt-4">
+    <!-- Books Section -->
+    <div class="card cute-card">
+        <div class="card-header cute-title">
+            Books
         </div>
+        <div class="card-body">
+            <table class="table cute-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Book Genre</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for book in book %}
+                    <tr>
+                        <td><a href="{% url 'view_book' book.id %}" class="cute-link">{{ book.title }}</a></td>
+                        <td>{{ book.genre }}</td>
+                        <td>{{ book.description }}</td>
+                        <td class="col-2"><a href="{% url 'edit_book' book.id %}" class="cute-link">Edit</a> | <button type="button" class="btn btn-danger btn-sm delete-button" data-url="{% url 'delete_book' book.id %}">Delete</button></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <button class="btn cute-button"><a href="{% url 'create_book' %}" class="create-link">Create Book</a></button>
+
+        </div>
+    </div>
     
         <!-- Events Section -->
         <div class="card cute-card mt-4">
@@ -380,7 +387,7 @@
                             <td><a href="{% url 'view_event' event.id %}" class="cute-link">{{ event.event_name }}</a></td>
                             <td>{{ event.event_date }}</td>
                             <td>{{ event.event_content }}</td>
-                            <td class="col-2"><a href="{% url 'edit_event' event.id %}" class="cute-link">Edit</a> | <a href="{% url 'delete_event' event.id %}" class="cute-link text-danger"><button type="submit" class="btn btn-danger btn-sm">Delete</button></a></td>
+                            <td class="col-2"><a href="{% url 'edit_event' event.id %}" class="cute-link">Edit</a> | <button type="button" class="btn btn-danger btn-sm delete-button" data-url="{% url 'delete_event' event.id %}">Delete</button>></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -410,7 +417,7 @@
                             <td><a href="{% url 'view_book_club' book_club.id %}" class="cute-link">{{ book_club.club_name }}</a></td>
                             <td>{{ book_club.club_content }}</td>
                             <td>{{ book_club.club_type }}</td>
-                            <td class="col-2"><a href="{% url 'edit_book_club' book_club.id %}" class="cute-link">Edit</a> | <a href="{% url 'delete_book_club' book_club.id %}" class="cute-link text-danger "><button type="submit" class="btn btn-danger btn-sm">Delete</button></a></td>
+                            <td class="col-2"><a href="{% url 'edit_book_club' book_club.id %}" class="cute-link">Edit</a> | <button type="button" class="btn btn-danger btn-sm delete-button" data-url="{% url 'delete_book_club' book_club.id %}">Delete</button></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -481,6 +488,74 @@
 <script src="{% static 'js/jquery.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
-
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        });
+    
+        document.querySelectorAll('button.delete-button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                const url = this.getAttribute('data-url');
+                const row = this.closest('tr'); // Find the closest table row
+    
+                swalWithBootstrapButtons.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel!',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(url, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value // CSRF token
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                row.remove(); // Remove the row from the table
+                                swalWithBootstrapButtons.fire({
+                                    title: 'Deleted!',
+                                    text: 'Your file has been deleted.',
+                                    icon: 'success'
+                                });
+                            } else {
+                                swalWithBootstrapButtons.fire({
+                                    title: 'Error!',
+                                    text: 'Something went wrong.',
+                                    icon: 'error'
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            swalWithBootstrapButtons.fire({
+                                title: 'Error!',
+                                text: 'Something went wrong.',
+                                icon: 'error'
+                            });
+                        });
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        swalWithBootstrapButtons.fire({
+                            title: 'Cancelled',
+                            text: 'Your imaginary file is safe :)',
+                            icon: 'error'
+                        });
+                    }
+                });
+            });
+        });
+    });
+    </script>
 </body>
 </html>

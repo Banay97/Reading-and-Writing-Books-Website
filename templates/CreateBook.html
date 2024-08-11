@@ -65,6 +65,9 @@
                     <input type="search" class="nav-link" placeholder="Search">
                 </li>
                 <li class="nav-item mx-2">
+                    <a class="nav-link text-white" href="{% url 'writer_profile' %}">Profile</a>
+                </li>
+                <li class="nav-item mx-2">
                     <a class="nav-link text-white" href="{% url 'about_us' %}">About Us</a>
                 </li>
             </ul>
@@ -82,7 +85,7 @@
 <section>
     <div class="form-container">
         <h2>Create Book Page</h2>
-        <form action="{% url 'create_book' %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'create_book' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group">
                 <label for="title">Book Title:</label>

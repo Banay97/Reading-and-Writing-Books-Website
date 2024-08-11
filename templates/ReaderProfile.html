@@ -121,7 +121,9 @@
             <div class="card-body">
                 <!-- Post Form Section -->
                 <h2 class="h2 mb-4">Post Section</h2>
-                <form action="{% url 'reader_posts' %}" method="post">
+                {% comment %} <h5 class="text-success text-center">Your Post has been successfully posted!</h5> {% endcomment %}
+                <!-- Post Form -->
+                <form action="{% url 'reader_posts' %}" method="post" id="post-form">
                     {% csrf_token %}
                     <div class="mb-3">
                         <textarea name="content" class="form-control" rows="3" placeholder="Write a post..."></textarea>
@@ -234,6 +236,22 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
-<
+
+{% comment %} <script type="test/javascript">
+    $(document).on('submit','#post-form', function(event){
+        event.preventDefault();
+        $.ajax({
+            url: '/create',
+            type: 'POST',
+            data: {
+                content: $('textarea[name=content]').val(),
+                csrfmiddlewaretoken: $(input[name=csrfmiddlewaretoken]).val()
+            },
+            success: function(data){
+                $("h5").html(data)
+            }
+        })
+    })
+</script> {% endcomment %}
 </body>  
 </html>

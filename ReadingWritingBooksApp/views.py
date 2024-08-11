@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse , JsonResponse
 import bcrypt
 from .models import User, Book, Notification, Post, Event, BookClub, Comment
 
@@ -23,8 +23,10 @@ def sign_up(request):#rendering to the Sign Up Page of the website and saving th
 def about_us(request):#rendering to the about us page
     
     #here I have to add a functionality for the comment section in this page to store it in my database.
+    context ={ 
+    }
     
-    return render(request, 'AboutUsPage.html')
+    return render(request, 'AboutUsPage.html', context)
 
 def all_books_page(request):
     books = Book.objects.all()
@@ -180,10 +182,10 @@ def create_book(request):
             book = Book.objects.create(title=title, genre=genre, description=description, book_file=book_file, author=user)
 
             messages.success(request, 'Book created successfully')
-            return redirect('writer_profile')
+            return redirect( 'writer_profile')
 
     # For GET request, initialize `book` to an empty dictionary or a default value
-    return render(request, 'WriterProfile.html', {'book': {}})
+    return render(request, 'CreateBook.html', {'book': {}})
 
 
 def edit_book(request, book_id):
@@ -216,10 +218,15 @@ def view_book(request, book_id):
 
 
 def delete_book(request, book_id):
-    book =Book.objects.get(id=book_id)
-    book.delete()
-    messages.success(request, 'Book deleted successfully')
-    return redirect('books')
+    if request.method == 'POST':
+        book = get_object_or_404(Book, pk=book_id)
+        book.delete()
+        return JsonResponse({'success': True})
+    return JsonResponse({'success': False}, status=400)
+    # book =Book.objects.get(id=book_id)
+    # book.delete()
+    # messages.success(request, 'Book deleted successfully')
+    # return redirect('books')
 
 def events(request):
     event = Event.objects.all() #query to return a QuerySet of all event objects
@@ -486,7 +493,7 @@ def delete_comment(request, comment_id): #delete comment function
             comment = Comment.objects.get(id=comment_id)
         except Comment.DoesNotExist:
             messages.error(request, 'Comment does not exist.')
-            return redirect('writer_home_page')
+            return redirect('writer_profile')
 
         if comment.user.username == request.session['username']:
             comment.delete()
@@ -494,27 +501,27 @@ def delete_comment(request, comment_id): #delete comment function
         else:
             messages.error(request, 'You are not authorized to delete this comment.', extra_tags='delete')
         
-        return redirect('writer_home_page')
-    return redirect('writer_home_page')
+        return redirect('writer_profile')
+    return redirect('writer_profile')
 
 
 #Adding Books to Reader Library and Liking Books Functions
 
-@login_required
-def add_book_to_library(request, book_id):
-    book =Book.objects.get(id=book_id)
-    current_user = User.objects.get(username=request.session['username'])
-    if book not in current_user.library.all():
-        current_user.library.add(book)
-    return redirect('all_books_page')
+# @login_required
+# def add_book_to_library(request, book_id):
+#     book =Book.objects.get(id=book_id)
+#     current_user = User.objects.get(username=request.session['username'])
+#     if book not in current_user.library.all():
+#         current_user.library.add(book)
+#     return redirect('all_books_page')
 
 
-def like_book(request, book_id):
-    book = Book.objects.get(id=book_id)
-    current_user = User.objects.get(username=request.session['username'])
-    book.likes +=1
-    book.save()    
-    return redirect('all_books_page')
+# def like_book(request, book_id):
+#     book = Book.objects.get(id=book_id)
+#     current_user = User.objects.get(username=request.session['username'])
+#     book.likes +=1
+#     book.save()    
+#     return redirect('all_books_page')
 
 
 #---- Post function for the reader side -----
@@ -566,7 +573,8 @@ def post_reader_comment(request, id):
         
         # Create the new comment
         Comment.objects.create(user=current_user, post=post, content=comment_content)
-        
+        success = 'Comment created successfully for user ' + current_user.username
+        # return HttpResponse(success)
         # Redirect back to the wall page
         return redirect('reader_profile')
     
@@ -590,11 +598,6 @@ def delete_reader_comment(request, comment_id): #delete comment function
         
         return redirect('reader_profile')
     return redirect('reader_profile')
-
-
-
-
-
 
 
 

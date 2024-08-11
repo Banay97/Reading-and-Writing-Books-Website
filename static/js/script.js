@@ -81,3 +81,131 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+
+
+
+
+$(document).ready(function() {
+    // Handle comment form submission
+    $('.comment-form').on('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        var $form = $(this);
+        var postId = $form.closest('.comment-card').data('post-id'); // Get the post ID
+        var formData = $form.serialize();
+        
+        $.ajax({
+            url: $form.attr('action'),
+            type: 'POST',
+            data: formData,
+            success: function(response) {
+                // Append the new comment to the comments section
+                var newCommentHtml = response.html;
+                $('#comments-' + postId).append(newCommentHtml); // Add new comment to the post
+                
+                // Clear the form textarea
+                $form.find('textarea').val('');
+                
+                // Show success message
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Comment added successfully!',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            },
+            error: function(xhr) {
+                // Show error message
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Error adding comment: ' + xhr.responseText,
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            }
+        });
+    });
+
+    // Handle post delete
+    $('.delete-comment-form[data-post-id]').on('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        var $form = $(this);
+        var postId = $form.data('post-id');
+        
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#85d630',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function() {
+                        $('#post-' + postId).remove(); // Remove post element
+                        Swal.fire(
+                            'Deleted!',
+                            'Your post has been deleted.',
+                            'success'
+                        );
+                    },
+                    error: function(xhr) {
+                        Swal.fire(
+                            'Error!',
+                            'Error deleting post: ' + xhr.responseText,
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    });
+
+    // Handle comment delete
+    $('.delete-comment-form[data-comment-id]').on('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        
+        var $form = $(this);
+        var commentId = $form.data('comment-id');
+        
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#85d630',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    success: function() {
+                        $('#comment-' + commentId).remove(); // Remove comment element
+                        Swal.fire(
+                            'Deleted!',
+                            'Your comment has been deleted.',
+                            'success'
+                        );
+                    },
+                    error: function(xhr) {
+                        Swal.fire(
+                            'Error!',
+                            'Error deleting comment: ' + xhr.responseText,
+                            'error'
+                        );
+                    }
+                });
+            }
+        });
+    });
+});

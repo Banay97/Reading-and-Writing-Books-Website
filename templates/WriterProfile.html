@@ -14,6 +14,8 @@
 <!-- SweetAlert2 JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="{% static 'js/script.js' %}"></script> 
+
     <title>Reader Profile Page</title>
     <style>
         .comments-section {
@@ -283,11 +285,7 @@
         </div>
     </div>
 </main>
-
-<section class="container">
-    <div class="comments-section">
-        <h3 class="h3-design text-xl-center">My Posts</h3>
-        {% comment %} <div class="input-group mb-3">
+{% comment %} <div class="input-group mb-3">
             <form method="POST" action="{% url 'create_posts' %}">
                 {% csrf_token %}
                 <div class="input-group mb-3">
@@ -296,6 +294,10 @@
                 </div>
             </form>
         </div> {% endcomment %}
+<section class="container">
+    <div class="comments-section">
+        <h3 class="h3-design text-xl-center">My Posts</h3>
+        
         <div class="comments-list">
             {% for post in post %}
             <div class="comment-card card mb-3">
@@ -316,7 +318,17 @@
                     </form>
                     <div class="comments mt-4">
                         {% for comment in post.comments.all %}
-                        <div class="comment card p-3 mb-2">
+                        <div class="comment card p-3 mb-2" id="comment-{{ comment.id }}">
+                            <div class="comment-header d-flex justify-content-between">
+                                <p class="comment-author">{{ comment.user.first_name }} - {{ comment.created_at }}</p>
+                                <form action="{% url 'delete_comment' comment.id %}" method="POST" class="delete-comment-form" data-comment-id="{{ comment.id }}">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </div>
+                            <p class="comment-text">{{ comment.content }}</p>
+                        </div>
+                        {% comment %} <div class="comment card p-3 mb-2">
                             <div class="comment-header d-flex justify-content-between">
                                 <p class="comment-author">{{ comment.user.first_name }} - {{ comment.created_at }}</p>
                                 <form action="{% url 'delete_comment' comment.id %}" method="POST" class="delete-comment-form">
@@ -325,7 +337,7 @@
                                 </form>
                             </div>
                             <p class="comment-text">{{ comment.content }}</p>
-                        </div>
+                        </div> {% endcomment %}
                         {% endfor %}
                     </div>
                 </div>
@@ -333,7 +345,7 @@
             {% endfor %}
         </div>
     </div>
-</div>
+</div> 
 <div class="tables-container mt-4">
     <!-- Books Section -->
     <div class="card cute-card">
@@ -360,8 +372,15 @@
                     </tr>
                     {% endfor %}
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <button class="btn cute-button"><a href="{% url 'create_book' %}" class="create-link ">Create Book</a></button>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
-            <button class="btn cute-button"><a href="{% url 'create_book' %}" class="create-link">Create Book</a></button>
+            {% comment %} <button class="btn cute-button"><a href="{% url 'create_book' %}" class="create-link">Create Book</a></button> {% endcomment %}
 
         </div>
     </div>
@@ -391,8 +410,15 @@
                         </tr>
                         {% endfor %}
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <button class="btn cute-button"><a href="{% url 'create_event' %}" class="create-link ">Create Event</a></button>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
-                <button class="btn cute-button"><a href="{% url 'create_event' %}" class="create-link ">Create Event</a></button>
+                {% comment %} <button class="btn cute-button"><a href="{% url 'create_event' %}" class="create-link ">Create Event</a></button> {% endcomment %}
             </div>
         </div>
     
@@ -421,8 +447,15 @@
                         </tr>
                         {% endfor %}
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <button class="btn cute-button"><a href="{% url 'create_book_club' %}" class="create-link ">Create Book Club</a></button>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
-                <button class="btn cute-button"><a href="{% url 'create_book_club' %}" class="create-link ">Create Book Club</a></button>
+                {% comment %} <button class="btn cute-button"><a href="{% url 'create_book_club' %}" class="create-link ">Create Book Club</a></button> {% endcomment %}
             </div>
         </div>
     </div>
@@ -557,5 +590,136 @@
         });
     });
     </script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).ready(function() {
+            // Handle comment form submission
+            $('.comment-form').on('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+                
+                var $form = $(this);
+                var postId = $form.closest('.comment-card').data('post-id'); // Get the post ID
+                var formData = $form.serialize();
+                
+                $.ajax({
+                    url: $form.attr('action'),
+                    type: 'POST',
+                    data: formData,
+                    success: function(response) {
+                        // Append the new comment to the comments section
+                        var newCommentHtml = response.html;
+                        $('#comments-' + postId).append(newCommentHtml); // Add new comment to the post
+                        
+                        // Clear the form textarea
+                        $form.find('textarea').val('');
+                        
+                        // Show success message
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Comment added successfully!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                    },
+                    error: function(xhr) {
+                        // Show error message
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'Error adding comment: ' + xhr.responseText,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        
+            // Handle post delete
+            $('.delete-comment-form[data-post-id]').on('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+                
+                var $form = $(this);
+                var postId = $form.data('post-id');
+                
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You won\'t be able to revert this!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#85d630',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: $form.attr('action'),
+                            type: 'POST',
+                            data: $form.serialize(),
+                            success: function() {
+                                $('#post-' + postId).remove(); // Remove post element
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your post has been deleted.',
+                                    'success'
+                                );
+                            },
+                            error: function(xhr) {
+                                Swal.fire(
+                                    'Error!',
+                                    'Error deleting post: ' + xhr.responseText,
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        
+            // Handle comment delete
+            $('.delete-comment-form[data-comment-id]').on('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+                
+                var $form = $(this);
+                var commentId = $form.data('comment-id');
+                
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You won\'t be able to revert this!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#85d630',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: $form.attr('action'),
+                            type: 'POST',
+                            data: $form.serialize(),
+                            success: function() {
+                                $('#comment-' + commentId).remove(); // Remove comment element
+                                Swal.fire(
+                                    'Deleted!',
+                                    'Your comment has been deleted.',
+                                    'success'
+                                );
+                            },
+                            error: function(xhr) {
+                                Swal.fire(
+                                    'Error!',
+                                    'Error deleting comment: ' + xhr.responseText,
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+        </script>
+
+
 </body>
 </html>

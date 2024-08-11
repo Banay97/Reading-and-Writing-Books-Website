@@ -14,6 +14,18 @@
             width:10%;
             height:10%;
         }
+        .container{
+            margin-top: 5%;
+        }
+        #update-image{
+            position: absolute;
+            left: 47.5%;
+            bottom: 43%;
+        }
+        #profile-image{
+            margin: 4%;
+        }
+
     </style>  
     
 </head>  
@@ -56,12 +68,13 @@
     </nav>
 </header>
 <section>
-    <div>
-        <img src="https://img.freepik.com/free-photo/3d-render-little-boy-with-jacket-jeansie_1142-57736.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="user image">
-        <a href="">Update Photo</a>
-    </div>
+    
     <div class="container">
         <h2>Edit Profile</h2>
+        <div>
+            <img id="profile-image" src="https://img.freepik.com/free-photo/3d-render-little-boy-with-jacket-jeansie_1142-57736.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="user image">
+            <a href="" id="update-image">Update Photo</a>
+        </div>
         <form method="POST" action="{% url 'edit_reader_profile' user.id %}">
             {% csrf_token %}
             <input type="text" placeholder="First Name .." name="first_name" value="{{ user.first_name }}">

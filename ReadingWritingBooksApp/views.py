@@ -27,6 +27,25 @@ def about_us(request):#rendering to the about us page
     }
     
     return render(request, 'AboutUsPage.html', context)
+# --- Contact Us Comment Section Function ---
+def submit_comment(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        comment = request.POST.get('comment')
+
+        if not email or not comment:
+            return JsonResponse({'success': False, 'message': 'Missing fields.'})
+
+        try:
+            Comment.objects.create(email=email, comment=comment)
+            return JsonResponse({'success': True, 'message': 'Comment submitted successfully!'})
+        except Exception as e:
+            print(f"Error: {e}")  # Log the error for debugging
+            return JsonResponse({'success': False, 'message': 'An error occurred.'})
+
+    return JsonResponse({'success': False, 'message': 'Invalid request method.'})
+
+
 
 def all_books_page(request):
     books = Book.objects.all()
@@ -427,6 +446,22 @@ def sign_out(request):
 
 
 
+@login_required
+def show_post_home_page(request):
+    current_user = User.objects.get(username=request.session['username'])
+    posts = Post.objects.filter(user=current_user).order_by('-created_at')
+    return render(request, 'WriterHomePage.html', {'posts': posts, 'current_user': current_user})
+
+# @login_required
+# def view_post_details(request, post_id):
+#     current_user = User.objects.get(username=request.session['username'])
+#     post = Post.objects.get(id=post_id)
+#     comments = Comment.objects.filter(post=post).order_by('-created_at')
+#     if request.method == 'POST':
+#         comment_content = request.POST.get('comment_content')
+#         new_comment = Comment.objects.create(user=current_user, post=post, content=comment_content)
+#         return redirect('view_post_details', post_id=post_id)
+#     return render(request, 'ViewPostDetails.html', {'post': post, 'comments': comments, 'current_user': current_user})
 # ---- Posts Functions for the writer side
 @login_required
 def create_posts(request): # posting a post function 
@@ -503,6 +538,7 @@ def delete_comment(request, comment_id): #delete comment function
         
         return redirect('writer_profile')
     return redirect('writer_profile')
+
 
 
 #Adding Books to Reader Library and Liking Books Functions

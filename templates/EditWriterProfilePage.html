@@ -64,12 +64,12 @@
         </div>
     </nav>
 </header>
-<section>
+<section> 
     <div class="container">
         <h2>Edit Profile</h2>
         <div>
             <img id= "profile-image" src="https://img.freepik.com/premium-photo/animated-girl-cartoon-character-generated-ai_652383-2311.jpg?ga=GA1.1.209331547.1723160267&semt=ais_hybrid" alt="user image">
-            <a href="" id="update-image">Upload Photo</a>
+            <button type="submit" class="btn bg-dark">Upload Photo</button>
         </div>
         <form method="POST" action="{% url 'edit_writer_profile' user.id %}">
             {% csrf_token %}
@@ -78,7 +78,7 @@
             <input type="text" placeholder="Username .." name="username" value="{{ user.username }}">
             <input type="email" placeholder="Email .." name="email" value="{{ user.email }}">
             <textarea placeholder="Bio .." name="bio">{{ user.bio }}</textarea>
-            <button type="submit">Update Profile</button>
+            <button type="submit" class="btn bg-dark">Update Profile</button>
             {% comment %} <button type="button"><a href="{% url 'writer_profile' %}">View Profile</a></button> {% endcomment %}
         </form>
         {% if messages %}

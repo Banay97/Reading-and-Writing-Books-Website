@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"> 
     <link rel="stylesheet" href="{% static 'css/AboutUsPage.css' %}"> 
     <script src="{% static 'js/ajax.js' %}"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <title>About Us Page</title>  
 
 </head>  
@@ -86,27 +88,24 @@
         <hr>
 
 
-<div class="container container-custom">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card text-white bg-dark">
-                <div id="alert-box"></div>
-                <h2>Contact Us</h2>
-                <form>
-                    <div class="form-group">
-                        <form action="{%url 'about_us' %}" method="POST" onsubmit="sendEmail(); reset(); return false;">
-                            {%csrf_token%} 
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" class="form-control" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="comment">Comment:</label>
-                        <textarea id="comment" name="comment" class="form-control-textarea " required></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-white text-dark btn-custom">Send</button>
+        <div class="container container-custom">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card text-white bg-dark">
+                        <h2>Contact Us</h2>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" id="email" name="email" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Comment:</label>
+                                <textarea id="comment" name="comment" class="form-control-textarea" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-white text-dark btn-custom">Send</button>
                         </form>
-            </div>
-        </div>
+                    </div>
+                </div>
 
 
         <div class="col-md-6">
@@ -197,6 +196,72 @@
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
 <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Include SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+
+<script>
+    function getCSRFToken() {
+        const name = 'csrftoken=';
+        const decodedCookie = decodeURIComponent(document.cookie);
+        const cookies = decodedCookie.split(';');
+        for (let i = 0; i <sc cookies.length; i++) {
+            let cookie = cookies[i];
+            while (cookie.charAt(0) === ' ') {
+                cookie = cookie.substring(1);
+            }
+            if (cookie.indexOf(name) === 0) {
+                return cookie.substring(name.length, cookie.length);
+            }
+        }
+        return null;
+    }
+    // Function to get the CSRF token from the cookie
+    $(document).ready(function() {
+        const csrfToken = getCSRFToken();
+    
+        $('#contactForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission
+    
+            $.ajax({
+                type: 'POST',
+                url: '{% url "submit_comment" %}',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                data: $(this).serialize(), // Serialize form data
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'Success!',
+                            text: response.message,
+                            icon: 'success'
+                        }).then(function() {
+                            $('#contactForm')[0].reset(); // Reset the form
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: response.message,
+                            icon: 'error'
+                        });
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.error('AJAX Error:', textStatus, errorThrown);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'There was an error with the request.',
+                        icon: 'error'
+                    });
+                }
+            });
+        });
+    });
+    
+</script>
 
 <script>
 function sendEmail(){

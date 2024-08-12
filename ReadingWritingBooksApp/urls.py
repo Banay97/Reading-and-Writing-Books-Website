@@ -63,5 +63,8 @@ urlpatterns = [
     path('delete-reader-posts/<int:post_id>', views.delete_reader_post,name='delete_reader_post'),
     path('post-reader-comment/<int:id>',views.post_reader_comment, name='post_reader_comment'),
     path('delete-reader-comment/<int:comment_id>', views.delete_reader_comment, name='delete_reader_comment'),
+    path('show-posts',views.show_post_home_page,name='show_post_home_page'),
+    path('submit_comment/', views.submit_comment, name='submit_comment'),
+
 
 ]

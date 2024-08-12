@@ -73,7 +73,7 @@
         <h2>Edit Profile</h2>
         <div>
             <img id="profile-image" src="https://img.freepik.com/free-photo/3d-render-little-boy-with-jacket-jeansie_1142-57736.jpg?ga=GA1.1.1189569181.1722467032&semt=ais_hybrid" alt="user image">
-            <a href="" id="update-image">Update Photo</a>
+            <button class="btn bg-dark">Update Photo</button>
         </div>
         <form method="POST" action="{% url 'edit_reader_profile' user.id %}">
             {% csrf_token %}

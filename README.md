@@ -93,10 +93,14 @@ short demo:
 
 https://github.com/user-attachments/assets/b6ac991f-c688-4b84-a53a-71bbf2ede3b6
 
-Create and Delete Book demo:
+Writer side: Create and Delete Book demo:
 
 
 https://github.com/user-attachments/assets/30c0fb77-86ab-4576-aea7-6b8cc675be30
+
+Reader Side home page and profile:
+
+https://github.com/user-attachments/assets/9ee368f1-8adf-4f9f-856b-3c7fb411009c
 
 
 

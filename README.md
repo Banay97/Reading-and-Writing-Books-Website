@@ -13,7 +13,7 @@ published content by uploading, editing, or deleting their books.
 ## Requirements <br>
 User Types and CRUD Operations <br>
 1. The website will have separate functionalities for writers and readers. 
-2. Each user will be able to do CRUD operarions<br>
+2. Each user will be able to do CRUD operations <br>
 
 ### Writer Permissions: <br>
 •  Create, edit, and delete their own books and content. 
@@ -34,7 +34,7 @@ User Types and CRUD Operations <br>
 •  Readers can only modify their own profile and content. 
 •  They cannot publish Implementation of Access Controls <br>
 
-1. Role-Based Access Control (RBAC) books or their manage personal site-wide library. events. 
+1. Role-Based Access Control (RBAC) books or their managed personal site-wide library. events. 
 •  Implement a role-based access control system to assign roles to users upon registration. <br>
 
 •  Define permissions for each role within the system, ensuring that only users with the 
@@ -42,8 +42,8 @@ appropriate role can access specific features. <br>
 
 3. User Interface Customization <br>
 •  Customize the user interface based on the user's role. For example, writers should 
-see options for publishing and managing their books, while reader will see books 
-selection, book club, and events.
+see options for publishing and managing their books, while readers will see book 
+selection, book clubs, and events.
 <br>
 5. Permissions Checks <br>
 •  Implement permissions checks in your codebase to verify that users have the 
@@ -52,7 +52,7 @@ or deleting content. <br>
 
 ### User Interface and Page Responsiveness <br>
 1. The website will be user-friendly, designed according to the target audience's preferences and 
-interests, also engaging and fun to use. 
+interests, and also engaging and fun to use. 
 2. The website will utilize Bootstrap to create an engaging and visually appealing user interface. 
 Notifications and Alerts 
 1. The application will send reminder notifications or alerts for events, book challenges, and 
@@ -66,5 +66,12 @@ Home Page:
 
 
 https://github.com/user-attachments/assets/8bb9f732-6fde-49ff-9dc3-00aaae715987
+
+About Us Page:
+
+https://github.com/user-attachments/assets/e0390145-f89c-431e-b676-b127117e282c
+
+
+
 
 

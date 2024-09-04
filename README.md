@@ -79,12 +79,15 @@ Sign In Page:
 short demo:
 
 
+
+https://github.com/user-attachments/assets/6e74f481-a4db-4da9-a26b-57cc992dd6b1
+
+
 Sign Up Page:
 ![sign up](https://github.com/user-attachments/assets/c568268c-4c1c-49c5-b9c9-bdc9ab4ba523)
 
 
 short demo:
-https://github.com/user-attachments/assets/501f9996-bbf9-4589-895a-d3365ced3538
 
 
 

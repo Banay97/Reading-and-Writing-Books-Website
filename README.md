@@ -71,6 +71,15 @@ About Us Page:
 
 https://github.com/user-attachments/assets/e0390145-f89c-431e-b676-b127117e282c
 
+Sign In Page:
+
+
+![sign in ](https://github.com/user-attachments/assets/1a26ef4f-514b-433a-9cac-68620c8fca52)
+
+Sign Up Page:
+![sign up](https://github.com/user-attachments/assets/c568268c-4c1c-49c5-b9c9-bdc9ab4ba523)
+
+
 
 
 

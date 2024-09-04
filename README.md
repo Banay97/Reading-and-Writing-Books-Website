@@ -61,3 +61,10 @@ activities. <br>
 ### About Us Functinalities <br>
  1. Include a system for user support, such as a help center or FAQ section.
  2. Provide a way for users to give feedback on the platform and suggest improvements
+
+Home Page:
+
+
+https://github.com/user-attachments/assets/8bb9f732-6fde-49ff-9dc3-00aaae715987
+
+
